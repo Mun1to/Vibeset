@@ -88,6 +88,18 @@
       "author": {
         "name": "Mun1to"
       }
+    },
+    {
+      "name": "gresso",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Mun1to/Gresso.git"
+      },
+      "description": "A live progress page for long agent tasks: a one-file HTML with a progress bar, percentage, what is done, what is left and what is blocked, rewritten by the agent as it works and checked with F5.",
+      "license": "MIT",
+      "author": {
+        "name": "Mun1to"
+      }
     }
   ]
 }
