@@ -12,8 +12,17 @@
 //   señal para que FrontLaxWeb no lo meta en un SaaS ni en un fintech.
 // - a11y: nota de accesibilidad. 'ok' | 'decorativo' | 'requiere-refuerzo'.
 //
-// Solo los 12 componentes llevan overlay. Las skills no son piezas de movimiento,
-// así que no tienen entrada y el código trata su ausencia como «sin restricción».
+// Llevan overlay los 12 componentes con demo de canvasui y arlan y las 28 fichas de
+// análisis de React Bits. Las skills no son piezas de movimiento, así que no tienen
+// entrada, y las tres piezas propias tampoco (son sobrias). El código trata la
+// ausencia como «sin restricción», y por eso las 28 de React Bits SÍ llevan entrada:
+// sin ella, un `fintech` las habría recibido todas, láser incluido.
+//
+// Los valores de las 28 se asignaron el 2026-10-24 LEYENDO su código, no probándolo:
+// WebGL o física que se mueve sola es `alto` y no cumple el dial (no trae
+// `--motion-gain`); lo que solo se mueve cuando la persona lo toca es `bajo` y sí lo
+// cumple. `requiere-refuerzo` es donde el texto vive dentro de un canvas o no trae
+// ningún atributo aria (FallingText, MetallicPaint, ShapeWaves, SplitFlapText).
 export const META_CASA = {
   bubble: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
   cloth: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
@@ -30,4 +39,39 @@ export const META_CASA = {
   // pasar el cursor (dirigido por el usuario, la política del dial no lo escala).
   // Por eso entra en arquetipos sobrios donde los demás chocan.
   colorDepth: { arquetipos: ['saas', 'fintech', 'ecommerce', 'marca-creativa', 'portfolio', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+
+  // --- React Bits: fichas de análisis (ver componentsRef.js).
+  // Fondos y shaders: se mueven solos y son decorativos.
+  gradientAscii: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
+  laserFlow: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
+  topography: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
+  elasticMesh: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
+  reflectiveCard: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
+  // El texto o el logo viven dentro del canvas, o no hay ni un atributo aria.
+  metallicPaint: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
+  shapeWaves: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
+  fallingText: { arquetipos: ['marca-creativa', 'portfolio'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
+  splitFlapText: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'requiere-refuerzo' },
+  // Puntero y texto: movimiento propio, de menos recorrido.
+  crosshair: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'decorativo' },
+  textLoop: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'decorativo' },
+  logoLoop: { arquetipos: ['saas', 'portfolio', 'lanzamiento', 'ecommerce', 'editorial'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'ok' },
+  shinyText: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  trueFocus: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  countUp: { arquetipos: ['saas', 'fintech', 'ecommerce', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  // Piezas de interfaz que solo se mueven cuando la persona las toca.
+  specularButton: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
+  profileCard: { arquetipos: ['portfolio', 'marca-creativa', 'saas'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
+  accordionGallery: { arquetipos: ['portfolio', 'marca-creativa', 'ecommerce', 'editorial', 'lanzamiento'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  // Micro-interacciones: pequeñas y dirigidas por quien las usa.
+  thoughtLine: { arquetipos: ['saas'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  statusMark: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  slideCommit: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  rubberSegment: { arquetipos: ['saas', 'marca-creativa', 'portfolio'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  pulseHeart: { arquetipos: ['ecommerce', 'editorial', 'saas', 'portfolio'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  peekRating: { arquetipos: ['ecommerce', 'saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  holdButton: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  fuseButton: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  codeSlots: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  branchedMenu: { arquetipos: ['saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
 }

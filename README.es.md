@@ -7,8 +7,9 @@
 
 ### Un sitio con todo lo que necesitas para construir en la web
 
-100 lenguajes de programación, 83 herramientas de frontend, 41 técnicas de diseño, 15 componentes
-en vivo, 19 skills de agente y 38 consejos, más un servidor MCP para agentes. Gratis, bilingüe, sin registro y sin rastreo.
+100 lenguajes de programación, 83 herramientas de frontend, 41 técnicas de diseño,
+15 componentes en vivo, 28 fichas de análisis de componentes, 19 skills de agente y 38 consejos,
+más un servidor MCP para agentes. Gratis, bilingüe, sin registro y sin rastreo.
 
 <a href="https://vibeset.dev">
   <img alt="Abrir vibeset.dev" src=".github/assets/boton-abrir.svg" width="268">
@@ -56,6 +57,12 @@ uno corriendo a tamaño real con sus mandos a la vista. Mueve los controles y co
 valores ya puestos. Tres son nuestros y MIT, el header de píldora deslizante, el acordeón de
 preguntas y la matrioska parallax; el resto son efectos de terceros, cada uno con el crédito y el
 enlace de su autor.
+
+**28 fichas de análisis de componentes.** Componentes de React Bits que hemos leído por dentro: cuándo
+usar cada uno, qué cuesta, qué dice su código de la accesibilidad, el prompt para pedírselo a tu agente
+y su comando de instalación. No llevan demo ni código a propósito. React Bits es MIT con Commons
+Clause, que prohíbe redistribuir los componentes en sí, así que Vibeset enlaza al original en vez de
+copiarlo.
 
 **19 skills de agente.** Instrucciones que le das una vez a tu agente de código y ya se sabe para
 siempre: revisar una pantalla en móvil, auditar accesibilidad, revisar un diff, depurar hasta la
@@ -141,7 +148,8 @@ que algo de aquí está mal, también.
 - **Si haces un fork del proyecto entero:** cámbiale el nombre, quita los assets de marca y pon el
   crédito donde se vea. Eso es una condición de la licencia, no un favor.
 - **Los efectos de `canvasui/` y `arlan/` no son míos.** Están aquí con crédito y enlace; para
-  reutilizarlos, hay que ir a sus autores.
+  reutilizarlos, hay que ir a sus autores. **React Bits no está aquí en absoluto:** su licencia
+  prohíbe redistribuir los componentes, así que solo hay fichas de análisis que enlazan al original.
 
 Hacer tu web con lo que encuentres aquí no necesita permiso ni mención. Todo el detalle en
 **[LICENSING.md](LICENSING.md)**, y el nombre en **[TRADEMARK.md](TRADEMARK.md)**.

@@ -21,7 +21,7 @@
 import { LANGUAGES } from '../data/languages.js'
 import { RESOURCES } from '../data/resources.js'
 import { CONCEPTS } from '../data/concepts.js'
-import { COMPONENT_ITEMS, COMPONENT_GROUPS, nombreDe } from '../data/components.js'
+import { COMPONENT_ITEMS, COMPONENT_GROUPS, nombreDe, formatoKb } from '../data/components.js'
 import { SKILL_ITEMS } from '../data/skills.js'
 import { CONSEJOS, CONSEJO_GRUPOS } from '../data/consejos.js'
 import { trozosDe } from './marcado.js'
@@ -135,6 +135,22 @@ const listaComponentes = (t, lang) => `
       a(rutaDe('components', slugClave(c.key), lang), nombreDe(c, lang)) + nota(c.tag?.[lang])))}`
   }).join('')}`
 
+// La ficha de referencia (análisis sin demo ni código) entra entera en el HTML
+// plano: su texto ES el contenido, y el prompt es lo más citable de la ficha.
+const analisisReferencia = (c, t, lang) => `
+  ${p(t.compRefAviso)}
+  <h2>${esc(t.compCuando)}</h2>${p(c.cuando[lang])}
+  <h2>${esc(t.compCuidado)}</h2>${p(c.cuidado[lang])}
+  <h2>${esc(t.compA11y)}</h2>${p(c.a11y[lang])}
+  <h2>${esc(t.compFicha)}</h2>
+  ${ul([
+    `${esc(t.compDibuja)}: ${esc(c.labels.join(', '))}`,
+    `${esc(t.compDepende)}: ${esc(c.deps.length ? c.deps.join(', ') : t.compNada)}`,
+    `${esc(t.compPeso)}: ${esc(formatoKb(c.kb, lang))}`,
+    c.pausa ? `${esc(t.compPausa)}: ${esc(t.compSi)}` : '',
+  ].filter(Boolean))}
+  <h2>${esc(t.compPrompt)}</h2>${p(c.prompt[lang])}`
+
 const fichaComponente = (c, t, lang) => `
   <h1>${esc(c.name)}</h1>
   ${p(c.desc?.[lang])}
@@ -142,6 +158,7 @@ const fichaComponente = (c, t, lang) => `
     c.labels?.length ? esc(c.labels.join(', ')) : '',
     c.url ? a(c.url, 'Documentación original') : '',
   ].filter(Boolean))}
+  ${c.clase === 'referencia' ? analisisReferencia(c, t, lang) : ''}
   ${c.install ? `<h2>Instalación</h2><pre><code>${esc(c.install)}</code></pre>` : ''}`
 
 const listaSkills = (t, lang) => `

@@ -1,4 +1,6 @@
-// Catálogo de componentes. Aquí conviven dos cosas que NO se licencian igual, y
+import { REACTBITS_ITEMS } from './componentsRef.js'
+
+// Catálogo de componentes. Aquí conviven tres cosas que NO se licencian igual, y
 // las distingue el campo `origin`:
 //
 //   - `canvasui` y `arlan` son de TERCEROS. Se usa el código original de su autor,
@@ -8,11 +10,16 @@
 //     html-in-canvas (ver canvasui/htmlFallback.ts).
 //   - `propio` es código de la casa, en src/components/propios/, MIT como el resto
 //     del repositorio. De estos SÍ se enseña y se sirve el código entero.
+//   - `reactbits` también es de un tercero, pero a diferencia de los dos primeros
+//     NO se copia aquí ni una línea: su licencia (MIT con Commons Clause) prohíbe
+//     redistribuir los componentes. Son fichas de análisis nuestras, sin demo, que
+//     enlazan a su origen y dan su comando de instalación. Viven en componentsRef.js.
 //
-// Y conviven también dos clases de cosa, que las separa `clase`: PIEZAS que se
-// copian y funcionan solas, y RECETAS que enseñan una técnica (hoy, la matrioska).
-// Es una decisión de Munir del 2026-08-29 tomada a sabiendas, y por eso la web lo
-// dice en la propia sección en vez de dejar que el visitante lo deduzca.
+// Y conviven también tres clases de cosa, que las separa `clase`: PIEZAS que se
+// copian y funcionan solas, RECETAS que enseñan una técnica (hoy, la matrioska) y
+// REFERENCIAS, que son análisis de una pieza ajena sin demo ni código. Lo de la
+// receta es una decisión de Munir del 2026-08-29 tomada a sabiendas, y por eso la
+// web lo dice en la propia sección en vez de dejar que el visitante lo deduzca.
 
 export const COMPONENT_GROUPS = [
   { key: 'canvas', label: { es: 'Canvas y WebGL', en: 'Canvas & WebGL' } },
@@ -20,9 +27,10 @@ export const COMPONENT_GROUPS = [
   { key: 'scroll', label: { es: 'Scroll', en: 'Scroll' } },
   { key: 'texto', label: { es: 'Texto', en: 'Type' } },
   { key: 'ui', label: { es: 'Interfaz', en: 'Interface' } },
+  { key: 'micro', label: { es: 'Micro-interacciones', en: 'Micro-interactions' } },
 ]
 
-export const COMPONENT_ITEMS = [
+const ITEMS_EN_VIVO = [
   {
     key: 'bubble',
     wraps: true,
@@ -581,11 +589,19 @@ export const COMPONENT_ITEMS = [
   },
 ]
 
+// Primero lo que tiene demo, después las fichas de análisis: en la rejilla se ve
+// antes lo que se mueve.
+export const COMPONENT_ITEMS = [...ITEMS_EN_VIVO, ...REACTBITS_ITEMS]
+
 // Solo las props que el usuario haya cambiado, como hacen las webs de componentes.
 // El nombre de una pieza de la casa sí se traduce: «Header de píldora deslizante»
 // en inglés no dice nada. Los de canvasui y arlan no tienen `nameEn` porque son
 // nombres propios (Bubble, Cloth) y esos no se traducen.
 export const nombreDe = (item, lang) => (lang === 'en' && item.nameEn) || item.name
+
+// El peso del fuente de una ficha de referencia, con la coma de cada idioma.
+export const formatoKb = (kb, lang) =>
+  `${kb.toLocaleString(lang === 'en' ? 'en-US' : 'es-ES', { maximumFractionDigits: 1 })} KB`
 
 export function changedProps(item, values) {
   const out = {}

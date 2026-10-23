@@ -11,6 +11,7 @@ import ResourcesView from './components/ResourcesView'
 import ConceptsView from './components/ConceptsView'
 import ComponentsView from './components/ComponentsView'
 import ComponentDetail from './components/ComponentDetail'
+import ComponentRef from './components/ComponentRef'
 import SkillsView from './components/SkillsView'
 import SkillDetail from './components/SkillDetail'
 import ConsejosView from './components/ConsejosView'
@@ -204,6 +205,10 @@ export default function Catalogo({ t, lang }) {
     })
   }, [compQuery, compCat, compFavOnly, compFavs])
 
+  // Con las fichas de análisis son más de cuarenta: se paginan igual que los
+  // lenguajes, para que el pie se pueda alcanzar.
+  const { corte: corteComps, quedan: quedanComps, verMas: verMasComps } = usePaginado(compItems.length, 24)
+
   // Mezcla estable: con la misma semilla sale el mismo orden, así que filtrar o
   // marcar un favorito no reordena el muro entero bajo el dedo.
   const cjLista = useMemo(() => {
@@ -363,17 +368,28 @@ export default function Catalogo({ t, lang }) {
         )}
         {vista === 'components' && (
           openComp ? (
-            <ComponentDetail
-              t={t} lang={lang}
-              item={COMPONENT_ITEMS.find((c) => c.key === openComp)}
-              values={compValues[openComp]}
-              onChange={(prop, value) => setCompValue(openComp, prop, value)}
-              onReset={() => resetComp(openComp)}
-              fav={compFavs.has(openComp)}
-              onToggleFav={() => toggleCompFav(openComp)}
-            />
+            COMPONENT_ITEMS.find((c) => c.key === openComp).clase === 'referencia' ? (
+              <ComponentRef
+                t={t} lang={lang}
+                item={COMPONENT_ITEMS.find((c) => c.key === openComp)}
+                fav={compFavs.has(openComp)}
+                onToggleFav={() => toggleCompFav(openComp)}
+              />
+            ) : (
+              <ComponentDetail
+                t={t} lang={lang}
+                item={COMPONENT_ITEMS.find((c) => c.key === openComp)}
+                values={compValues[openComp]}
+                onChange={(prop, value) => setCompValue(openComp, prop, value)}
+                onReset={() => resetComp(openComp)}
+                fav={compFavs.has(openComp)}
+                onToggleFav={() => toggleCompFav(openComp)}
+              />
+            )
           ) : (
-            <ComponentsView t={t} lang={lang} items={compItems} favorites={compFavs} onToggleFav={toggleCompFav}
+            <ComponentsView t={t} lang={lang} items={compItems.slice(0, corteComps)} total={compItems.length}
+              quedan={quedanComps} onVerMas={verMasComps}
+              favorites={compFavs} onToggleFav={toggleCompFav}
               values={compValues}
               onClear={() => { setCompQuery(''); setCompCat('all'); setCompFavOnly(false) }} />
           )

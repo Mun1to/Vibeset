@@ -178,7 +178,33 @@ await ir('/en/start')
 comprobar('guía: existe en inglés', (await ev(`document.querySelector('main h1')?.textContent.trim()`)) === 'Where to start',
   await ev(`document.querySelector('main h1')?.textContent.trim()`))
 
-// 8. El cambio de idioma desde el pie
+// 8. Las fichas de análisis de React Bits (clase `referencia`): sin demo ni código,
+// con su análisis en lugar de la demo. Si alguien las trata como componentes con
+// demo, la ficha se queda vacía o se cae; si alguien les mete código, rompe la
+// licencia del origen (ver LICENSING.md).
+await ir('/components')
+const tarjetas = await ev(`document.querySelectorAll('main a[href*="/components/"]').length`)
+comprobar('componentes: se pagina (24 de entrada)', tarjetas === 24, `${tarjetas} tarjetas`)
+comprobar('componentes: el botón dice cuántas quedan', await ev(`/Ver \\d+ más/.test(document.body.innerText)`))
+await ir('/components?cat=micro')
+const micro = await ev(`document.querySelectorAll('main a[href*="/components/"]').length`)
+comprobar('componentes: el grupo nuevo trae sus 10 fichas', micro === 10, `${micro} fichas`)
+await ir('/components/shiny-text')
+comprobar('ficha de referencia: h1', await ev(`document.querySelector('h1')?.textContent.trim()`) === 'Shiny Text')
+comprobar('ficha de referencia: sin demo ni canvas', await ev(`document.querySelectorAll('main canvas, main [data-demo]').length === 0`))
+comprobar('ficha de referencia: trae su análisis',
+  await ev(`['Cuándo sí', 'Ojo con', 'Accesibilidad', 'Ficha técnica'].every((x) => document.querySelector('main').textContent.includes(x))`))
+comprobar('ficha de referencia: el comando es el de @react-bits',
+  await ev(`document.querySelector('main pre')?.textContent.includes('@react-bits/ShinyText-TS-TW') ?? false`),
+  await ev(`document.querySelector('main pre')?.textContent`))
+comprobar('ficha de referencia: el prompt está', await ev(`document.querySelector('main').textContent.includes('Pídeselo a tu agente')`))
+await ir('/en/components/shiny-text')
+comprobar('ficha de referencia: existe en inglés', await ev(`document.querySelector('main').textContent.includes('When to use it')`))
+// (Va antes del cambio de idioma: al pulsar el pie el navegador de la prueba se
+// queda con el inglés guardado y redirige a /en, y estas comprobaciones leen
+// textos en español.)
+
+// 9. El cambio de idioma desde el pie
 await ir('/languages')
 await ev(`[...document.querySelectorAll('footer button')].find(e=>/ES\\s*\\/\\s*EN|EN\\s*\\/\\s*ES/.test(e.textContent))?.click()`)
 await esperar(1200)

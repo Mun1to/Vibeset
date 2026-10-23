@@ -214,9 +214,12 @@ The line, and the whole reason the architecture looks like this (see [LICENSING.
 
 - **Skills, design concepts, tips and resources** are CC BY of the house, so they are served
   **whole** (a skill's body, a concept's prompt, the tip text, the resource link).
-- **Components** (the 12 in the catalogue are from canvasui/arlan, not ours) and **everything
-  federated** are served as **metadata plus the origin install command**, with `files` empty. Their
-  code is never copied, never served.
+- **Components** (12 in the catalogue are from canvasui/arlan, and 28 are analysis cards of React
+  Bits pieces, none of them ours) and **everything federated** are served as **metadata plus the
+  origin install command**, with `files` empty. Their code is never copied, never served. The
+  analysis cards add our own text (when to use it, what to watch for, accessibility as read in the
+  code, the prompt) under CC BY, and declare the origin licence (`MIT + Commons Clause` for React
+  Bits) instead of a generic `third-party`.
 
 `pnpm registro` carries a guard that **fails the build if a component item ever ships code**. Indexing
 and linking is safe; rehosting is the line that does not move.

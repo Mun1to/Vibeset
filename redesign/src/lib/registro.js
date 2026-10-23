@@ -15,6 +15,10 @@
 // mirar el `origin`, porque desde el 2026-08-29 ya no son todos de fuera:
 //   - canvasui/arlan NO son nuestros. Metadata más el comando de instalación del
 //     origen, con files SIEMPRE vacío, y licencia `third-party`. Igual lo federado.
+//   - reactbits tampoco, y además su licencia (MIT con Commons Clause) prohíbe
+//     redistribuirlo: aquí ni siquiera hay código en el repositorio. Metadata, el
+//     comando de instalación del origen, y el ANÁLISIS, que sí es nuestro (CC BY).
+//     La licencia se declara como la del origen, no como `third-party` a secas.
 //   - `propio` es código de la casa, MIT, y así se declara. Hoy también va con files
 //     vacío, pero por un motivo distinto y que no es de licencia: esta lib es pura y
 //     no lee del disco. Mientras tanto apunta al archivo en GitHub, que es honesto y
@@ -73,10 +77,18 @@ function normalizarComponente(item) {
     labels: item.labels || [],
     tag: item.tag,
     desc: item.desc,
+    licenciaOrigen: item.licenciaOrigen || null,
+    // El análisis de una ficha de referencia. Es texto nuestro, no del autor.
+    analisis: item.clase === 'referencia'
+      ? { cuando: item.cuando, cuidado: item.cuidado, a11y: item.a11y, prompt: item.prompt, kb: item.kb, pausa: !!item.pausa }
+      : null,
     meta,
-    buscable: juntar(item.key, item.name, item.tag?.es, item.tag?.en, item.desc?.es, item.desc?.en, ...(item.labels || []), ...(meta.arquetipos || [])),
+    buscable: juntar(item.key, item.name, item.tag?.es, item.tag?.en, item.desc?.es, item.desc?.en, item.cuando?.es, item.cuando?.en, item.cuidado?.es, item.cuidado?.en, ...(item.labels || []), ...(meta.arquetipos || [])),
   }
 }
+
+// Un texto bilingüe en el idioma pedido, con el español de respaldo.
+const enIdioma = (t, lang) => (t && (t[lang] || t.es)) || ''
 
 function normalizarSkill(item) {
   return {
@@ -262,8 +274,9 @@ export function itemRegistro(id, lang = 'es') {
       homepage: x.homepage,
       dependencies: x.deps,
       registryDependencies: depDeInstall(x.install),
-      // Guardia dura: NUNCA el código de canvasui/arlan. Los propios también van
-      // vacíos hoy, pero por no leer del disco desde una lib pura, no por licencia.
+      // Guardia dura: NUNCA el código de canvasui/arlan/reactbits. Los propios
+      // también van vacíos hoy, pero por no leer del disco desde una lib pura, no
+      // por licencia.
       files: [],
       meta: {
         ...x.meta,
@@ -271,8 +284,22 @@ export function itemRegistro(id, lang = 'es') {
         clase: x.clase,
         install: x.install,
         instalacion: x.install ? 'shadcn' : 'manual',
-        licencia: x.deLaCasa ? 'MIT' : 'third-party',
+        licencia: x.deLaCasa ? 'MIT' : (x.licenciaOrigen || 'third-party'),
         ...(x.deLaCasa ? { atribucion: ATRIBUCION, codigo: x.fuente } : {}),
+        ...(x.analisis
+          ? {
+              analisis: {
+                cuando: enIdioma(x.analisis.cuando, lang),
+                cuidado: enIdioma(x.analisis.cuidado, lang),
+                accesibilidad: enIdioma(x.analisis.a11y, lang),
+                prompt: enIdioma(x.analisis.prompt, lang),
+                pesoKb: x.analisis.kb,
+                sePausaFueraDePantalla: x.analisis.pausa,
+                licencia: 'CC BY 4.0',
+              },
+              atribucion: ATRIBUCION,
+            }
+          : {}),
       },
     }
   }

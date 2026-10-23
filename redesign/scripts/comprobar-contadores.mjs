@@ -24,7 +24,11 @@ const UNIDADES = [
   [/\b(\d+)\s+(?:lenguajes|languages|programming languages|lenguajes de programación)\b/g, 'langs'],
   [/\b(\d+)\s+(?:recursos|resources|herramientas de frontend|frontend tools|frontend resources|recursos de frontend)\b/g, 'res'],
   [/\b(\d+)\s+(?:conceptos|concepts|web design concepts|conceptos web|técnicas de diseño|design techniques)\b/g, 'concepts'],
-  [/\b(\d+)\s+(?:componentes|components|live components|componentes en vivo)\b/g, 'comps'],
+  [/\b(\d+)\s+(?:componentes(?!\s+en vivo)|components)\b/g, 'comps'],
+  // «15 en vivo» y «28 de análisis» no son el total de componentes: son sus dos
+  // clases (demo viva, y ficha de análisis sin demo ni código).
+  [/\b(\d+)\s+(?:live components|componentes en vivo)\b/g, 'compsVivos'],
+  [/\b(\d+)\s+(?:component analysis cards|analysis cards|fichas de análisis de componentes|fichas de análisis)\b/g, 'compsRef'],
   [/\b(\d+)\s+(?:skills|agent skills|skills de agente)\b/g, 'skills'],
   [/\b(\d+)\s+(?:consejos|tips)\b/g, 'consejos'],
 ]

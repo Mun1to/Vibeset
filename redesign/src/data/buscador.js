@@ -64,7 +64,7 @@ export function construirIndice(lang) {
       clave: c.key,
       titulo: c.name,
       sub: c.origin ? `${c.origin}` : '',
-      busca: [c.name, c.key, c.origin ?? '', c.group].join(' ').toLowerCase(),
+      busca: [c.name, c.key, c.origin ?? '', c.group, c.tag?.[lang] ?? ''].join(' ').toLowerCase(),
     })
   }
 

@@ -143,6 +143,16 @@ in their projects, but **the MIT licence of this repository does not extend to t
 want to reuse one of those effects, take it from the author's own site and follow their terms, not
 these. Every third-party effect in Vibeset credits its source with a link on its page.
 
+**React Bits is not in this repository, and that is deliberate.** It does publish a licence, and it
+is restrictive: MIT with the Commons Clause, which lets you use its components in your own site or
+product but forbids selling, sublicensing or redistributing the components themselves, alone, in a
+bundle or as a ported version. Copying them into a public repository would be redistributing them
+in a bundle. The component pages for React Bits therefore carry only **our own analysis** (when to
+use the piece, what to watch for, what its code says about accessibility, a prompt to ask an agent
+for it), which is catalogue content under CC BY, plus a link to the original and its install
+command. No demo, no copy of the code, no copy of their preview media. If that ever changes it will
+be because its author said so in writing, and this paragraph will change with it.
+
 The components in `redesign/src/components/propios/` are the opposite case and were added on
 2026-08-29: they were written for Vibeset, they are MIT like the rest of the code in this
 repository, and there is no external author to credit. Their page links the source file instead of
@@ -186,4 +196,6 @@ Permission for a specific case is easier to grant than to guess.
 >
 > Y ojo, **los efectos de `canvasui/` y `arlan/` no son míos**: están aquí con crédito y enlace,
 > pero para reutilizarlos hay que ir a sus autores. Los de `propios/` sí lo son, y esos van con el
-> resto del código: MIT, y te los llevas sin pedir permiso.
+> resto del código: MIT, y te los llevas sin pedir permiso. **React Bits ni siquiera está aquí:** su
+> licencia (MIT con Commons Clause) prohíbe redistribuir sus componentes, así que de él solo hay
+> fichas de análisis nuestras (CC BY) que enlazan al original y dan su comando de instalación.

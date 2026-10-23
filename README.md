@@ -8,7 +8,7 @@
 ### One place with everything you need to build for the web
 
 100 programming languages, 83 frontend tools, 41 design techniques, 15 live components,
-19 agent skills and 38 tips, plus an MCP server for agents. Free, bilingual, no sign-up, no tracking.
+28 component analysis cards, 19 agent skills and 38 tips, plus an MCP server for agents. Free, bilingual, no sign-up, no tracking.
 
 <a href="https://vibeset.dev">
   <img alt="Open vibeset.dev" src=".github/assets/boton-open.svg" width="268">
@@ -55,6 +55,12 @@ for, and a copyable example of the smallest code that makes it work.
 running at full size with its controls exposed. Move the knobs and copy the code with your values
 already in it. Three of them are ours and MIT, the sliding pill header, the FAQ accordion and the
 matryoshka parallax; the rest are third-party effects, each crediting and linking its author.
+
+**28 component analysis cards.** React Bits components we have read through: when to use each one,
+what it costs, what its code says about accessibility, the prompt to ask your agent for it and its
+install command. They have no demo and no code on purpose. React Bits is MIT with Commons Clause,
+which forbids redistributing the components themselves, so Vibeset links the original instead of
+copying it.
 
 **19 agent skills.** Instructions you hand your coding agent once and it knows for good: check a
 screen on mobile, audit accessibility, review a diff, debug down to the root cause, write a commit
@@ -136,7 +142,8 @@ something here is wrong.
 - **If you fork the whole thing:** rename it, drop the brand assets, and put the credit where it can
   be seen. That is a licence term, not a favour.
 - **The effects in `canvasui/` and `arlan/` are not mine.** They are here with credit and a link;
-  to reuse them, go to their authors.
+  to reuse them, go to their authors. **React Bits is not here at all:** its licence forbids
+  redistributing the components, so there are only analysis cards that link to the original.
 
 Building your site with what you found here needs no permission and no mention. Full details in
 **[LICENSING.md](LICENSING.md)**, name policy in **[TRADEMARK.md](TRADEMARK.md)**.

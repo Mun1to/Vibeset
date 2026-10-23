@@ -17,6 +17,11 @@ export const TOTALES = {
   res: suma(RESOURCES),
   concepts: suma(CONCEPTS),
   comps: COMPONENT_ITEMS.length,
+  // De esos, los que tienen demo y los que son fichas de análisis sin demo ni
+  // código (clase `referencia`). Hay que distinguirlos al contar: «15 componentes
+  // en vivo» sigue siendo verdad, y «43 componentes en vivo» no lo sería.
+  compsVivos: COMPONENT_ITEMS.filter((c) => c.clase !== 'referencia').length,
+  compsRef: COMPONENT_ITEMS.filter((c) => c.clase === 'referencia').length,
   skills: SKILL_ITEMS.length,
   consejos: CONSEJOS.length,
   // Cuántas skills se instalan con dos comandos. El texto de la sección decía
