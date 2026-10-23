@@ -15,7 +15,7 @@ function Label({ children, value }) {
 
 export default function ControlPanel({ t, lang, controls, values, onChange, onReset }) {
   return (
-    <div>
+    <div className="@container">
       <div className="flex items-baseline justify-between gap-3 pb-2 border-b border-linea">
         <div className="text-[12px] font-bold uppercase tracking-wider text-tinta-suave">
           {t.compControls}
@@ -29,7 +29,7 @@ export default function ControlPanel({ t, lang, controls, values, onChange, onRe
         </button>
       </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-10 pt-1">
+      <div className="grid @sm:grid-cols-2 @3xl:grid-cols-3 gap-x-8 pt-1">
       {controls.map((c) => {
         const value = values[c.key]
 
