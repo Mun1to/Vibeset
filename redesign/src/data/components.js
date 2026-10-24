@@ -603,6 +603,42 @@ export const COMPONENT_ITEMS = [
   ...REACTBITS_ITEMS.filter((r) => !CONSTRUIDAS.has(r.key)),
 ]
 
+// Las etiquetas de una ficha («sin dependencias», «teclado»…) se escribieron en español
+// y salían tal cual en la página inglesa. Las que son nombres propios o siglas (WebGL,
+// ARIA, rAF, inert) no cambian; el resto se traduce aquí, en un sitio, y lo que no está en
+// la lista se deja como viene en vez de inventarse una traducción.
+const ETIQUETAS_EN = {
+  'sin dependencias': 'no dependencies',
+  teclado: 'keyboard',
+  'lectores de pantalla': 'screen readers',
+  'se pausa': 'pauses',
+  'se pausa fuera de pantalla': 'pauses off screen',
+  'se puede pausar': 'can be paused',
+  'acción asíncrona': 'async action',
+  acordeón: 'accordion',
+  'botón de verdad': 'real button',
+  cronómetro: 'timer',
+  decorativa: 'decorative',
+  deshacer: 'undo',
+  'enlaces reales': 'real links',
+  'física propia': 'own physics',
+  muelle: 'spring',
+  pegado: 'pasting',
+  'shader propio': 'own shader',
+  'sin WebGPU': 'no WebGPU',
+  'sin bucle': 'no loop',
+  'sin cámara': 'no camera',
+  'sin imágenes ajenas': 'no third-party images',
+  'solo ratón': 'mouse only',
+  receta: 'recipe',
+  Aberración: 'Aberration',
+  Relieve: 'Relief',
+  Skeuomorfismo: 'Skeuomorphism',
+}
+
+export const etiquetasDe = (item, lang) =>
+  (item.labels ?? []).map((l) => (lang === 'en' ? ETIQUETAS_EN[l] ?? l : l))
+
 // El análisis de la pieza de React Bits a la que se parece una propia.
 export const originalDe = (item) =>
   (item.original ? REACTBITS_ITEMS.find((r) => r.key === item.original) : null) ?? null

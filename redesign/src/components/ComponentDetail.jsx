@@ -8,7 +8,7 @@ import FavButton from './FavButton'
 import CopiarEnlace from './CopiarEnlace'
 import useHtmlInCanvas from '../hooks/useHtmlInCanvas'
 import { Bloque } from './ComponentRef'
-import { usageSnippet, nombreDe, originalDe } from '../data/components'
+import { usageSnippet, nombreDe, originalDe, etiquetasDe } from '../data/components'
 import { rutaDe } from '../lib/rutas'
 
 export default function ComponentDetail({ t, lang, item, values, onChange, onReset, fav, onToggleFav }) {
@@ -46,7 +46,7 @@ export default function ComponentDetail({ t, lang, item, values, onChange, onRes
           </div>
 
           <div className="font-mono text-[12px] uppercase tracking-wider text-blue-600 dark:text-blue-400 mt-1.5">
-            {item.labels.join(' · ')}
+            {etiquetasDe(item, lang).join(' · ')}
           </div>
 
           <p className="text-tinta-suave mt-4 max-w-2xl leading-relaxed">{item.desc[lang]}</p>

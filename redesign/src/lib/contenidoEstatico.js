@@ -21,7 +21,7 @@
 import { LANGUAGES } from '../data/languages.js'
 import { RESOURCES } from '../data/resources.js'
 import { CONCEPTS } from '../data/concepts.js'
-import { COMPONENT_ITEMS, COMPONENT_GROUPS, nombreDe, formatoKb, originalDe } from '../data/components.js'
+import { COMPONENT_ITEMS, COMPONENT_GROUPS, nombreDe, formatoKb, originalDe, etiquetasDe } from '../data/components.js'
 import { SKILL_ITEMS } from '../data/skills.js'
 import { CONSEJOS, CONSEJO_GRUPOS } from '../data/consejos.js'
 import { trozosDe } from './marcado.js'
@@ -144,7 +144,7 @@ const analisisReferencia = (c, t, lang) => `
   <h2>${esc(t.compA11y)}</h2>${p(c.a11y[lang])}
   <h2>${esc(t.compFicha)}</h2>
   ${ul([
-    `${esc(t.compDibuja)}: ${esc(c.labels.join(', '))}`,
+    `${esc(t.compDibuja)}: ${esc(etiquetasDe(c, lang).join(', '))}`,
     `${esc(t.compDepende)}: ${esc(c.deps.length ? c.deps.join(', ') : t.compNada)}`,
     `${esc(t.compPeso)}: ${esc(formatoKb(c.kb, lang))}`,
     c.pausa ? `${esc(t.compPausa)}: ${esc(t.compSi)}` : '',
@@ -164,14 +164,14 @@ const sobreElOriginal = (c, t, lang) => {
 }
 
 const fichaComponente = (c, t, lang) => `
-  <h1>${esc(c.name)}</h1>
+  <h1>${esc(nombreDe(c, lang))}</h1>
   ${p(c.desc?.[lang])}
   ${ul([
-    c.labels?.length ? esc(c.labels.join(', ')) : '',
-    c.url ? a(c.url, 'Documentación original') : '',
+    c.labels?.length ? esc(etiquetasDe(c, lang).join(', ')) : '',
+    c.url ? a(c.url, t.compDocsOriginal) : '',
   ].filter(Boolean))}
   ${c.clase === 'referencia' ? analisisReferencia(c, t, lang) : ''}
-  ${c.install ? `<h2>Instalación</h2><pre><code>${esc(c.install)}</code></pre>` : ''}
+  ${c.install ? `<h2>${esc(t.compInstall)}</h2><pre><code>${esc(c.install)}</code></pre>` : ''}
   ${sobreElOriginal(c, t, lang)}`
 
 const listaSkills = (t, lang) => `
