@@ -8,7 +8,7 @@
 ### Un sitio con todo lo que necesitas para construir en la web
 
 100 lenguajes de programación, 83 herramientas de frontend, 41 técnicas de diseño,
-40 componentes en vivo, 3 fichas de análisis de componentes, 19 skills de agente y 38 consejos,
+43 componentes en vivo, 19 skills de agente y 38 consejos,
 más un servidor MCP para agentes. Gratis, bilingüe, sin registro y sin rastreo.
 
 <a href="https://vibeset.dev">
@@ -52,19 +52,19 @@ tipografía e inspiración.
 glassmorphism, View Transitions, container queries, Core Web Vitals y más. Cada uno con qué es, para
 qué sirve y un ejemplo copiable con lo mínimo que hay que escribir.
 
-**40 componentes en vivo.** Tela, despegado, ASCII, tramado, brillo cromático, relieve y más, cada
+**43 componentes en vivo.** Tela, despegado, ASCII, tramado, brillo cromático, relieve y más, cada
 uno corriendo a tamaño real con sus mandos a la vista. Mueve los controles y copia el código con tus
 valores ya puestos. Los escritos para Vibeset son MIT: el header de píldora deslizante, el acordeón
-de preguntas, la matrioska parallax y un conjunto creciente de piezas pequeñas de texto y de
-micro-interacción escritas desde cero; el resto son efectos de terceros, cada uno con el crédito y
-el enlace de su autor.
+de preguntas, la matrioska parallax y un gran conjunto de piezas escritas desde cero (texto,
+micro-interacciones, interfaz, Canvas 2D y shaders); el resto son efectos de terceros, cada uno con
+el crédito y el enlace de su autor.
 
-**3 fichas de análisis de componentes.** Componentes de React Bits que hemos leído por dentro: cuándo
-usar cada uno, qué cuesta, qué dice su código de la accesibilidad, el prompt para pedírselo a tu agente
-y su comando de instalación. No llevan demo ni código a propósito. React Bits es MIT con Commons
-Clause, que prohíbe redistribuir los componentes en sí, así que Vibeset enlaza al original en vez de
-copiarlo. Donde hemos escrito desde cero una pieza propia que hace algo parecido, el análisis va al pie
-de la página de esa pieza en lugar de ser una tarjeta aparte.
+**Piezas que hacen lo que un componente de React Bits, escritas desde cero.** React Bits es MIT con
+Commons Clause, que prohíbe redistribuir sus componentes, así que nada de su código está aquí. Donde
+queríamos la misma idea escribimos una pieza propia, con su nombre y sus props, y al pie de la página
+de esa pieza va nuestro análisis del original: cuándo usarlo, qué cuesta, qué dice su código de la
+accesibilidad, el prompt para pedírselo a tu agente y el comando de instalación del original, por si
+prefieres usar ese.
 
 **19 skills de agente.** Instrucciones que le das una vez a tu agente de código y ya se sabe para
 siempre: revisar una pantalla en móvil, auditar accesibilidad, revisar un diff, depurar hasta la
@@ -151,7 +151,8 @@ que algo de aquí está mal, también.
   crédito donde se vea. Eso es una condición de la licencia, no un favor.
 - **Los efectos de `canvasui/` y `arlan/` no son míos.** Están aquí con crédito y enlace; para
   reutilizarlos, hay que ir a sus autores. **React Bits no está aquí en absoluto:** su licencia
-  prohíbe redistribuir los componentes, así que solo hay fichas de análisis que enlazan al original.
+  prohíbe redistribuir los componentes. Las piezas que se le parecen están escritas desde cero y
+  enlazan al original desde su página.
 
 Hacer tu web con lo que encuentres aquí no necesita permiso ni mención. Todo el detalle en
 **[LICENSING.md](LICENSING.md)**, y el nombre en **[TRADEMARK.md](TRADEMARK.md)**.

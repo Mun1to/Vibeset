@@ -12,17 +12,17 @@
 //   señal para que FrontLaxWeb no lo meta en un SaaS ni en un fintech.
 // - a11y: nota de accesibilidad. 'ok' | 'decorativo' | 'requiere-refuerzo'.
 //
-// Llevan overlay los 12 componentes con demo de canvasui y arlan y las 28 fichas de
-// análisis de React Bits. Las skills no son piezas de movimiento, así que no tienen
-// entrada, y las tres piezas propias tampoco (son sobrias). El código trata la
-// ausencia como «sin restricción», y por eso las 28 de React Bits SÍ llevan entrada:
-// sin ella, un `fintech` las habría recibido todas, láser incluido.
+// Llevan overlay los componentes con demo de canvasui y arlan y todas las piezas propias
+// que se escribieron para sustituir a una de React Bits. Las skills no son piezas de
+// movimiento, así que no tienen entrada, y las tres primeras piezas propias (píldora,
+// acordeón, matrioska) tampoco (son sobrias). El código trata la ausencia como «sin
+// restricción», y por eso las piezas de movimiento SÍ llevan entrada: sin ella, un
+// `fintech` las habría recibido todas, láser incluido.
 //
-// Los valores de las 28 se asignaron el 2026-10-24 LEYENDO su código, no probándolo:
-// WebGL o física que se mueve sola es `alto` y no cumple el dial (no trae
-// `--motion-gain`); lo que solo se mueve cuando la persona lo toca es `bajo` y sí lo
-// cumple. `requiere-refuerzo` es donde el texto vive dentro de un canvas o no trae
-// ningún atributo aria (FallingText, MetallicPaint, ShapeWaves, SplitFlapText).
+// Los valores de las piezas propias se asignaron PROBÁNDOLAS en pantalla, con el puntero,
+// el teclado y el dial (ver su commit): todas traen `gain` y por eso cumplen el dial.
+// `alto` es lo que se mueve solo y gasta (canvas y shaders), `bajo` lo que solo se mueve
+// cuando la persona lo toca. `decorativo` es lo que no lleva contenido.
 export const META_CASA = {
   bubble: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
   cloth: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
@@ -40,21 +40,11 @@ export const META_CASA = {
   // Por eso entra en arquetipos sobrios donde los demás chocan.
   colorDepth: { arquetipos: ['saas', 'fintech', 'ecommerce', 'marca-creativa', 'portfolio', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
 
-  // --- React Bits: fichas de análisis (ver componentsRef.js).
-  // Fondos y shaders: se mueven solos y son decorativos.
-  laserFlow: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
-  topography: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
-  // El texto o el logo viven dentro del canvas, o no hay ni un atributo aria.
-  metallicPaint: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
-  // Puntero y texto: movimiento propio, de menos recorrido.
-  // Piezas de interfaz que solo se mueven cuando la persona las toca.
-  // Micro-interacciones: pequeñas y dirigidas por quien las usa.
-
-  // --- Piezas propias que sustituyen a una ficha de análisis (componentsPropios.js).
-  // Aquí SÍ se ha probado, no solo leído: todas traen el dial (`gain`), y lo que dicen
-  // (el texto, el estado, la confirmación) es DOM real, sin canvas ni nada oculto a los
-  // lectores. Al construir una, su entrada de arriba (la del original) se borra y la
-  // propia entra aquí con su clave, porque el registro cruza por `key`.
+  // --- Piezas propias que sustituyen a una de React Bits (componentsPropios.js).
+  // El registro cruza por `key`, así que cada una entra con la clave de la pieza propia, no
+  // con la de su original. Aquí SÍ se ha probado, no solo leído: todas traen el dial
+  // (`gain`), y lo que dicen (el texto, el estado, la confirmación) es DOM real o una
+  // imagen con su nombre, y no algo oculto a los lectores.
   textoDestello: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   contadorSube: { arquetipos: ['saas', 'fintech', 'ecommerce', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   focoPalabras: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
@@ -86,4 +76,9 @@ export const META_CASA = {
   resplandorAscii: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: true, a11y: 'decorativo' },
   ondasPuntos: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'alto', cumpleDial: true, a11y: 'ok' },
   mallaElastica: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'decorativo' },
+  // Shaders: se mueven solos y gastan, pero paran fuera de pantalla, un fotograma con el dial a
+  // cero, y un degradado fijo si no hay WebGL.
+  curvasNivel: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'alto', cumpleDial: true, a11y: 'decorativo' },
+  hazLaser: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: true, a11y: 'decorativo' },
+  pinturaMetal: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: true, a11y: 'ok' },
 }

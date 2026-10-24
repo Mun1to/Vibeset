@@ -30,4 +30,7 @@ export const DEMOS_PROPIOS = {
   resplandorAscii: lazy(() => import('./ResplandorAscii')),
   ondasPuntos: lazy(() => import('./OndasPuntos')),
   mallaElastica: lazy(() => import('./MallaElastica')),
+  curvasNivel: lazy(() => import('./CurvasNivel')),
+  hazLaser: lazy(() => import('./HazLaser')),
+  pinturaMetal: lazy(() => import('./PinturaMetal')),
 }

@@ -7,8 +7,8 @@
 
 ### One place with everything you need to build for the web
 
-100 programming languages, 83 frontend tools, 41 design techniques, 40 live components,
-3 component analysis cards, 19 agent skills and 38 tips, plus an MCP server for agents. Free, bilingual, no sign-up, no tracking.
+100 programming languages, 83 frontend tools, 41 design techniques, 43 live components,
+19 agent skills and 38 tips, plus an MCP server for agents. Free, bilingual, no sign-up, no tracking.
 
 <a href="https://vibeset.dev">
   <img alt="Open vibeset.dev" src=".github/assets/boton-open.svg" width="268">
@@ -51,18 +51,19 @@ and inspiration.
 View Transitions, container queries, Core Web Vitals and more. Each one with what it is, what it is
 for, and a copyable example of the smallest code that makes it work.
 
-**40 live components.** Cloth, peel, ASCII, dithering, chromatic bloom, emboss and more, each one
+**43 live components.** Cloth, peel, ASCII, dithering, chromatic bloom, emboss and more, each one
 running at full size with its controls exposed. Move the knobs and copy the code with your values
 already in it. The ones written for Vibeset are MIT: the sliding pill header, the FAQ accordion,
-the matryoshka parallax and a growing set of small text and micro-interaction pieces written from
-scratch; the rest are third-party effects, each crediting and linking its author.
+the matryoshka parallax and a large set of pieces written from scratch (text, micro-interactions,
+interface, Canvas 2D and shaders); the rest are third-party effects, each crediting and linking its
+author.
 
-**3 component analysis cards.** React Bits components we have read through: when to use each one,
-what it costs, what its code says about accessibility, the prompt to ask your agent for it and its
-install command. They have no demo and no code on purpose. React Bits is MIT with Commons Clause,
-which forbids redistributing the components themselves, so Vibeset links the original instead of
-copying it. Where we have written our own piece that does something similar, from scratch, the
-analysis sits at the foot of that piece's page instead of being a card of its own.
+**Pieces that do what a React Bits component does, written from scratch.** React Bits is MIT with
+Commons Clause, which forbids redistributing its components, so none of its code is here. Where we
+wanted the same idea we wrote our own piece, with its own name and props, and the foot of that
+piece's page carries our analysis of the original: when to use it, what it costs, what its code
+says about accessibility, the prompt to ask your agent for it and the install command of the
+original, in case you would rather use that one.
 
 **19 agent skills.** Instructions you hand your coding agent once and it knows for good: check a
 screen on mobile, audit accessibility, review a diff, debug down to the root cause, write a commit
@@ -145,7 +146,8 @@ something here is wrong.
   be seen. That is a licence term, not a favour.
 - **The effects in `canvasui/` and `arlan/` are not mine.** They are here with credit and a link;
   to reuse them, go to their authors. **React Bits is not here at all:** its licence forbids
-  redistributing the components, so there are only analysis cards that link to the original.
+  redistributing the components. The pieces that resemble its ones were written from scratch and
+  link the original from their page.
 
 Building your site with what you found here needs no permission and no mention. Full details in
 **[LICENSING.md](LICENSING.md)**, name policy in **[TRADEMARK.md](TRADEMARK.md)**.

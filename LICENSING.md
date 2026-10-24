@@ -147,11 +147,11 @@ these. Every third-party effect in Vibeset credits its source with a link on its
 is restrictive: MIT with the Commons Clause, which lets you use its components in your own site or
 product but forbids selling, sublicensing or redistributing the components themselves, alone, in a
 bundle or as a ported version. Copying them into a public repository would be redistributing them
-in a bundle. The component pages for React Bits therefore carry only **our own analysis** (when to
+in a bundle. What Vibeset keeps about React Bits is therefore only **our own analysis** (when to
 use the piece, what to watch for, what its code says about accessibility, a prompt to ask an agent
 for it), which is catalogue content under CC BY, plus a link to the original and its install
-command. No demo, no copy of the code, no copy of their preview media. If that ever changes it will
-be because its author said so in writing, and this paragraph will change with it.
+command. No copy of the code, no copy of their preview media. If that ever changes it will be
+because its author said so in writing, and this paragraph will change with it.
 
 The components in `redesign/src/components/propios/` are the opposite case and were added on
 2026-08-29: they were written for Vibeset, they are MIT like the rest of the code in this
@@ -161,7 +161,7 @@ an origin site.
 Some of those pieces do something similar to a React Bits component, and that needs saying plainly.
 They were **written from scratch**, with their own names and their own props, and none of the
 original's implementation was copied or ported. To be exact about the process, because it is not a
-formal clean-room: the same author wrote the analysis cards and the new pieces. The analysis only
+formal clean-room: the same author wrote the analysis and the new pieces. The analysis only
 recorded what an original declares (its props, its dependencies, its accessibility attributes), and
 the downloaded copy of the original was deleted from the working machine before any of our own code
 was written. Doing a similar thing is not porting it, and the page of each such piece carries, at the
@@ -209,4 +209,5 @@ Permission for a specific case is easier to grant than to guess.
 > pero para reutilizarlos hay que ir a sus autores. Los de `propios/` sí lo son, y esos van con el
 > resto del código: MIT, y te los llevas sin pedir permiso. **React Bits ni siquiera está aquí:** su
 > licencia (MIT con Commons Clause) prohíbe redistribuir sus componentes, así que de él solo hay
-> fichas de análisis nuestras (CC BY) que enlazan al original y dan su comando de instalación.
+> análisis nuestros (CC BY) al pie de las piezas propias que se le parecen, con enlace al original y
+> su comando de instalación.
