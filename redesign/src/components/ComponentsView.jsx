@@ -16,7 +16,13 @@ function useNearViewport(ref) {
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    const io = new IntersectionObserver(([entry]) => setNear(entry.isIntersecting), { rootMargin: '300px' })
+    // Un lote puede traer varias entradas del mismo elemento (observado lejos y luego
+    // recolocado, como pasa al entrar con `?cat=` y filtrarse la lista justo después):
+    // la que vale es la ÚLTIMA. Con la primera, la tarjeta se quedaba «fuera» para siempre.
+    const io = new IntersectionObserver(
+      (entries) => setNear(entries[entries.length - 1].isIntersecting),
+      { rootMargin: '300px' },
+    )
     io.observe(el)
     return () => io.disconnect()
   }, [ref])
