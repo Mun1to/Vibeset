@@ -6,6 +6,11 @@
   position: absolute;
   inset: 0;
   display: grid;
+  /* Una sola columna que NO crece con su contenido. Con la columna en `auto`, una pieza
+     más ancha que la caja (una cinta que rueda, una fila larga) ensancha su propio
+     contenedor, y lo que se mide contra ese contenedor sale con cifras de cientos de
+     miles de píxeles. */
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   padding: 1.5rem;
   background: #0e0f11;

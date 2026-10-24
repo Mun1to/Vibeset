@@ -31,7 +31,14 @@ export default function DemoCodigoCasillas({ values, compact, lang }) {
       <div className="pd-pila">
         {!compact && <p className="pd-nota">{tx.titulo(values.longitud)}</p>}
         {/* La clave reinicia el campo al cambiar la longitud: un código a medias de otro largo no vale. */}
-        <CodigoCasillas {...values} key={values.longitud} idioma={lang} onCompleto={verificar} />
+        {/* En la tarjeta pequeña llega con tres cifras puestas: vacío no se distingue de una caja. */}
+        <CodigoCasillas
+          {...values}
+          key={values.longitud}
+          valorInicial={compact ? correcto.slice(0, 3) : ''}
+          idioma={lang}
+          onCompleto={verificar}
+        />
         {!compact && <p className="pd-nota">{tx.pista(correcto)}</p>}
       </div>
     </div>

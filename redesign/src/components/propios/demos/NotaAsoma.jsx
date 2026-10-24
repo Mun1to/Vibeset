@@ -35,6 +35,8 @@ export default function DemoNotaAsoma({ values, compact, lang }) {
           // Con la altura de la etiqueta incluida, al volver de lectura a interactiva no salta.
           key={soloLectura ? 'lectura' : `activa-${max}`}
           valor={soloLectura ? valor : undefined}
+          // En la tarjeta pequeña llega ya con una nota: sin ella son cinco contornos vacíos.
+          valorInicial={compact ? 4 : 0}
           idioma={lang}
           onCambio={setNota}
         />

@@ -55,7 +55,6 @@ export const META_CASA = {
   // Puntero y texto: movimiento propio, de menos recorrido.
   crosshair: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'decorativo' },
   textLoop: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'decorativo' },
-  logoLoop: { arquetipos: ['saas', 'portfolio', 'lanzamiento', 'ecommerce', 'editorial'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'ok' },
   // Piezas de interfaz que solo se mueven cuando la persona las toca.
   specularButton: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
   profileCard: { arquetipos: ['portfolio', 'marca-creativa', 'saas'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
@@ -64,7 +63,6 @@ export const META_CASA = {
   thoughtLine: { arquetipos: ['saas'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   rubberSegment: { arquetipos: ['saas', 'marca-creativa', 'portfolio'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   fuseButton: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
-  branchedMenu: { arquetipos: ['saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
 
   // --- Piezas propias que sustituyen a una ficha de análisis (componentsPropios.js).
   // Aquí SÍ se ha probado, no solo leído: todas traen el dial (`gain`), y lo que dicen
@@ -80,4 +78,7 @@ export const META_CASA = {
   corazonLatido: { arquetipos: ['ecommerce', 'editorial', 'saas', 'portfolio'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   notaAsoma: { arquetipos: ['ecommerce', 'saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   codigoCasillas: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  menuRamas: { arquetipos: ['saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  // Rueda sola, pero se para (botón, ratón, foco, fuera de pantalla) y respeta el dial.
+  cintaLogos: { arquetipos: ['saas', 'portfolio', 'lanzamiento', 'ecommerce', 'editorial'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
 }

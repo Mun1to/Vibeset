@@ -14,4 +14,6 @@ export const DEMOS_PROPIOS = {
   corazonLatido: lazy(() => import('./CorazonLatido')),
   notaAsoma: lazy(() => import('./NotaAsoma')),
   codigoCasillas: lazy(() => import('./CodigoCasillas')),
+  menuRamas: lazy(() => import('./MenuRamas')),
+  cintaLogos: lazy(() => import('./CintaLogos')),
 }

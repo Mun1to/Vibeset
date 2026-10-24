@@ -1,0 +1,140 @@
+/* Estilos del menú en árbol con ramas, una pieza PROPIA del catálogo de Vibeset (MIT).
+   Un archivo por pieza para que se pueda copiar sola. Superficie oscura siempre:
+   tonos literales. La geometría llega por tres variables: `--mr-sangria` (lo que
+   mide cada codo), `--mr-grosor` (la línea) y `--mr-vel` (lo que tarda en trazarse). */
+
+.mr {
+  width: min(100%, 22rem);
+  color: #d7dbe0;
+  font-size: 0.95rem;
+}
+
+.mr ul { margin: 0; padding: 0; list-style: none }
+
+/* La fila de un grupo o de una opción: el mismo molde, con un mínimo de 2,25 rem de
+   alto (el codo de las ramas sale de su mitad). */
+.mr-fila {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.25rem;
+  padding: 0 0.6rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.mr-fila:hover { background: #1c1e22 }
+.mr-fila:focus-visible { outline: 2px solid #60a5fa; outline-offset: -2px }
+
+.mr-grupo { font-weight: 600 }
+.mr-nombre { flex: 1 }
+
+.mr-cuenta {
+  font-size: 0.75rem;
+  color: #a8adb6;
+  font-variant-numeric: tabular-nums;
+}
+
+.mr-elegido { background: #26282d; color: #fff }
+
+.mr-flecha {
+  flex: none;
+  transition: transform var(--mr-vel) ease;
+}
+
+.mr-abierto > .mr-grupo .mr-flecha { transform: rotate(90deg) }
+
+/* Punto 5 del .jsx: la rejilla de 0fr a 1fr. Plegada, además de recortada, se oculta
+   al terminar de cerrarse para que salga también del árbol de accesibilidad. */
+.mr-caja {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows var(--mr-vel) ease, visibility 0s linear var(--mr-vel);
+}
+
+.mr-abierto > .mr-caja {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition: grid-template-rows var(--mr-vel) ease, visibility 0s;
+}
+
+/* El tronco cae justo bajo el centro de la flecha del grupo (0,6 rem de relleno más
+   la mitad de los 14 px de la flecha). */
+/* `.mr .mr-ramas` y no `.mr-ramas` a secas: el `.mr ul` de arriba pone el margen a 0 y
+   con menos especificidad esta regla perdería. */
+.mr .mr-ramas {
+  min-height: 0;
+  overflow: hidden;
+  margin-left: calc(0.6rem + 7px - var(--mr-grosor) / 2);
+}
+
+/* Un grupo dentro de otro: su tronco baja de SU flecha, que ya va sangrada. */
+.mr .mr-ramas .mr-ramas {
+  margin-left: calc(var(--mr-sangria) + 0.35rem + 7px - var(--mr-grosor) / 2);
+}
+
+/* Las opciones se apartan del tronco lo que mide el codo, con un poco de aire. */
+.mr-ramas > .mr-nodo > .mr-fila { padding-left: calc(var(--mr-sangria) + 0.35rem) }
+
+/* Punto 4 del .jsx: cada opción dibuja su tramo vertical y su codo. */
+.mr-ramas > .mr-nodo { position: relative }
+
+.mr-ramas > .mr-nodo::before,
+.mr-ramas > .mr-nodo::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  background: #4a4e57;
+}
+
+.mr-ramas > .mr-nodo::before {
+  top: 0;
+  bottom: 0;
+  width: var(--mr-grosor);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform calc(var(--mr-vel) * 0.6) ease;
+}
+
+/* La última opción corta el tronco en la mitad de su fila y cierra el árbol. */
+.mr-ramas > .mr-nodo:last-child::before {
+  bottom: auto;
+  height: calc(1.125rem + var(--mr-grosor) / 2);
+}
+
+.mr-ramas > .mr-nodo::after {
+  top: calc(1.125rem - var(--mr-grosor) / 2);
+  width: calc(var(--mr-sangria) - 2px);
+  height: var(--mr-grosor);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform calc(var(--mr-vel) * 0.6) ease;
+}
+
+/* Al abrir, los tramos se trazan uno tras otro, y el codo después del tronco. Al cerrar
+   no hay retraso: cada transición toma el de su estado de destino. */
+.mr-abierto > .mr-caja > .mr-ramas > .mr-nodo::before {
+  transform: scaleY(1);
+  transition-duration: var(--mr-vel);
+  transition-delay: calc(var(--i) * 0.05s);
+}
+
+.mr-abierto > .mr-caja > .mr-ramas > .mr-nodo::after {
+  transform: scaleX(1);
+  transition-duration: var(--mr-vel);
+  transition-delay: calc(var(--mr-vel) * 0.5 + var(--i) * 0.05s);
+}
+
+/* Dial a cero: se abre y se cierra sin animar, con las ramas ya dibujadas. */
+.mr--quieto *,
+.mr--quieto *::before,
+.mr--quieto *::after { transition: none !important }

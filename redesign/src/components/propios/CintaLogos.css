@@ -1,0 +1,105 @@
+/* Estilos de la cinta de logos, una pieza PROPIA del catálogo de Vibeset (MIT). Un
+   archivo por pieza para que se pueda copiar sola. Superficie oscura siempre: tonos
+   literales. Lo medido (ancho de una copia, duración, sentido) llega por variables
+   `--ct-*` que escribe el `.jsx`. */
+
+.ct {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  width: 100%;
+  /* Sin esto, dentro de una rejilla o un flex la pista (que mide lo que miden todas
+     sus copias) empuja a su contenedor y la cinta se mide contra sí misma. */
+  min-width: 0;
+}
+
+.ct-ventana { overflow: hidden; width: 100%; min-width: 0 }
+
+/* Quieta, se desplaza a mano: ningún elemento queda fuera de alcance. */
+.ct--quieto .ct-ventana { overflow-x: auto }
+
+/* Los extremos se desvanecen: los elementos entran y salen sin cortarse en seco. */
+.ct--fundido .ct-ventana {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+
+.ct-pista { display: flex; width: max-content }
+
+/* Punto 1 del .jsx: la pista se desplaza lo que mide una copia, y vuelve a empezar. */
+.ct--anima .ct-pista {
+  animation: ct-rueda var(--ct-dur) linear infinite;
+  animation-direction: var(--ct-sentido);
+}
+
+@keyframes ct-rueda {
+  to { transform: translateX(calc(var(--ct-ancho) * -1)) }
+}
+
+/* Parada por el botón o por salir de pantalla. */
+.ct--parada .ct-pista { animation-play-state: paused }
+
+/* Y al pasar por encima o al enfocar un elemento. Va sobre la ventana y no sobre el
+   conjunto: si el foco en el botón de pausa la parase, reanudar no serviría de nada. */
+.ct--pausa-al-pasar .ct-ventana:hover .ct-pista,
+.ct--pausa-al-pasar .ct-ventana:focus-within .ct-pista { animation-play-state: paused }
+
+/* Punto 2: el hueco también al final de cada copia, para que el empalme no tire. */
+.ct-copia {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--ct-hueco);
+  margin: 0;
+  padding: 0 var(--ct-hueco) 0 0;
+  list-style: none;
+}
+
+.ct-item { flex: none }
+
+.ct-enlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.5rem;
+  color: #a8adb6;
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+a.ct-enlace:hover { color: #f4f6f8 }
+a.ct-enlace:focus-visible { outline: 2px solid #60a5fa; outline-offset: 3px }
+
+/* Un monograma cuando no hay imagen: la inicial en un recuadro de una línea. */
+.ct-marca {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border: 1px solid currentColor;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ct-imagen { display: block; width: auto; height: 1.8rem; opacity: 0.8 }
+
+.ct-pausa {
+  align-self: center;
+  min-height: 1.75rem;
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
+  color: #a8adb6;
+  font: inherit;
+  font-size: 0.82rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.ct-pausa:hover { color: #f4f6f8 }
+.ct-pausa:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px }
