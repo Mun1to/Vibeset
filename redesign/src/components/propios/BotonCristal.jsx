@@ -30,7 +30,7 @@ export default function BotonCristal({
   children,
   href,
   onClick,
-  tono = '#2563eb',
+  tono = '#1d4ed8',
   brillo = 0.55,
   tamano = 'md',
   gain = 1,

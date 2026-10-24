@@ -19,12 +19,15 @@
   white-space: nowrap;
   cursor: pointer;
   /* Punto 1 del .jsx: dos capas de fondo. La de la cara se recorta al relleno y la del
-     filo al borde, que es transparente, y por eso el borde coge su propia luz. */
+     filo al borde, que es transparente, y por eso el borde coge su propia luz.
+     La luz de la CARA pesa poco (0.3) a propósito: cae justo bajo la etiqueta blanca, y
+     con más, los tonos por defecto bajan de 4,5:1 de contraste. El filo, que no pisa el
+     texto, lleva la luz fuerte. */
   border: 1px solid transparent;
   background:
     radial-gradient(
       circle at var(--bc-x) var(--bc-y),
-      rgb(255 255 255 / calc(var(--bc-brillo) * 0.55)),
+      rgb(255 255 255 / calc(var(--bc-brillo) * 0.3)),
       transparent 48%
     ) padding-box,
     linear-gradient(180deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.02) 55%, rgb(0 0 0 / 0.18)) padding-box,

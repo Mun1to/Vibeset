@@ -18,10 +18,10 @@ export default function DemoBotonCristal({ values, compact, lang }) {
           <BotonCristal {...values}>{tx.aportar}</BotonCristal>
           {!compact && (
             <>
-              <BotonCristal {...values} tono="#7c3aed" href="https://github.com/Mun1to/Vibeset" target="_blank" rel="noreferrer">
+              <BotonCristal {...values} tono="#6d28d9" href="https://github.com/Mun1to/Vibeset" target="_blank" rel="noreferrer">
                 {tx.codigo}
               </BotonCristal>
-              <BotonCristal {...values} tono="#0f766e">{tx.licencia}</BotonCristal>
+              <BotonCristal {...values} tono="#115e59">{tx.licencia}</BotonCristal>
             </>
           )}
         </div>
