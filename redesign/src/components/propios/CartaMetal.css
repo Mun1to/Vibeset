@@ -1,0 +1,87 @@
+/* Estilos de la credencial metálica, una pieza PROPIA del catálogo de Vibeset (MIT). Un
+   archivo por pieza para que se pueda copiar sola. El metal es siempre claro (el texto va en
+   oscuro encima), y por eso los tonos son literales y no cambian con el tema. La luz llega
+   por `--cm-px` y `--cm-py` (0 a 1) y su intensidad por `--cm-brillo`. */
+
+@property --cm-px {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0.35;
+}
+
+@property --cm-py {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0.25;
+}
+
+.cm {
+  position: relative;
+  display: block;
+  width: min(100%, 24rem);
+  aspect-ratio: 1.586;
+  overflow: hidden;
+  box-sizing: border-box;
+  color: #14151a;
+  border: 1px solid #8e939c;
+  /* Punto 1 del .jsx: la pila de capas. De arriba abajo: el brillo bajo el puntero, el
+     reflejo ancho que se desplaza, el cepillado y la base metálica. */
+  background:
+    radial-gradient(
+      circle at calc(var(--cm-px) * 100%) calc(var(--cm-py) * 100%),
+      rgb(255 255 255 / calc(var(--cm-brillo) * 0.85)),
+      transparent 38%
+    ),
+    linear-gradient(
+      115deg,
+      transparent 20%,
+      rgb(255 255 255 / calc(var(--cm-brillo) * 0.7)) 38%,
+      transparent 52%,
+      rgb(255 255 255 / calc(var(--cm-brillo) * 0.35)) 72%,
+      transparent 86%
+    ) calc(var(--cm-px) * 100%) 0 / 260% 100%,
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.1) 0 1px, rgb(0 0 0 / 0.07) 1px 2px, transparent 2px 4px),
+    linear-gradient(135deg, #b4b9c1, #dfe2e6 28%, #a9aeb6 52%, #d9dce1 76%, #b0b5bd);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.5) inset, 0 12px 28px rgb(0 0 0 / 0.5);
+  /* Punto 2: lo que se anima es la luz, no la tarjeta. Las variables registradas con
+     `@property` y de tipo número sí se animan, y arrastran el degradado con ellas. */
+  transition: --cm-px var(--cm-sigue) ease-out, --cm-py var(--cm-sigue) ease-out;
+}
+
+.cm--quieta { transition: none }
+
+.cm-contenido {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 1.25rem 1.4rem;
+  box-sizing: border-box;
+}
+
+.cm-cabecera { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem }
+
+.cm-titulo { margin: 0; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.15 }
+.cm-subtitulo { margin: 0.25rem 0 0; font-size: 0.85rem; font-weight: 600; color: #2b2d34 }
+
+/* El sello: un recuadro grabado, no un adorno que se mueva. */
+.cm-sello {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 2px solid #2b2d34;
+  font-size: 1.1rem;
+  font-weight: 800;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.55), 0 1px 0 rgb(255 255 255 / 0.55) inset;
+}
+
+.cm-datos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.55rem 1rem; margin: 0 }
+.cm-dato { min-width: 0 }
+.cm-dato dt { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #3a3d45 }
+.cm-dato dd { margin: 0.1rem 0 0; font-size: 0.95rem; font-weight: 700 }
+
+@media (forced-colors: active) {
+  .cm { background: Canvas; color: CanvasText; border-color: CanvasText; box-shadow: none }
+}

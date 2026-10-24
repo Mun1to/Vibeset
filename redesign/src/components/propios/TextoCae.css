@@ -1,0 +1,74 @@
+/* Estilos del texto que cae, una pieza PROPIA del catálogo de Vibeset (MIT). Un archivo por
+   pieza para que se pueda copiar sola. Superficie oscura siempre: tonos literales. El alto de
+   la caja llega por `--tc-alto` y el tamaño del texto por `--tc-tam`. */
+
+.tc {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--tc-alto);
+  overflow: hidden;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #2a2c30;
+  background: #14151a;
+  color: #f4f6f8;
+  font-size: var(--tc-tam);
+  font-weight: 700;
+  line-height: 1.45;
+  cursor: pointer;
+}
+
+.tc--cayendo { cursor: default }
+
+.tc-texto { margin: 0 }
+
+/* Cada palabra lleva su caja siempre, aunque en el párrafo no se vea: así la medida es la
+   misma antes y después de caer, y no hay salto al soltarlas. */
+.tc-palabra {
+  display: inline-block;
+  padding: 0 0.28em;
+  /* El margen negativo anula el relleno: en el párrafo, el espacio entre palabras sigue
+     siendo el de la fuente y la frase se lee como cualquier otra. */
+  margin: 0 -0.28em;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.tc--cayendo .tc-palabra {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  border-color: #3a3d44;
+  background: #1c1e24;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform;
+}
+
+.tc--cayendo .tc-palabra:active { cursor: grabbing }
+
+.tc-boton {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.6rem;
+  z-index: 3;
+  min-height: 2rem;
+  padding: 0 0.8rem;
+  border: 1px solid #5a5e67;
+  background: #14151a;
+  color: #f4f6f8;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Con las palabras amontonadas abajo, el botón sube para no taparlas. */
+.tc--cayendo .tc-boton { top: 0.6rem; bottom: auto }
+
+.tc-boton:hover { background: #26282d }
+.tc-boton:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px }

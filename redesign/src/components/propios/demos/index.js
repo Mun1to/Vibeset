@@ -24,4 +24,7 @@ export const DEMOS_PROPIOS = {
   lineaPensando: lazy(() => import('./LineaPensando')),
   botonMecha: lazy(() => import('./BotonMecha')),
   miraCursor: lazy(() => import('./MiraCursor')),
+  botonCristal: lazy(() => import('./BotonCristal')),
+  cartaMetal: lazy(() => import('./CartaMetal')),
+  textoCae: lazy(() => import('./TextoCae')),
 }

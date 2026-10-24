@@ -46,14 +46,11 @@ export const META_CASA = {
   laserFlow: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
   topography: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
   elasticMesh: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
-  reflectiveCard: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
   // El texto o el logo viven dentro del canvas, o no hay ni un atributo aria.
   metallicPaint: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
   shapeWaves: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
-  fallingText: { arquetipos: ['marca-creativa', 'portfolio'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
   // Puntero y texto: movimiento propio, de menos recorrido.
   // Piezas de interfaz que solo se mueven cuando la persona las toca.
-  specularButton: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
   // Micro-interacciones: pequeñas y dirigidas por quien las usa.
 
   // --- Piezas propias que sustituyen a una ficha de análisis (componentsPropios.js).
@@ -83,4 +80,8 @@ export const META_CASA = {
   botonMecha: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   // Solo se mueve con el ratón y es adorno: no cuenta para nada que dependa de ella.
   miraCursor: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'decorativo' },
+  botonCristal: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  cartaMetal: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  // Física propia: cae sola al soltarse, pero la frase es texto del DOM, hay botón y con el dial a cero no cae.
+  textoCae: { arquetipos: ['marca-creativa', 'portfolio', 'evento'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
 }

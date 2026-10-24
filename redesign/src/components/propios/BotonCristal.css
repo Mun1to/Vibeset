@@ -1,0 +1,74 @@
+/* Estilos del botón de cristal, una pieza PROPIA del catálogo de Vibeset (MIT). Un archivo
+   por pieza para que se pueda copiar sola. Superficie oscura siempre: tonos literales. La
+   luz llega por `--bc-x` y `--bc-y` (posición del puntero dentro del botón), el color por
+   `--bc-tono` y la intensidad por `--bc-brillo`. */
+
+.bc {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 2.75rem;
+  padding: 0 1.4rem;
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  /* Punto 1 del .jsx: dos capas de fondo. La de la cara se recorta al relleno y la del
+     filo al borde, que es transparente, y por eso el borde coge su propia luz. */
+  border: 1px solid transparent;
+  background:
+    radial-gradient(
+      circle at var(--bc-x) var(--bc-y),
+      rgb(255 255 255 / calc(var(--bc-brillo) * 0.55)),
+      transparent 48%
+    ) padding-box,
+    linear-gradient(180deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.02) 55%, rgb(0 0 0 / 0.18)) padding-box,
+    linear-gradient(var(--bc-tono), var(--bc-tono)) padding-box,
+    radial-gradient(
+      circle at var(--bc-x) var(--bc-y),
+      rgb(255 255 255 / calc(var(--bc-brillo) * 1.4)),
+      rgb(255 255 255 / 0.12) 38%,
+      rgb(255 255 255 / 0.06)
+    ) border-box;
+  background-color: #17181a;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.08) inset, 0 6px 16px rgb(0 0 0 / 0.35);
+}
+
+.bc--lg { min-height: 3.4rem; padding: 0 2rem; font-size: 1.05rem }
+
+.bc:focus-visible { outline: 2px solid #93c5fd; outline-offset: 3px }
+
+/* Punto 3: pulsado se hunde un píxel y pierde parte del brillo, con ratón, dedo o teclado. */
+.bc:active {
+  transform: translateY(1px);
+  box-shadow: 0 0 0 rgb(0 0 0 / 0), 0 2px 6px rgb(0 0 0 / 0.35) inset;
+}
+
+/* La luz sigue al puntero con un retardo corto, para que se deslice y no salte. Una variable
+   de CSS no se anima por sí sola; registrada con `@property` y con un tipo, sí. Donde el
+   navegador no lo soporte, la luz salta de sitio en sitio, que se ve bien igual. */
+@property --bc-x {
+  syntax: '<length-percentage>';
+  inherits: false;
+  initial-value: 50%;
+}
+
+@property --bc-y {
+  syntax: '<length-percentage>';
+  inherits: false;
+  initial-value: -10%;
+}
+
+.bc { transition: transform 0.1s, box-shadow 0.1s, --bc-x var(--bc-sigue) ease-out, --bc-y var(--bc-sigue) ease-out }
+
+/* Dial a cero: la luz se queda en su reposo y nada se desliza. */
+.bc--quieto { transition: none }
+
+@media (forced-colors: active) {
+  .bc { border-color: ButtonText; background: ButtonFace; color: ButtonText; box-shadow: none }
+}
