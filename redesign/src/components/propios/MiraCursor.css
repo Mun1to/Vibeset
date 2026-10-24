@@ -23,10 +23,13 @@
 
 .mc--dentro .mc-capa { opacity: 1 }
 
+/* Las dos líneas y la etiqueta se mueven con `transform`, no con `left` y `top`: lo primero lo
+   hace el compositor, lo segundo recalcula la maquetación en cada movimiento del ratón. Con
+   `left` y `top` el fotograma costaba 18 ms con la CPU a 4x y no llegaba a 60 fps. */
 .mc-linea { position: absolute; opacity: 0.85 }
 
-.mc-v { top: 0; bottom: 0; left: var(--mc-x, 0px); width: 1px; margin-left: -0.5px }
-.mc-h { left: 0; right: 0; top: var(--mc-y, 0px); height: 1px; margin-top: -0.5px }
+.mc-v { top: 0; bottom: 0; left: 0; width: 1px; margin-left: -0.5px; transform: translateX(var(--mc-x, 0px)) }
+.mc-h { left: 0; right: 0; top: 0; height: 1px; margin-top: -0.5px; transform: translateY(var(--mc-y, 0px)) }
 
 .mc--continua .mc-linea { background: currentColor }
 
@@ -56,8 +59,13 @@
 /* Punto 5 del .jsx: la etiqueta se da la vuelta en los bordes. */
 .mc-etiqueta {
   position: absolute;
-  top: calc(var(--mc-y, 0px) + 12px);
-  left: calc(var(--mc-x, 0px) + 12px);
+  top: 0;
+  left: 0;
+  /* A 12 px del puntero; dado la vuelta, su borde derecho (o el inferior) queda a 12 px: el
+     `100%` de un `translate` es el tamaño de la propia etiqueta. */
+  --ex: calc(var(--mc-x, 0px) + 12px);
+  --ey: calc(var(--mc-y, 0px) + 12px);
+  transform: translate(var(--ex), var(--ey));
   padding: 0.1rem 0.4rem;
   border: 1px solid currentColor;
   background: rgb(14 15 17 / 0.9);
@@ -68,8 +76,8 @@
   white-space: pre;
 }
 
-.mc-etiqueta[data-der='true'] { right: calc(100% - var(--mc-x, 0px) + 12px); left: auto }
-.mc-etiqueta[data-abajo='true'] { top: auto; bottom: calc(100% - var(--mc-y, 0px) + 12px) }
+.mc-etiqueta[data-der='true'] { --ex: calc(var(--mc-x, 0px) - 100% - 12px) }
+.mc-etiqueta[data-abajo='true'] { --ey: calc(var(--mc-y, 0px) - 100% - 12px) }
 
 /* El pulso del clic: un cuadrado que se abre y se apaga. */
 .mc-pulso {
