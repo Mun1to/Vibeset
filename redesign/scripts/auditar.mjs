@@ -2,7 +2,7 @@
 //
 //   pnpm auditar              las 7 secciones en los dos idiomas y los dos temas
 //   pnpm auditar -- --movil   además a 390px de ancho
-//   pnpm auditar -- --fichas  además las fichas de cada componente (las del sitemap)
+//   pnpm auditar -- --fichas  además las fichas de cada componente, skill y lenguaje (las del sitemap)
 //
 // El taller de `/kitchen` ya medía todo esto, pero solo cuando alguien se
 // acordaba de abrirlo, así que nada impedía que un cambio de hoy rompiera lo que
@@ -41,14 +41,14 @@ const SECCIONES = [...PAGINAS, ...PAGINAS.map((r) => (r === '/' ? '/en' : `/en${
 const CON_MOVIL = process.argv.includes('--movil')
 const CON_FICHAS = process.argv.includes('--fichas')
 
-// Las fichas de componente no se listan a mano: se leen del sitemap del `dist`,
-// que es lo que el build ya sabe de cada dirección, así que una pieza nueva entra
-// sola en la auditoría. Las demos llevan `data-demo` y el auditor las salta; lo
-// que se mide aquí es la interfaz de la ficha (mandos, código, el apartado del
-// original), que es la que escribimos nosotros.
-function fichasDeComponentes() {
+// Las fichas de detalle (componentes, skills y lenguajes) no se listan a mano: se
+// leen del sitemap del `dist`, que es lo que el build ya sabe de cada dirección,
+// así que una ficha nueva entra sola en la auditoría. Las demos llevan `data-demo`
+// y el auditor las salta; lo que se mide aquí es la interfaz de la ficha (mandos,
+// código, el apartado del original), que es la que escribimos nosotros.
+function fichasDeDetalle() {
   const mapa = readFileSync(join(DIST, 'sitemap.xml'), 'utf8')
-  return [...mapa.matchAll(/<loc>https?:\/\/[^/]+(\/(?:en\/)?components\/[^<]+)<\/loc>/g)].map((m) => m[1])
+  return [...mapa.matchAll(/<loc>https?:\/\/[^/]+(\/(?:en\/)?(?:components|skills|languages)\/[^<]+)<\/loc>/g)].map((m) => m[1])
 }
 
 // ---------------------------------------------------------------- el servidor
@@ -213,7 +213,7 @@ if (!existsSync(join(DIST, 'index.html'))) {
   process.exit(2)
 }
 
-const RUTAS = [...SECCIONES, ...(CON_FICHAS ? fichasDeComponentes() : [])]
+const RUTAS = [...SECCIONES, ...(CON_FICHAS ? fichasDeDetalle() : [])]
 
 const perfil = await mkdtemp(join(tmpdir(), 'vibeset-auditor-'))
 const server = await servir()
