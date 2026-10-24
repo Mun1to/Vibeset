@@ -189,7 +189,7 @@ search. Verified 2026-08-21:
 | --- | --- | --- | --- |
 | shadcn/ui | 63 | MIT | `@shadcn` |
 | Magic UI | 247 | MIT | `@magicui` |
-| React Bits | 664 | MIT + Commons Clause | `@reactbits` |
+| React Bits | 664 | MIT + Commons Clause | `@react-bits` |
 | Aceternity UI | 278 | proprietary | `@aceternity` |
 | canvasui | 210 | author terms | `@canvas-ui` |
 | Fancy Components | 158 | MIT | `@fancy` |

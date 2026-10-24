@@ -42,7 +42,7 @@ export const REGISTRIES = [
     key: 'reactbits',
     name: 'React Bits',
     homepage: 'https://reactbits.dev',
-    namespace: '@reactbits',
+    namespace: '@react-bits',
     indexUrl: 'https://reactbits.dev/r/registry.json',
     license: 'MIT + Commons Clause',
     verificado: true,
