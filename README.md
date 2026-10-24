@@ -8,7 +8,7 @@
 ### One place with everything you need to build for the web
 
 100 programming languages, 83 frontend tools, 41 design techniques, 43 live components,
-19 agent skills and 38 tips, plus an MCP server for agents. Free, bilingual, no sign-up, no tracking.
+19 agent skills and 39 tips, plus an MCP server for agents. Free, bilingual, no sign-up, no tracking.
 
 <a href="https://vibeset.dev">
   <img alt="Open vibeset.dev" src=".github/assets/boton-open.svg" width="268">
@@ -70,7 +70,7 @@ screen on mobile, audit accessibility, review a diff, debug down to the root cau
 message. Copy the `SKILL.md`, drop it in its folder, or install the six published as plugins with
 two commands: `/plugin marketplace add Mun1to/Vibeset` and then `/plugin install <name>@vibeset`.
 
-**38 tips.** Short things you learn by losing afternoons, ours and whatever people send in. Open to
+**39 tips.** Short things you learn by losing afternoons, ours and whatever people send in. Open to
 contributions through a pull request.
 
 ## Use it from your agent (MCP)

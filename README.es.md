@@ -8,7 +8,7 @@
 ### Un sitio con todo lo que necesitas para construir en la web
 
 100 lenguajes de programación, 83 herramientas de frontend, 41 técnicas de diseño,
-43 componentes en vivo, 19 skills de agente y 38 consejos,
+43 componentes en vivo, 19 skills de agente y 39 consejos,
 más un servidor MCP para agentes. Gratis, bilingüe, sin registro y sin rastreo.
 
 <a href="https://vibeset.dev">
@@ -72,7 +72,7 @@ causa real, escribir el mensaje de un commit. Copias el `SKILL.md`, lo pegas en 
 instalas con dos comandos las seis que se publican como plugin: `/plugin marketplace add
 Mun1to/Vibeset` y luego `/plugin install <nombre>@vibeset`.
 
-**38 consejos.** Cosas cortas que se aprenden perdiendo tardes, las de la casa y las que aporta la
+**39 consejos.** Cosas cortas que se aprenden perdiendo tardes, las de la casa y las que aporta la
 gente. Abierto a colaboradores por pull request.
 
 ## Úsalo desde tu agente (MCP)

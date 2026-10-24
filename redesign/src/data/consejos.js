@@ -53,6 +53,10 @@ export const CONSEJOS = [
     es: 'Cuando diga «arreglado», ábrelo tú. Es la frase que más veces resulta ser mentira sin querer.',
     en: 'When it says "fixed", go look yourself. That is the sentence that most often turns out to be accidentally false.' },
 
+  { id: 'agy-sin-preguntas', grupo: 'agente',
+    es: 'Si el CLI de Antigravity (`agy`) te pide permiso para cada comando, prueba `--mode auto` (Windows 11 24H2 o posterior): aprueba lo seguro y pregunta antes de lo irreversible. `--dangerously-skip-permissions` quita **todos** los avisos, también los que te salvan.',
+    en: 'If the Antigravity CLI (`agy`) asks permission for every command, try `--mode auto` (Windows 11 24H2 or later): it approves the safe stuff and still asks before anything irreversible. `--dangerously-skip-permissions` turns off **every** prompt, including the ones that save you.' },
+
   // ---------- Oficio ----------
   { id: 'nombre-documentacion', grupo: 'oficio',
     es: 'Si necesitas un comentario para explicar qué guarda una variable, el nombre está mal puesto.',
