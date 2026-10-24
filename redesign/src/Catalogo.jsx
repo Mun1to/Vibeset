@@ -320,7 +320,10 @@ export default function Catalogo({ t, lang }) {
   return (
     <>
       {!fichaRota && !lenguajeAbierto && !openComp && !openSkill && <Sidebar t={t} {...sidebarProps} />}
-      <main id="principal" className={`flex-1 min-w-0 overflow-hidden${fichaRota ? ' flex flex-col' : ''}`}>
+      {/* `overflow-clip` y no `-hidden`: recorta igual, pero `hidden` convierte a
+          `main` en un contenedor de scroll y `position: sticky` deja de mirar a la
+          ventana (el carril de las skills no podía quedarse a la vista). */}
+      <main id="principal" className={`flex-1 min-w-0 overflow-clip${fichaRota ? ' flex flex-col' : ''}`}>
         {!fichaRota && !lenguajeAbierto && !openComp && !openSkill && <FiltrosMovil t={t} {...sidebarProps} />}
         <AnimatePresence mode="wait">
           <motion.div

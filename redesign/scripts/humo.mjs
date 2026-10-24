@@ -141,6 +141,13 @@ comprobar('/languages/no-existe es un 404', await ev(`!document.querySelector('#
 const g2 = await ev(geometria404)
 comprobar('/languages/no-existe: el aviso va centrado y el pie al final', !!g2 && g2.descentrado <= 2 && g2.pieSobra <= 2, JSON.stringify(g2))
 
+// El carril de una skill larga (columna derecha: instalar, dónde va, cómo se usa) se
+// queda a la vista mientras se lee el SKILL.md. Dejó de hacerlo cuando `main` llevaba
+// `overflow-hidden`, que rompe `position: sticky`, y el carril se iba pantallas arriba.
+await ir('/skills/criteria')
+const carril = await ev(`(async () => { const g = document.querySelector('main section > div.flex.flex-col'); const r = g?.children[1]; if (!r) return null; scrollTo(0, 1200); await new Promise((ok) => requestAnimationFrame(() => requestAnimationFrame(ok))); const b = r.getBoundingClientRect(); return { top: Math.round(b.top), abajo: Math.round(b.bottom), vh: innerHeight } })()`)
+comprobar('skill larga: el carril se queda a la vista al bajar', !!carril && carril.top >= 0 && carril.top <= 100 && carril.abajo <= carril.vh, JSON.stringify(carril))
+
 // 6. El buscador global, que ahora carga su índice al abrirse
 await ir('/')
 await ev(`[...document.querySelectorAll('button')].find(b => /Buscar|Search/i.test(b.textContent))?.click()`)

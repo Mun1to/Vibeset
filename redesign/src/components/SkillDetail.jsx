@@ -119,7 +119,13 @@ export default function SkillDetail({ t, lang, item, group, fav, onToggleFav }) 
           </div>
         </div>
 
-        <div className="contents xl:block xl:min-w-0 xl:[&>:first-child]:mt-0">
+        {/* El carril sigue a la vista mientras se lee el SKILL.md, que en cuatro de
+            las skills mide de dos a cuatro pantallas y dejaba debajo de él un vacío
+            de ese tamaño. Si no cabe en la ventana se desplaza por dentro, como la
+            barra lateral del catálogo, y no se corta por abajo. El `p-1` con `-m-1`
+            deja sitio al anillo de foco, que se dibuja por fuera de la caja y el
+            `overflow` recortaría, sin mover nada de sitio. */}
+        <div className="contents xl:block xl:min-w-0 xl:[&>:first-child]:mt-0 xl:sticky xl:top-[calc(57px+1.5rem)] xl:max-h-[calc(100vh-57px-3rem)] xl:overflow-y-auto xl:overscroll-contain xl:p-1 xl:-m-1">
           {/* Lo primero accionable de la página, como en cualquier galería de
               componentes: el comando que la instala, listo para copiar. */}
           {item.plugin && (
