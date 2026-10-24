@@ -130,8 +130,16 @@ for (const [ruta, sel, min] of [['/resources', 'main a[target="_blank"]', 20], [
 await ir('/inventado')
 comprobar('/inventado es un 404', await ev(`document.body.innerText.includes('404') || !!document.querySelector('[data-404]') || document.title.includes('404') || document.body.innerText.length < 900`),
   (await ev('document.title')))
+// Dónde se pinta el aviso: centrado en su hueco y con el pie al final de la ventana.
+// Pegado a la izquierda y con el pie a media pantalla llegó a pasar, y no lo dice
+// ninguna otra comprobación porque el texto y el estado son los correctos.
+const geometria404 = `(() => { const s = document.querySelector('#principal section'); const p = document.querySelector('footer'); if (!s || !p) return null; const a = s.getBoundingClientRect(); const b = p.getBoundingClientRect(); return { descentrado: Math.round(Math.abs(a.left + a.width / 2 - innerWidth / 2)), pieSobra: Math.round(Math.abs(b.bottom - innerHeight)) } })()`
+const g1 = await ev(geometria404)
+comprobar('/inventado: el aviso va centrado y el pie al final', !!g1 && g1.descentrado <= 2 && g1.pieSobra <= 2, JSON.stringify(g1))
 await ir('/languages/no-existe')
 comprobar('/languages/no-existe es un 404', await ev(`!document.querySelector('#grid')`), await ev('document.title'))
+const g2 = await ev(geometria404)
+comprobar('/languages/no-existe: el aviso va centrado y el pie al final', !!g2 && g2.descentrado <= 2 && g2.pieSobra <= 2, JSON.stringify(g2))
 
 // 6. El buscador global, que ahora carga su índice al abrirse
 await ir('/')

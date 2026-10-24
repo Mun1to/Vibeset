@@ -320,11 +320,12 @@ export default function Catalogo({ t, lang }) {
   return (
     <>
       {!fichaRota && !lenguajeAbierto && !openComp && !openSkill && <Sidebar t={t} {...sidebarProps} />}
-      <main id="principal" className="flex-1 min-w-0 overflow-hidden">
+      <main id="principal" className={`flex-1 min-w-0 overflow-hidden${fichaRota ? ' flex flex-col' : ''}`}>
         {!fichaRota && !lenguajeAbierto && !openComp && !openSkill && <FiltrosMovil t={t} {...sidebarProps} />}
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
+            className={fichaRota ? 'flex flex-col flex-1' : undefined}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}

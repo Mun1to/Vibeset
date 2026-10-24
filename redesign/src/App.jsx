@@ -101,7 +101,10 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 text-tinta">
+    // Columna con el contenido a `flex-1`: en una página más corta que la ventana
+    // (el 404, una búsqueda sin resultados) el pie baja al final en vez de
+    // quedarse a media pantalla con el vacío debajo.
+    <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-tinta">
       <TopBar
         t={t} lang={lang} onToggleLang={cambiarIdioma} activeNav={activeNav}
         totales={TOTALES}
@@ -109,7 +112,7 @@ export default function App() {
         onAbrirResultado={abrirResultado}
         onQuizClick={irALaGuia}
       />
-      <div className="flex">
+      <div className="flex flex-1">
         {enCatalogo ? (
           // Sin nada mientras carga: el trozo pesa lo que pesa pero llega en un
           // parpadeo desde la caché del navegador, y una pantalla de «cargando»
@@ -118,10 +121,13 @@ export default function App() {
             <Catalogo t={t} lang={lang} />
           </Suspense>
         ) : (
-          <main id="principal" className="flex-1 min-w-0 overflow-hidden">
+          // En un 404 la columna del contenido se vuelve flex para que el aviso
+          // se centre en el hueco que deja la ventana. En el resto no cambia nada.
+          <main id="principal" className={`flex-1 min-w-0 overflow-hidden${rutaRota ? ' flex flex-col' : ''}`}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={location.pathname}
+                className={rutaRota ? 'flex flex-col flex-1' : undefined}
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
