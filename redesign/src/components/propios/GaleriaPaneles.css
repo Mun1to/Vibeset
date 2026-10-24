@@ -1,0 +1,133 @@
+/* Estilos de la galería de paneles, una pieza PROPIA del catálogo de Vibeset (MIT). Un
+   archivo por pieza para que se pueda copiar sola. Superficie oscura siempre: tonos
+   literales. El alto llega por `--gp-alto` y lo que tarda en abrirse por `--gp-vel`. */
+
+.gp {
+  display: flex;
+  width: 100%;
+  height: var(--gp-alto);
+  gap: 0.25rem;
+}
+
+.gp--vertical { flex-direction: column }
+
+/* Punto 4 del .jsx: el reparto lo hace `flex-grow`, de 1 a 6, sin ninguna medida a mano. */
+.gp-panel {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid #2a2c30;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 14px, rgb(255 255 255 / 0.03) 14px 15px),
+    #17181a;
+  transition: flex-grow var(--gp-vel) cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+.gp-abierto { flex-grow: 6 }
+
+.gp-imagen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.5);
+  transition: filter var(--gp-vel);
+}
+
+.gp-abierto .gp-imagen { filter: brightness(0.85) }
+
+/* La cabecera ocupa todo el panel: se puede pulsar en cualquier sitio, no solo en el
+   rótulo. El degradado de abajo da fondo a un texto que puede caer sobre una foto. */
+.gp-cabecera {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 1rem;
+  border: 0;
+  background: linear-gradient(to top, rgb(14 15 17 / 0.88), transparent 62%);
+  color: #f4f6f8;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.gp-cabecera:focus-visible { outline: 2px solid #60a5fa; outline-offset: -4px }
+
+.gp-etiqueta { font-size: 1.05rem; font-weight: 700; line-height: 1.2; white-space: nowrap }
+
+.gp-numero {
+  position: absolute;
+  top: 0.8rem;
+  left: 1rem;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 0.8rem;
+  color: #d7dbe0;
+  opacity: 0;
+  transition: opacity var(--gp-vel);
+}
+
+.gp-abierto .gp-numero { opacity: 1 }
+
+/* En vertical los paneles son bajos y el número chocaría con el detalle. */
+.gp--vertical .gp-numero { display: none }
+
+/* En vertical, una fila cerrada es una tira baja: el rótulo se centra en ella y no lleva
+   el relleno de un panel abierto, que si no se sale por arriba y por abajo. */
+.gp--vertical .gp-panel:not(.gp-abierto) .gp-cabecera { align-items: center; padding-block: 0 }
+
+/* En horizontal, el rótulo de un panel cerrado va de pie, de abajo arriba. */
+.gp--horizontal .gp-panel:not(.gp-abierto) .gp-cabecera { justify-content: center }
+.gp--horizontal .gp-panel:not(.gp-abierto) .gp-etiqueta {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* Lo que enseña un panel abierto: aparece cuando el panel ya ha ganado ancho. */
+.gp-cuerpo {
+  position: absolute;
+  right: 1rem;
+  bottom: 3.3rem;
+  left: 1rem;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity var(--gp-vel), transform var(--gp-vel);
+}
+
+.gp-abierto .gp-cuerpo {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+  transition-delay: calc(var(--gp-vel) * 0.5);
+}
+
+.gp-detalle { margin: 0 0 0.6rem; font-size: 0.9rem; line-height: 1.4; color: #d7dbe0 }
+
+.gp-enlace {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0 0.75rem;
+  border: 1px solid #5a5e67;
+  background: rgb(14 15 17 / 0.6);
+  color: #f4f6f8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.gp-enlace:hover { background: #26282d }
+.gp-enlace:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px }
+
+/* Dial a cero: el panel cambia de golpe. */
+.gp--quieta .gp-panel,
+.gp--quieta .gp-imagen,
+.gp--quieta .gp-cuerpo,
+.gp--quieta .gp-numero { transition: none }

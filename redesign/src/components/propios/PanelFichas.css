@@ -1,0 +1,114 @@
+/* Estilos del panel de fichas, una pieza PROPIA del catálogo de Vibeset (MIT). Un archivo
+   por pieza para que se pueda copiar sola. Superficie oscura siempre: tonos literales. El
+   tamaño llega por `--pf-tam` y lo que dura cada giro por `--pf-paso`. */
+
+.pf {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  font-size: var(--pf-tam);
+}
+
+.pf-tablero { display: inline-flex; gap: 0.18em }
+
+.pf-ficha {
+  position: relative;
+  display: block;
+  width: 0.78em;
+  height: 1.2em;
+  perspective: 5em;
+  color: #f4f6f8;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-weight: 700;
+}
+
+/* La ranura de en medio, por encima de todo: es lo que hace que se lea como panel. */
+.pf-ficha::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  z-index: 4;
+  height: 2px;
+  margin-top: -1px;
+  background: #0b0c0d;
+}
+
+.pf-mitad {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+.pf-arriba,
+.pf-aleta-arriba { top: 0; background: linear-gradient(#202227, #17181a) }
+
+.pf-abajo,
+.pf-aleta-abajo { bottom: 0; background: linear-gradient(#17181a, #121315) }
+
+/* La letra es del tamaño de la ficha entera y cada mitad enseña la suya. */
+.pf-car {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  height: 200%;
+  font-size: 1em;
+  line-height: 1;
+}
+
+.pf-arriba .pf-car,
+.pf-aleta-arriba .pf-car { top: 0 }
+
+.pf-abajo .pf-car,
+.pf-aleta-abajo .pf-car { bottom: 0 }
+
+.pf-aleta { z-index: 2 }
+
+/* La de arriba cae hacia quien mira hasta quedar de canto, y entonces la de abajo
+   termina de bajar con la letra nueva. Cada una usa la mitad de lo que dura el giro. */
+.pf-aleta-arriba {
+  transform-origin: 50% 100%;
+  animation: pf-cae calc(var(--pf-paso) * 0.5) ease-in both;
+}
+
+.pf-aleta-abajo {
+  transform-origin: 50% 0;
+  transform: rotateX(90deg);
+  animation: pf-baja calc(var(--pf-paso) * 0.5) ease-out calc(var(--pf-paso) * 0.5) both;
+}
+
+@keyframes pf-cae {
+  from { transform: rotateX(0) }
+  to { transform: rotateX(-90deg) }
+}
+
+@keyframes pf-baja {
+  from { transform: rotateX(90deg) }
+  to { transform: rotateX(0) }
+}
+
+/* Dial a cero: sin aletas, las letras cambian de golpe. */
+.pf--quieto .pf-aleta { display: none }
+
+.pf-pausa {
+  min-height: 1.75rem;
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
+  color: #a8adb6;
+  font: inherit;
+  font-size: 0.82rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.pf-pausa:hover { color: #f4f6f8 }
+.pf-pausa:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px }

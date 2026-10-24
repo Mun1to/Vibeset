@@ -51,14 +51,10 @@ export const META_CASA = {
   metallicPaint: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
   shapeWaves: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
   fallingText: { arquetipos: ['marca-creativa', 'portfolio'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
-  splitFlapText: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'requiere-refuerzo' },
   // Puntero y texto: movimiento propio, de menos recorrido.
   crosshair: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'decorativo' },
-  textLoop: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'decorativo' },
   // Piezas de interfaz que solo se mueven cuando la persona las toca.
   specularButton: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
-  profileCard: { arquetipos: ['portfolio', 'marca-creativa', 'saas'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
-  accordionGallery: { arquetipos: ['portfolio', 'marca-creativa', 'ecommerce', 'editorial', 'lanzamiento'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   // Micro-interacciones: pequeñas y dirigidas por quien las usa.
   thoughtLine: { arquetipos: ['saas'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   rubberSegment: { arquetipos: ['saas', 'marca-creativa', 'portfolio'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
@@ -81,4 +77,9 @@ export const META_CASA = {
   menuRamas: { arquetipos: ['saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   // Rueda sola, pero se para (botón, ratón, foco, fuera de pantalla) y respeta el dial.
   cintaLogos: { arquetipos: ['saas', 'portfolio', 'lanzamiento', 'ecommerce', 'editorial'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
+  tarjetaHolo: { arquetipos: ['portfolio', 'marca-creativa', 'saas'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  galeriaPaneles: { arquetipos: ['portfolio', 'marca-creativa', 'ecommerce', 'editorial', 'lanzamiento'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  // Cambian de palabra y giran solos, pero se paran (botón, fuera de pantalla) y llevan su texto en el DOM.
+  panelFichas: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
+  textoOrbita: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
 }
