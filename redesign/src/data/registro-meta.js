@@ -42,13 +42,10 @@ export const META_CASA = {
 
   // --- React Bits: fichas de análisis (ver componentsRef.js).
   // Fondos y shaders: se mueven solos y son decorativos.
-  gradientAscii: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
   laserFlow: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
   topography: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
-  elasticMesh: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'decorativo' },
   // El texto o el logo viven dentro del canvas, o no hay ni un atributo aria.
   metallicPaint: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
-  shapeWaves: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
   // Puntero y texto: movimiento propio, de menos recorrido.
   // Piezas de interfaz que solo se mueven cuando la persona las toca.
   // Micro-interacciones: pequeñas y dirigidas por quien las usa.
@@ -84,4 +81,9 @@ export const META_CASA = {
   cartaMetal: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   // Física propia: cae sola al soltarse, pero la frase es texto del DOM, hay botón y con el dial a cero no cae.
   textoCae: { arquetipos: ['marca-creativa', 'portfolio', 'evento'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
+  // Piezas de lienzo propias: el lienzo va oculto a los lectores, el texto va fuera de él o
+  // el contenedor es una imagen con su nombre, y con el dial a cero se dibuja un fotograma.
+  resplandorAscii: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'alto', cumpleDial: true, a11y: 'decorativo' },
+  ondasPuntos: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'alto', cumpleDial: true, a11y: 'ok' },
+  mallaElastica: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'decorativo' },
 }

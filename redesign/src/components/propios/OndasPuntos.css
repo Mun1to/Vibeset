@@ -1,0 +1,19 @@
+/* Estilos de las ondas de puntos, una pieza PROPIA del catálogo de Vibeset (MIT). Un archivo
+   por pieza para que se pueda copiar sola. El color de los puntos va por la prop `color`; el
+   fondo es el del sitio donde se use (transparente). */
+
+.op {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 10rem;
+  overflow: hidden;
+}
+
+.op-lienzo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}

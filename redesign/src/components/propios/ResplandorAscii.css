@@ -1,0 +1,36 @@
+/* Estilos del resplandor de letras, una pieza PROPIA del catálogo de Vibeset (MIT). Un
+   archivo por pieza para que se pueda copiar sola. Fondo oscuro siempre. */
+
+.ra {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  min-height: 12rem;
+  overflow: hidden;
+  background: #0e0f11;
+  color: #f4f6f8;
+}
+
+/* El lienzo cubre la caja y va detrás: no recibe nada, y el contenido manda. */
+.ra-lienzo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ra-contenido {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  text-align: center;
+  /* El halo oscuro detrás de las letras del contenido: sin él, el texto sobre la parte más
+     clara del campo pierde contraste. */
+  text-shadow: 0 0 14px #0e0f11, 0 1px 3px #0e0f11;
+}

@@ -214,7 +214,9 @@ for (const c of COMPONENT_ITEMS.filter((x) => x.origin === 'propio' && x.clase =
   await ir(`/components/${slugClave(c.key)}`)
   await esperar(500)
   const dentro = await ev(`(() => { const d = document.querySelector('main .bg-zinc-950'); return d ? d.querySelectorAll('*').length : 0 })()`)
-  comprobar(`pieza propia ${c.key}: su demo se pinta`, dentro > 3, `${dentro} elementos`)
+  // Una pieza de lienzo es marco, contenedor y canvas: tres elementos. Por debajo de eso
+  // la demo no se ha montado (se queda el marco vacío o el aviso de «cargando»).
+  comprobar(`pieza propia ${c.key}: su demo se pinta`, dentro >= 3, `${dentro} elementos`)
   // Si imita a una pieza de React Bits, su ficha lleva el análisis del original al pie
   // y su comando de instalación: es lo que sustituye a la tarjeta que ya no sale aparte.
   if (c.original) {

@@ -27,4 +27,7 @@ export const DEMOS_PROPIOS = {
   botonCristal: lazy(() => import('./BotonCristal')),
   cartaMetal: lazy(() => import('./CartaMetal')),
   textoCae: lazy(() => import('./TextoCae')),
+  resplandorAscii: lazy(() => import('./ResplandorAscii')),
+  ondasPuntos: lazy(() => import('./OndasPuntos')),
+  mallaElastica: lazy(() => import('./MallaElastica')),
 }
