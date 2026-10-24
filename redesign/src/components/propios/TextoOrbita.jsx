@@ -19,7 +19,9 @@ import './TextoOrbita.css'
 //      trazo cerrado no da la vuelta por sí mismo: lo que se pasa del final se corta.
 //   3. En la ONDA, que es un trazo abierto, se mueve el comienzo del texto
 //      (`startOffset`) de 0 a -(una copia) y se vuelve a 0. Como cada copia es idéntica, el
-//      salto no se ve. Es el mismo truco de la cinta de logos, doblado sobre una curva.
+//      salto no se ve. Es el mismo truco de la cinta de logos, doblado sobre una curva. La
+//      `curvatura` (de 0 a 20) es cuánto se separan del eje los puntos de control de la curva:
+//      a 0 es una cinta recta, a 10 la onda de siempre y a 20 una ola alta.
 //   4. Lo mueve un solo `requestAnimationFrame` que escribe UN atributo por fotograma, con
 //      el tiempo real entre fotogramas: la velocidad es la misma en una pantalla de 60 Hz
 //      que en una de 144, y si la pestaña se queda dormida no se dispara al volver.
@@ -30,7 +32,15 @@ import './TextoOrbita.css'
 // El dial (`gain`) multiplica la velocidad. A cero el texto queda quieto y legible.
 
 const CIRCULO = 'M 100 100 m -78 0 a 78 78 0 1 1 156 0 a 78 78 0 1 1 -156 0'
-const ONDA = 'M 0 62 C 90 -6 170 130 300 62 S 510 -6 600 62'
+// Cada punto de control se separa del eje (y = 62) 6,8 por cada punto de curvatura: a 10 son los
+// 68 de siempre, o sea -6 y 130.
+const onda = (curvatura) => {
+  // En décimas enteras, para que la división dé siempre un decimal corto y no 12.399999999999999.
+  const a = Math.round(curvatura * 68)
+  const arriba = (620 - a) / 10
+  const abajo = (620 + a) / 10
+  return `M 0 62 C 90 ${arriba} 170 ${abajo} 300 62 S 510 ${arriba} 600 62`
+}
 const LONGITUD_CIRCULO = 2 * Math.PI * 78
 
 const TEXTO = {
@@ -41,6 +51,7 @@ const TEXTO = {
 export default function TextoOrbita({
   texto,
   forma = 'circulo',
+  curvatura = 10,
   separador = ' · ',
   velocidad = 40,
   sentido = 'horario',
@@ -65,7 +76,7 @@ export default function TextoOrbita({
   const [visible, setVisible] = useState(true)
 
   const circulo = forma === 'circulo'
-  const trazo = circulo ? CIRCULO : ONDA
+  const trazo = circulo ? CIRCULO : onda(curvatura)
   const largo = circulo ? LONGITUD_CIRCULO : 660 // la onda mide un poco más que su ancho
   const copiaTexto = `${texto}${separador}`
 

@@ -520,10 +520,10 @@ export const PROPIOS_NUEVOS = [
       en: 'a phrase that runs around a circle or a wave with no visible seam',
     },
     desc: {
-      es: 'Un sello giratorio o una cinta ondulada con el lema de la marca. El texto va sobre un trazo de SVG y se mueve por él en bucle. La parte difícil es que no se note dónde acaba y empieza, y se resuelve midiendo, no suponiendo: se mide una copia del texto y se repite hasta llenar el trazo, así que otra tipografía o una frase más larga rehacen las cuentas solas. En el círculo, el texto se estira hasta la circunferencia y gira el grupo entero, porque un texto sobre un trazo cerrado no da la vuelta por sí mismo. En la onda se mueve el comienzo del texto de 0 a una copia y se vuelve a 0, el mismo truco de la cinta de logos doblado sobre una curva. Lo mueve un solo requestAnimationFrame con el tiempo real entre fotogramas, y es una imagen con su aria-label para que un lector la lea entera una vez.',
-      en: 'A rotating badge or a wavy ribbon with the brand tagline. The text sits on an SVG path and moves along it in a loop. The hard part is making the seam invisible, and it is solved by measuring, not assuming: one copy of the text is measured and repeated until it fills the path, so another typeface or a longer phrase redoes the sums on its own. On the circle, the text is stretched to the circumference and the whole group rotates, because text on a closed path does not wrap by itself. On the wave the start of the text moves from 0 to one copy and back to 0, the same trick as the logo ribbon folded onto a curve. A single requestAnimationFrame drives it with the real time between frames, and it is an image with its aria-label so a reader reads it once, whole.',
+      es: 'Un sello giratorio o una cinta ondulada con el lema de la marca. El texto va sobre un trazo de SVG y se mueve por él en bucle. La parte difícil es que no se note dónde acaba y empieza, y se resuelve midiendo, no suponiendo: se mide una copia del texto y se repite hasta llenar el trazo, así que otra tipografía o una frase más larga rehacen las cuentas solas. En el círculo, el texto se estira hasta la circunferencia y gira el grupo entero, porque un texto sobre un trazo cerrado no da la vuelta por sí mismo. En la onda se mueve el comienzo del texto de 0 a una copia y se vuelve a 0, el mismo truco de la cinta de logos doblado sobre una curva (la curvatura, de 0 a 20, decide cuánto sube y baja: a 0 es una cinta recta). Lo mueve un solo requestAnimationFrame con el tiempo real entre fotogramas, y es una imagen con su aria-label para que un lector la lea entera una vez.',
+      en: 'A rotating badge or a wavy ribbon with the brand tagline. The text sits on an SVG path and moves along it in a loop. The hard part is making the seam invisible, and it is solved by measuring, not assuming: one copy of the text is measured and repeated until it fills the path, so another typeface or a longer phrase redoes the sums on its own. On the circle, the text is stretched to the circumference and the whole group rotates, because text on a closed path does not wrap by itself. On the wave the start of the text moves from 0 to one copy and back to 0, the same trick as the logo ribbon folded onto a curve (the curviness, from 0 to 20, sets how much it rises and falls: at 0 it is a straight ribbon). A single requestAnimationFrame drives it with the real time between frames, and it is an image with its aria-label so a reader reads it once, whole.',
     },
-    defaults: { forma: 'circulo', velocidad: 40, sentido: 'horario', contorno: false, botonPausa: true, gain: 1 },
+    defaults: { forma: 'circulo', curvatura: 10, velocidad: 40, sentido: 'horario', contorno: false, botonPausa: true, gain: 1 },
     controls: [
       {
         key: 'forma', type: 'select', label: { es: 'Forma', en: 'Shape' },
@@ -532,6 +532,7 @@ export const PROPIOS_NUEVOS = [
           { value: 'onda', label: { es: 'Onda', en: 'Wave' } },
         ],
       },
+      { key: 'curvatura', type: 'range', min: 0, max: 20, step: 1, label: { es: 'Curvatura de la onda', en: 'Wave curviness' } },
       { key: 'velocidad', type: 'range', min: 5, max: 160, step: 5, label: { es: 'Velocidad (px/s)', en: 'Speed (px/s)' } },
       {
         key: 'sentido', type: 'select', label: { es: 'Sentido', en: 'Direction' },
