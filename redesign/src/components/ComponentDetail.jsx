@@ -69,7 +69,9 @@ export default function ComponentDetail({ t, lang, item, values, onChange, onRes
             <div className="text-sm text-tinta-suave mt-3">{t.compOwn}</div>
           )}
 
-          <div className="relative h-[420px] min-[1500px]:h-[540px] overflow-hidden bg-zinc-950 border border-linea mt-8">
+          {/* `data-demo`: el escenario es contenido del catálogo y no interfaz de Vibeset, como en la
+              tarjeta de la sección; el auditor lo salta (src/kitchen/medir.js). */}
+          <div data-demo className="relative h-[420px] min-[1500px]:h-[540px] overflow-hidden bg-zinc-950 border border-linea mt-8">
             <ComponentDemo item={item} values={values} lang={lang} t={t} />
           </div>
           {needsHtmlInCanvas && !htmlInCanvas && (
