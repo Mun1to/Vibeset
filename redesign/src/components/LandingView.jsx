@@ -66,17 +66,10 @@ export default function LandingView({ t, lang, onQuiz, totals }) {
           Los nudos van solo en el hero: marcarlos en las tres los convertiría en
           un patrón de fondo y dejarían de señalar nada. */}
       <Banda>
-        {/* Aquí ya no hay `overflow-hidden`. Recortaba las cruces, que sobresalen
-            media cruz del canal a propósito; el resplandor es `inset-0` y no se
-            sale por su cuenta. */}
+        {/* Aquí no hay `overflow-hidden`: recortaría las cruces, que sobresalen
+            media cruz del canal a propósito. */}
         <Canal nudos>
           <section className="relative px-6 sm:px-10 py-16 sm:py-24">
-            {/* Un solo resplandor, sin mezcla de capas. Antes había tres (dos
-                radiales, rejilla de puntos y grano) con mix-blend-overlay, que se
-                anulaban entre ellas: el fondo salía negro plano en oscuro y
-                blanco plano en claro, o sea trabajo de pintado para cero píxeles. */}
-            <div className="absolute inset-0 -z-10 pointer-events-none resplandor" />
-
             <div className="relative grid lg:grid-cols-[1.05fr_.95fr] gap-14 items-center">
               <div>
                 <motion.div {...aparece()} className="text-zinc-900 dark:text-white mb-7">
