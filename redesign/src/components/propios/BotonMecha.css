@@ -1,0 +1,119 @@
+/* Estilos del botón con mecha de deshacer, una pieza PROPIA del catálogo de Vibeset (MIT).
+   Un archivo por pieza para que se pueda copiar sola. Superficie oscura siempre: tonos
+   literales. Lo que queda de cuenta llega por `--fm-p` (de 1 a 0). */
+
+.fm {
+  display: inline-block;
+  width: min(100%, 20rem);
+}
+
+.fm-caja {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+  overflow: hidden;
+  border: 1px solid #3a3d44;
+  background: #17181a;
+}
+
+.fm-boton {
+  flex: 1;
+  align-self: stretch;
+  min-height: 3rem;
+  padding: 0 1.25rem;
+  border: 0;
+  background: none;
+  color: #f4f6f8;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.fm-boton:hover { background: #1f2126 }
+.fm-boton:focus-visible { outline: 2px solid #60a5fa; outline-offset: -4px }
+
+/* Durante la cuenta: el texto a un lado y «Deshacer» al otro. */
+.fm-cuenta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.4rem 0.5rem 0.55rem 1rem;
+  box-sizing: border-box;
+}
+
+.fm-texto { display: inline-flex; align-items: baseline; gap: 0.6rem; font-size: 0.9rem; color: #d7dbe0 }
+.fm-seg { font-variant-numeric: tabular-nums; color: #fbbf24; font-weight: 700 }
+
+.fm-deshacer {
+  min-height: 2.25rem;
+  padding: 0 0.85rem;
+  border: 1px solid #5a5e67;
+  background: transparent;
+  color: #f4f6f8;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fm-deshacer:hover { background: #26282d }
+.fm-deshacer:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px }
+
+.fm-resultado { padding: 0 1.25rem; font-weight: 600; color: #86efac }
+.fm--deshecho .fm-resultado { color: #d7dbe0 }
+
+/* La mecha: la pista apagada y, encima, lo que queda de llama. La chispa va en la punta. */
+.fm-mecha {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: #2a2c30;
+}
+
+.fm--arriba .fm-mecha { top: 0; bottom: auto }
+
+.fm-llama {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(var(--fm-p) * 100%);
+  background: #fbbf24;
+}
+
+.fm-chispa {
+  position: absolute;
+  top: -3px;
+  left: calc(var(--fm-p) * 100%);
+  width: 9px;
+  height: 9px;
+  margin-left: -4px;
+  background: #fff;
+  box-shadow: 0 0 8px 2px #fb923c;
+  animation: fm-chispa 0.18s steps(2) infinite;
+}
+
+@keyframes fm-chispa {
+  0% { transform: scale(1) rotate(0) }
+  100% { transform: scale(1.35) rotate(45deg) }
+}
+
+/* Dial a cero: la chispa no parpadea. La mecha sigue consumiéndose: es la cuenta. */
+.fm--quieto .fm-chispa { animation: none }
+
+/* El texto que se anuncia: para lectores, no para la vista. */
+.fm-aviso {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

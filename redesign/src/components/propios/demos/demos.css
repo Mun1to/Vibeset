@@ -92,6 +92,26 @@
 
 .pd-compacto .pd-lista { gap: 0.35rem; font-size: 0.8rem }
 
+/* La demo de la mira ocupa todo el escenario, porque la mira recorre una zona. */
+.pd-mira { box-sizing: border-box; width: 100%; height: 100%; display: grid; align-content: center; gap: 0.75rem; padding: 1.25rem }
+.pd-compacto .pd-mira { padding: 0.75rem }
+
+.pd-mira-rejilla { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem }
+
+.pd-mira-caja {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #2a2c30;
+  background: #14151a;
+}
+
+.pd-compacto .pd-mira-caja { padding: 0.45rem 0.6rem }
+.pd-mira-nombre { font-size: 0.9rem; font-weight: 700 }
+.pd-mira-cuenta { font-size: 0.78rem; color: #a8adb6 }
+.pd-mira-nota { justify-self: center }
+
 .pd-nota {
   margin: 0;
   max-width: 34rem;

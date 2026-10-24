@@ -1,0 +1,54 @@
+/* Estilos del selector de goma, una pieza PROPIA del catálogo de Vibeset (MIT). Un archivo
+   por pieza para que se pueda copiar sola. Superficie oscura siempre: tonos literales.
+   La posición, la anchura y la deformación de la pieza las escribe el `.jsx` en su
+   `style`; aquí solo se dibuja. */
+
+.sg {
+  position: relative;
+  display: inline-flex;
+  padding: 0.25rem;
+  border: 1px solid #3a3d44;
+  background: #17181a;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sg--arrastrable { touch-action: pan-y }
+
+/* La pieza va detrás de las opciones y no participa del reparto: es la que se mueve. */
+.sg-pieza {
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  left: 0;
+  width: 0;
+  background: #33363d;
+  border: 1px solid #5a5e67;
+  box-sizing: border-box;
+  pointer-events: none;
+  will-change: transform, width;
+}
+
+/* Los textos siempre claros: la pieza es oscura, así que la opción activa no tiene que
+   cambiar de color a mitad de un viaje en el que la pieza aún no ha llegado. */
+.sg-opcion {
+  position: relative;
+  min-height: 2.25rem;
+  padding: 0 1.1rem;
+  border: 0;
+  background: none;
+  color: #a8adb6;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.sg-opcion:hover { color: #d7dbe0 }
+.sg-opcion[aria-checked='true'] { color: #fff }
+.sg-opcion:focus-visible { outline: 2px solid #60a5fa; outline-offset: -2px }
+
+/* Todas las opciones del mismo ancho: se lee como un conjunto y la pieza cambia menos. */
+.sg--igual .sg-opcion { flex: 1 1 0; min-width: 5.5rem }

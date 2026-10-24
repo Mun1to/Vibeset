@@ -52,13 +52,9 @@ export const META_CASA = {
   shapeWaves: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
   fallingText: { arquetipos: ['marca-creativa', 'portfolio'], costeMovimiento: 'alto', cumpleDial: false, a11y: 'requiere-refuerzo' },
   // Puntero y texto: movimiento propio, de menos recorrido.
-  crosshair: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'decorativo' },
   // Piezas de interfaz que solo se mueven cuando la persona las toca.
   specularButton: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
   // Micro-interacciones: pequeñas y dirigidas por quien las usa.
-  thoughtLine: { arquetipos: ['saas'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
-  rubberSegment: { arquetipos: ['saas', 'marca-creativa', 'portfolio'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
-  fuseButton: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
 
   // --- Piezas propias que sustituyen a una ficha de análisis (componentsPropios.js).
   // Aquí SÍ se ha probado, no solo leído: todas traen el dial (`gain`), y lo que dicen
@@ -82,4 +78,9 @@ export const META_CASA = {
   // Cambian de palabra y giran solos, pero se paran (botón, fuera de pantalla) y llevan su texto en el DOM.
   panelFichas: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
   textoOrbita: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
+  selectorGoma: { arquetipos: ['saas', 'marca-creativa', 'portfolio'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  lineaPensando: { arquetipos: ['saas'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  botonMecha: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  // Solo se mueve con el ratón y es adorno: no cuenta para nada que dependa de ella.
+  miraCursor: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'decorativo' },
 }

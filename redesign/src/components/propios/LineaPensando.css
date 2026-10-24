@@ -1,0 +1,147 @@
+/* Estilos de la línea de «pensando», una pieza PROPIA del catálogo de Vibeset (MIT). Un
+   archivo por pieza para que se pueda copiar sola. Superficie oscura siempre: tonos
+   literales. El ritmo del latido llega por `--lp-latido`. */
+
+.lp {
+  width: min(100%, 26rem);
+  color: #d7dbe0;
+}
+
+.lp-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0 0.75rem;
+  border: 1px solid #2a2c30;
+  background: #14151a;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.lp-cabecera:disabled { cursor: default }
+.lp-cabecera:not(:disabled):hover { background: #1b1d22 }
+.lp-cabecera:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px }
+
+.lp-glifo { display: grid; place-items: center; width: 1.25rem; flex: none; color: #a8adb6 }
+.lp--hecho .lp-glifo { color: #4ade80 }
+
+.lp-estado { flex: 1; min-width: 0 }
+.lp-frase { font-size: 0.95rem; font-weight: 600 }
+
+/* El texto respira: una banda de luz que lo cruza despacio. Si el navegador no recorta el
+   fondo con el texto, se queda en su color y sigue siendo legible. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .lp-respira {
+    color: transparent;
+    background-image: linear-gradient(100deg, #8b919b 35%, #fff 50%, #8b919b 65%);
+    background-size: 250% 100%;
+    background-repeat: repeat-x;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: lp-brillo var(--lp-latido) linear infinite;
+  }
+}
+
+@keyframes lp-brillo {
+  from { background-position: 125% 0 }
+  to { background-position: -25% 0 }
+}
+
+.lp-tiempo {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 0.8rem;
+  color: #a8adb6;
+  font-variant-numeric: tabular-nums;
+}
+
+.lp-flecha { flex: none; color: #8b919b; transition: transform 0.2s }
+.lp-cabecera[aria-expanded='true'] .lp-flecha { transform: rotate(90deg) }
+
+/* Plegable con una rejilla de 0fr a 1fr, y oculta del todo al terminar de cerrarse. */
+.lp-caja {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.lp-caja[data-abierto='true'] {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition: grid-template-rows 0.25s ease, visibility 0s;
+}
+
+.lp-pasos {
+  min-height: 0;
+  margin: 0;
+  padding: 0 0.75rem;
+  overflow: hidden;
+  list-style: none;
+  border-inline: 1px solid #2a2c30;
+}
+
+.lp-caja[data-abierto='true'] .lp-pasos { padding-block: 0.6rem; border-bottom: 1px solid #2a2c30 }
+
+.lp-paso {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.18rem 0;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: #b4b9c2;
+}
+
+.lp-marca { flex: none; width: 0.4rem; height: 0.4rem; background: #4a4e57; transform: translateY(-0.1rem) }
+.lp-paso--curso { color: #f4f6f8 }
+.lp-paso--curso .lp-marca { background: #60a5fa; animation: lp-pulso var(--lp-latido) ease-in-out infinite }
+
+@keyframes lp-pulso {
+  0%, 100% { opacity: 1 }
+  50% { opacity: 0.3 }
+}
+
+/* Los tres glifos: puntos que saltan, barras que suben y bajan, un cursor que parpadea. */
+.lp-puntos { display: inline-flex; gap: 0.15rem }
+.lp-puntos i { width: 0.28rem; height: 0.28rem; background: currentColor; animation: lp-salta var(--lp-latido) ease-in-out infinite }
+.lp-puntos i:nth-child(2) { animation-delay: calc(var(--lp-latido) * 0.12) }
+.lp-puntos i:nth-child(3) { animation-delay: calc(var(--lp-latido) * 0.24) }
+
+@keyframes lp-salta {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5 }
+  30% { transform: translateY(-0.25rem); opacity: 1 }
+}
+
+.lp-barras { display: inline-flex; align-items: flex-end; gap: 0.12rem; height: 0.9rem }
+.lp-barras i { width: 0.2rem; height: 100%; background: currentColor; transform-origin: bottom; animation: lp-sube var(--lp-latido) ease-in-out infinite }
+.lp-barras i:nth-child(2) { animation-delay: calc(var(--lp-latido) * 0.15) }
+.lp-barras i:nth-child(3) { animation-delay: calc(var(--lp-latido) * 0.3) }
+
+@keyframes lp-sube {
+  0%, 100% { transform: scaleY(0.35) }
+  50% { transform: scaleY(1) }
+}
+
+.lp-cursor { width: 0.5rem; height: 1rem; background: currentColor; animation: lp-parpadea calc(var(--lp-latido) * 0.45) steps(1) infinite }
+
+@keyframes lp-parpadea { 50% { opacity: 0 } }
+
+/* Dial a cero: ni brillo ni glifos que se muevan. El cronómetro sigue contando. */
+.lp--quieto .lp-respira,
+.lp--quieto .lp-puntos i,
+.lp--quieto .lp-barras i,
+.lp--quieto .lp-cursor,
+.lp--quieto .lp-paso--curso .lp-marca { animation: none }
+
+.lp--quieto .lp-respira { color: #d7dbe0; background: none }
+.lp--quieto .lp-caja,
+.lp--quieto .lp-flecha { transition: none }
+
+@media (forced-colors: active) {
+  .lp-respira { color: CanvasText; background: none; animation: none }
+}
