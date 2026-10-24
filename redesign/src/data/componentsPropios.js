@@ -974,16 +974,24 @@ export const PROPIOS_NUEVOS = [
     deps: [],
     labels: ['WebGL', 'shader propio', 'sin dependencias', 'se pausa'],
     tag: {
-      es: 'un texto hecho de metal líquido, con relieve inventado desde la propia forma',
-      en: 'a text made of liquid metal, with relief invented from its own shape',
+      es: 'un logo o un texto hecho de metal líquido, con relieve inventado desde la propia forma',
+      en: 'a logo or a text made of liquid metal, with relief invented from its own shape',
     },
     desc: {
-      es: 'Un titular que parece mercurio: superficie cromada con bandas que fluyen, reflejos que se mueven con la luz (la mueve el puntero) y un borde ligeramente irisado. Se consigue sin un modelo 3D: la forma sale de dibujar el texto en un lienzo 2D y subirlo como textura; el relieve se inventa desde esa máscara, desenfocándola con nueve muestras para tener una colina suave y sacando de la pendiente una normal falsa, como un bajorrelieve redondeado; y el metal son tres cosas encima: una banda que fluye siguiendo el relieve, un reflejo especular que depende de la luz y un desfase distinto por canal de color (la dispersión) que irisa el borde. La salida es transparente fuera de las letras, con alfa premultiplicado. El contenedor es una imagen con el texto por nombre, porque al dibujarlo en un lienzo deja de ser texto para el navegador; sin WebGL queda el texto normal.',
-      en: 'A headline that looks like mercury: chrome surface with flowing bands, reflections that move with the light (the pointer moves it) and a slightly iridescent edge. It is done without a 3D model: the shape comes from drawing the text on a 2D canvas and uploading it as a texture; the relief is invented from that mask, blurring it with nine samples to get a soft hill and taking a fake normal from the slope, like a rounded bas-relief; and the metal is three things on top: a band that flows following the relief, a specular reflection that depends on the light and a different phase offset per colour channel (dispersion) that irises the edge. The output is transparent outside the letters, with premultiplied alpha. The container is an image named by the text, because drawing it on a canvas stops it being text to the browser; without WebGL the plain text remains.',
+      es: 'Un logo o un titular que parece mercurio: superficie cromada con bandas que fluyen, reflejos que se mueven con la luz (la mueve el puntero) y un borde ligeramente irisado. Se consigue sin un modelo 3D: la forma sale de dibujar el texto, o un trazo SVG como el logo de Vibeset, en un lienzo 2D y subirlo como textura; el relieve se inventa desde esa máscara, desenfocándola con nueve muestras para tener una colina suave y sacando de la pendiente una normal falsa, como un bajorrelieve redondeado (la suavidad es cuánto se desenfoca: poca da un bisel estrecho, mucha una colina blanda); y el metal son tres cosas encima: una banda que fluye siguiendo el relieve, un reflejo especular que depende de la luz y un desfase distinto por canal de color (la dispersión) que irisa el borde. La salida es transparente fuera de la forma, con alfa premultiplicado. El contenedor es una imagen con el texto (o el nombre del logo) por nombre, porque al dibujarlo en un lienzo deja de ser texto para el navegador; sin WebGL queda el texto normal o el trazo en plano.',
+      en: 'A logo or a headline that looks like mercury: chrome surface with flowing bands, reflections that move with the light (the pointer moves it) and a slightly iridescent edge. It is done without a 3D model: the shape comes from drawing the text, or an SVG path like the Vibeset logo, on a 2D canvas and uploading it as a texture; the relief is invented from that mask, blurring it with nine samples to get a soft hill and taking a fake normal from the slope, like a rounded bas-relief (softness is how much it is blurred: low gives a narrow bevel, high a soft hill); and the metal is three things on top: a band that flows following the relief, a specular reflection that depends on the light and a different phase offset per colour channel (dispersion) that irises the edge. The output is transparent outside the shape, with premultiplied alpha. The container is an image named by the text (or the logo name), because drawing it on a canvas stops it being text to the browser; without WebGL the plain text or the flat path remains.',
     },
-    defaults: { distorsion: 1, brillo: 1, dispersion: 1, velocidad: 1, gain: 1 },
+    defaults: { figura: 'logo', distorsion: 1, brillo: 1, suavidad: 0.81, dispersion: 1, velocidad: 1, gain: 1 },
     controls: [
+      {
+        key: 'figura', type: 'select', soloDemo: true, label: { es: 'Qué se pinta', en: 'What is painted' },
+        options: [
+          { value: 'logo', label: { es: 'Logo de Vibeset', en: 'Vibeset logo' } },
+          { value: 'texto', label: { es: 'Texto', en: 'Text' } },
+        ],
+      },
       { key: 'distorsion', type: 'range', min: 0.2, max: 2.5, step: 0.05, label: { es: 'Relieve', en: 'Relief' } },
+      { key: 'suavidad', type: 'range', min: 0, max: 1, step: 0.01, label: { es: 'Suavidad del relieve', en: 'Relief softness' } },
       { key: 'brillo', type: 'range', min: 0, max: 2, step: 0.05, label: { es: 'Brillo del reflejo', en: 'Reflection sheen' } },
       { key: 'dispersion', type: 'range', min: 0, max: 3, step: 0.1, label: { es: 'Dispersión de color', en: 'Colour dispersion' } },
       { key: 'velocidad', type: 'range', min: 0, max: 4, step: 0.1, label: { es: 'Velocidad del flujo', en: 'Flow speed' } },

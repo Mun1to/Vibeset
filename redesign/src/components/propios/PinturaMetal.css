@@ -31,3 +31,11 @@
   letter-spacing: -0.02em;
   color: #c9ced6;
 }
+
+/* El trazo en plano llena la caja con un poco de aire, no el tamaño de letra de arriba. */
+svg.pm-alternativa {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 10%;
+}

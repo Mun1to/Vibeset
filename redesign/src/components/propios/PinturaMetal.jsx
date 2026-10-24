@@ -13,13 +13,16 @@ import './PinturaMetal.css'
 //
 // Cómo se consigue sin un modelo 3D:
 //
-//   1. La FORMA sale de dibujar el texto en un lienzo 2D y subirlo como textura: lo que es
-//      letra vale 1, lo demás 0. Cualquier tipografía y cualquier texto, y con una imagen
-//      sería lo mismo. De esa máscara sale todo.
+//   1. La FORMA sale de dibujar el texto, o un trazo SVG (`trazo` con su `vista`, como el
+//      logo de Vibeset), en un lienzo 2D y subirlo como textura: lo que es relleno vale 1, lo
+//      demás 0. Cualquier tipografía y cualquier texto, o cualquier silueta con su caja. De
+//      esa máscara sale todo.
 //   2. El RELIEVE se inventa desde la máscara. Se desenfoca mucho (nueve muestras con un
 //      radio grande) para que sea una colina suave y no un escalón, y de la diferencia
 //      entre dos puntos vecinos sale la pendiente, y de la pendiente una normal falsa: como
 //      si las letras fueran un bajorrelieve redondeado. Es lo que da el aspecto de volumen.
+//      La `suavidad` (de 0 a 1) es cuánto se desenfoca: poca da un bisel estrecho y marcado,
+//      mucha una colina ancha y blanda.
 //   3. El METAL son tres cosas encima: una banda que fluye (ruido que se deforma con la
 //      propia normal, para que el flujo siga el relieve), un reflejo especular que depende
 //      de dónde está la luz, y un desfase de fase distinto por canal de color (la
@@ -27,8 +30,9 @@ import './PinturaMetal.css'
 //   4. La salida es transparente fuera de las letras, con alfa premultiplicado: el metal se
 //      pone sobre lo que haya detrás sin recuadro.
 //   5. Como pasa con todo lo que dibuja un texto en un lienzo, el texto deja de ser texto para
-//      el navegador: el contenedor es una imagen con el texto por nombre. El bucle para
-//      fuera de pantalla, el dial a cero deja un fotograma, y sin WebGL queda el texto normal.
+//      el navegador: el contenedor es una imagen con el texto por nombre (o con `nombre`, si
+//      lo que se pinta es un trazo, que no tiene texto). El bucle para fuera de pantalla, el
+//      dial a cero deja un fotograma, y sin WebGL queda el texto normal o el trazo plano.
 //
 // El dial (`gain`) multiplica el flujo y la velocidad con que la luz sigue al puntero.
 
@@ -40,6 +44,7 @@ uniform vec2 uLuz;
 uniform float uDistor;
 uniform float uBrillo;
 uniform float uDisp;
+uniform float uSesgo;
 
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -86,13 +91,15 @@ void main() {
   // Dos desenfoques, uno ajustado al borde y otro ancho, sumados: el bisel llega más adentro
   // de la letra y el centro de los trazos gruesos no se queda plano del todo.
   float e = 4.0 / uRes.y;
+  float s1 = uSesgo;
+  float s2 = uSesgo + 2.5;
   vec2 g1 = vec2(
-    alto(uv + vec2(e, 0.0), 4.0) - alto(uv - vec2(e, 0.0), 4.0),
-    alto(uv + vec2(0.0, e), 4.0) - alto(uv - vec2(0.0, e), 4.0)
+    alto(uv + vec2(e, 0.0), s1) - alto(uv - vec2(e, 0.0), s1),
+    alto(uv + vec2(0.0, e), s1) - alto(uv - vec2(0.0, e), s1)
   );
   vec2 g2 = vec2(
-    alto(uv + vec2(e, 0.0), 6.5) - alto(uv - vec2(e, 0.0), 6.5),
-    alto(uv + vec2(0.0, e), 6.5) - alto(uv - vec2(0.0, e), 6.5)
+    alto(uv + vec2(e, 0.0), s2) - alto(uv - vec2(e, 0.0), s2),
+    alto(uv + vec2(0.0, e), s2) - alto(uv - vec2(0.0, e), s2)
   );
   vec2 g = (g1 + 0.9 * g2) / (2.0 * e) / 55.0;
   vec3 n = normalize(vec3(-g * uDistor, 1.0));
@@ -120,8 +127,12 @@ void main() {
 
 export default function PinturaMetal({
   texto,
+  trazo,
+  vista = '0 0 512 512',
+  nombre,
   distorsion = 1,
   brillo = 1,
+  suavidad = 0.81,
   dispersion = 1,
   velocidad = 1,
   gain = 1,
@@ -134,7 +145,7 @@ export default function PinturaMetal({
   const pantalla = useRef(null)
   const luz = useRef({ x: 0.35, y: 0.3, tx: 0.35, ty: 0.3 })
   const par = useRef({})
-  par.current = { distorsion, brillo, dispersion, velocidad, g }
+  par.current = { distorsion, brillo, suavidad, dispersion, velocidad, g }
   const [caja, visible] = useCaja(raiz)
   const [fallo, setFallo] = useState(false)
   const [reinicio, setReinicio] = useState(0)
@@ -155,20 +166,30 @@ export default function PinturaMetal({
     cv.width = Math.round(caja.w * dpr)
     cv.height = Math.round(caja.h * dpr)
 
-    // Punto 1: el texto, dibujado en blanco sobre transparente, es la máscara.
+    // Punto 1: el texto o el trazo, dibujado en blanco sobre transparente, es la máscara.
     const m = document.createElement('canvas')
     m.width = cv.width
     m.height = cv.height
     const c = m.getContext('2d')
-    const familia = "'Inter', system-ui, sans-serif"
-    c.font = `900 100px ${familia}`
-    const medido = c.measureText(texto).width || 1
-    const fs = Math.min((100 * m.width * 0.86) / medido, m.height * 0.72)
-    c.font = `900 ${fs}px ${familia}`
-    c.textAlign = 'center'
-    c.textBaseline = 'middle'
     c.fillStyle = '#fff'
-    c.fillText(texto, m.width / 2, m.height / 2 + fs * 0.04)
+    if (trazo) {
+      // Se escala a lo que cabe, dejando un quinto de aire, y se centra por su caja. El relleno
+      // es par-impar, que es como se dibuja el logo en SVG: así conserva sus huecos.
+      const [vx, vy, vw, vh] = vista.trim().split(/\s+/).map(Number)
+      const esc = Math.min((m.width * 0.8) / vw, (m.height * 0.8) / vh)
+      c.translate(m.width / 2 - (vx + vw / 2) * esc, m.height / 2 - (vy + vh / 2) * esc)
+      c.scale(esc, esc)
+      c.fill(new Path2D(trazo), 'evenodd')
+    } else {
+      const familia = "'Inter', system-ui, sans-serif"
+      c.font = `900 100px ${familia}`
+      const medido = c.measureText(texto).width || 1
+      const fs = Math.min((100 * m.width * 0.86) / medido, m.height * 0.72)
+      c.font = `900 ${fs}px ${familia}`
+      c.textAlign = 'center'
+      c.textBaseline = 'middle'
+      c.fillText(texto, m.width / 2, m.height / 2 + fs * 0.04)
+    }
 
     const p = crearPantalla(cv, FRAGMENTO)
     if (!p) {
@@ -198,7 +219,7 @@ export default function PinturaMetal({
       p.liberar()
       cv.remove()
     }
-  }, [caja, texto, fuentes, reinicio])
+  }, [caja, texto, trazo, vista, fuentes, reinicio])
 
   const pintar = (t) => {
     const p = pantalla.current
@@ -214,6 +235,9 @@ export default function PinturaMetal({
       uDistor: a.distorsion,
       uBrillo: a.brillo,
       uDisp: a.dispersion,
+      // De la suavidad (0 a 1) al nivel de desenfoque que se le pide a la textura. El valor por
+      // defecto (0,81) cae en 4, que es el desenfoque con el que se ajustó el aspecto.
+      uSesgo: 0.6 + a.suavidad * 4.2,
     })
     p.dibujar()
   }
@@ -232,7 +256,7 @@ export default function PinturaMetal({
     id = requestAnimationFrame(bucle)
     return () => cancelAnimationFrame(id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fallo, caja, visible, g, reinicio, fuentes, texto])
+  }, [fallo, caja, visible, g, reinicio, fuentes, texto, trazo, vista])
 
   const alMover = (e) => {
     if (e.pointerType !== 'mouse' || g === 0) return
@@ -246,13 +270,19 @@ export default function PinturaMetal({
       ref={raiz}
       className={`pm${fallo ? ' pm--fallo' : ''} ${className}`.trim()}
       role="img"
-      aria-label={texto}
+      aria-label={nombre ?? texto}
       onPointerMove={alMover}
       style={style}
     >
       {/* El lienzo lo crea el efecto y lo pone aquí delante; ver más arriba. */}
-      {/* Sin WebGL, el texto de siempre. */}
-      {fallo && <span className="pm-alternativa" aria-hidden="true">{texto}</span>}
+      {/* Sin WebGL, el texto de siempre, o el trazo en plano. */}
+      {fallo && (trazo ? (
+        <svg className="pm-alternativa" viewBox={vista} aria-hidden="true">
+          <path d={trazo} fill="currentColor" fillRule="evenodd" />
+        </svg>
+      ) : (
+        <span className="pm-alternativa" aria-hidden="true">{texto}</span>
+      ))}
     </div>
   )
 }
