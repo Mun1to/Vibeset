@@ -1,0 +1,109 @@
+/* Estilos del botón de «me gusta» con latido, una pieza PROPIA del catálogo de
+   Vibeset (MIT). Un archivo por pieza para que se pueda copiar sola. Superficie
+   oscura siempre: tonos literales. El color del icono llega por `--cl-c`. */
+
+.cl {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0 0.9rem;
+  border: 1px solid #3a3d44;
+  background: #17181a;
+  color: #a8adb6;
+  font: inherit;
+  font-weight: 600;
+  /* Cifras de ancho fijo: el número no tiembla al cambiar. */
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.cl:hover { border-color: #5a5e67; color: #d7dbe0 }
+.cl:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px }
+.cl--marcado { color: #f4f6f8; border-color: var(--cl-c) }
+
+.cl-caja {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+.cl-icono,
+.cl-eco {
+  grid-area: 1 / 1;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.cl-icono { transition: fill 0.2s, stroke 0.2s }
+.cl--marcado .cl-icono { fill: var(--cl-c); stroke: var(--cl-c) }
+
+/* El latido: crece, se encoge un poco de más y se asienta, como un pulso. */
+.cl-late { animation: cl-latido var(--cl-lat) ease-out }
+
+@keyframes cl-latido {
+  0% { transform: scale(1) }
+  28% { transform: scale(1.38) }
+  52% { transform: scale(0.9) }
+  76% { transform: scale(1.08) }
+  100% { transform: scale(1) }
+}
+
+/* El eco solo se ve si se acaba de marcar; al quitar el «me gusta» no se enseña. */
+.cl-eco {
+  stroke: var(--cl-c);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cl--marcado .cl-eco { animation: cl-eco var(--cl-lat) ease-out both }
+
+@keyframes cl-eco {
+  from { transform: scale(1); opacity: 0.8 }
+  to { transform: scale(2); opacity: 0 }
+}
+
+.cl--quieto .cl-late,
+.cl--quieto .cl-eco { animation: none }
+
+/* El rodillo: una ventana de una línea por la que pasa una columna de dos cifras. */
+.cl-rodillo {
+  display: inline-block;
+  height: 1.3em;
+  overflow: hidden;
+  line-height: 1.3em;
+}
+
+.cl-columna { display: flex; flex-direction: column }
+.cl-cifra { display: block; height: 1.3em }
+
+.cl-sube { animation: cl-sube var(--cl-giro) cubic-bezier(0.3, 0.7, 0.2, 1) forwards }
+.cl-baja { animation: cl-baja var(--cl-giro) cubic-bezier(0.3, 0.7, 0.2, 1) forwards }
+
+@keyframes cl-sube {
+  from { transform: translateY(0) }
+  to { transform: translateY(-50%) }
+}
+
+@keyframes cl-baja {
+  from { transform: translateY(-50%) }
+  to { transform: translateY(0) }
+}
+
+.cl-lector {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

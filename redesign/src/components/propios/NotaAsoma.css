@@ -1,0 +1,93 @@
+/* Estilos de la valoración que asoma su etiqueta, una pieza PROPIA del catálogo de
+   Vibeset (MIT). Un archivo por pieza para que se pueda copiar sola. Superficie
+   oscura siempre: tonos literales. El color del icono llega por `--na-c`; la altura
+   a la que se levanta, por `--na-lift`, y el tiempo de los traslados, por `--na-mov`. */
+
+.na {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  /* Sitio para la etiqueta, que asoma por encima de los iconos. */
+  padding-top: 2.1rem;
+}
+
+.na--lectura { padding-top: 0 }
+
+.na-grupo { display: inline-flex; gap: 0.125rem }
+.na--lectura { flex-direction: row; gap: 0.125rem }
+
+.na-boton,
+.na-celda {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #6b7078;
+}
+
+.na-boton { cursor: pointer }
+.na-boton:focus-visible { outline: 2px solid #60a5fa; outline-offset: -2px }
+
+.na-icono {
+  position: relative;
+  display: grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  transition: transform var(--na-mov) cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+.na-icono svg {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke-width: 1.7;
+}
+
+.na-contorno { stroke: currentColor }
+
+/* La copia de arriba: en lectura va recortada a la fracción; en los botones entra y sale. */
+.na-icono .na-lleno { fill: var(--na-c); stroke: var(--na-c) }
+.na-boton .na-lleno { opacity: 0; transition: opacity var(--na-mov) }
+.na-boton.na-on .na-lleno { opacity: 1 }
+
+/* El icono señalado se levanta un poco y crece un poco. */
+.na-arriba .na-icono { transform: translateY(calc(var(--na-lift) * -1)) scale(1.1) }
+
+/* La etiqueta: una sola, anclada al centro del icono señalado. El paso de un icono
+   al siguiente es su ancho más el hueco: 2,25 rem + 0,125 rem. */
+.na-etiqueta {
+  position: absolute;
+  top: 0;
+  left: calc((var(--na-i) - 0.5) * 2.375rem);
+  padding: 0.15rem 0.55rem;
+  background: #f4f6f8;
+  color: #0e0f11;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  transition:
+    left var(--na-mov) cubic-bezier(0.3, 0.7, 0.2, 1),
+    opacity var(--na-mov),
+    transform var(--na-mov);
+}
+
+.na-visible { opacity: 1; transform: translate(-50%, 0) }
+
+.na-lector {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

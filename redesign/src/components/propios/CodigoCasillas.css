@@ -1,0 +1,111 @@
+/* Estilos del campo de código en casillas, una pieza PROPIA del catálogo de Vibeset
+   (MIT). Un archivo por pieza para que se pueda copiar sola. Superficie oscura
+   siempre: tonos literales. Las casillas son dibujo; el campo de verdad es el
+   `<input>` transparente que va encima (ver el punto 1 del `.jsx`). */
+
+.cc {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: min(100%, 22rem);
+}
+
+.cc-fila { position: relative; width: 100% }
+
+.cc-casillas { display: flex; gap: 0.5rem; width: 100% }
+
+.cc-casilla {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 3.6rem;
+  border: 1px solid #3a3d44;
+  background: #17181a;
+  color: #f4f6f8;
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+/* Si el código tiene un número par de cifras, se parte por la mitad: 123 456 se
+   copia y se lee mejor que 123456. */
+.cc-separa { margin-left: 0.75rem }
+
+/* La casilla que espera la siguiente cifra, con su cursor. */
+.cc-activa { border-color: #60a5fa; box-shadow: inset 0 0 0 1px #60a5fa }
+
+.cc-activa::after {
+  content: '';
+  width: 2px;
+  height: 1.8rem;
+  background: #60a5fa;
+  animation: cc-cursor 1s steps(1) infinite;
+}
+
+@keyframes cc-cursor { 50% { opacity: 0 } }
+
+/* El campo real: ocupa toda la fila, por encima, sin verse. A 16px como mínimo,
+   porque iOS amplía la página al enfocar un campo de menos. */
+.cc-campo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font-size: 16px;
+  opacity: 0;
+  cursor: text;
+}
+
+/* El campo no se ve, así que el foco se dibuja alrededor de las casillas. */
+.cc-fila:focus-within .cc-casillas { outline: 1px solid #3b82f6; outline-offset: 6px }
+
+.cc-cifra { display: block }
+.cc-golpe { animation: cc-golpe var(--cc-golpe) cubic-bezier(0.3, 1.6, 0.5, 1) }
+
+@keyframes cc-golpe {
+  from { transform: scale(0.55); opacity: 0.4 }
+  to { transform: scale(1); opacity: 1 }
+}
+
+/* Comprobando: las casillas laten juntas. */
+.cc--verificando .cc-casilla { animation: cc-pulso 1s ease-in-out infinite }
+
+@keyframes cc-pulso {
+  0%, 100% { opacity: 1 }
+  50% { opacity: 0.55 }
+}
+
+.cc--exito .cc-casilla { border-color: #4ade80; color: #4ade80 }
+.cc--error .cc-casilla { border-color: #f87171; color: #f87171 }
+
+.cc--error .cc-casillas { animation: cc-sacude var(--cc-sacude) ease-in-out }
+
+@keyframes cc-sacude {
+  20%, 60% { transform: translateX(-6px) }
+  40%, 80% { transform: translateX(6px) }
+}
+
+.cc-mensaje {
+  min-height: 1.3em;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  color: #a8adb6;
+  text-align: center;
+}
+
+.cc--exito .cc-mensaje { color: #86efac }
+.cc--error .cc-mensaje { color: #fca5a5 }
+
+.cc--quieto .cc-activa::after,
+.cc--quieto .cc-golpe,
+.cc--quieto.cc--verificando .cc-casilla { animation: none }

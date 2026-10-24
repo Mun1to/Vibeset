@@ -63,10 +63,7 @@ export const META_CASA = {
   // Micro-interacciones: pequeñas y dirigidas por quien las usa.
   thoughtLine: { arquetipos: ['saas'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   rubberSegment: { arquetipos: ['saas', 'marca-creativa', 'portfolio'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
-  pulseHeart: { arquetipos: ['ecommerce', 'editorial', 'saas', 'portfolio'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
-  peekRating: { arquetipos: ['ecommerce', 'saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   fuseButton: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
-  codeSlots: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   branchedMenu: { arquetipos: ['saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
 
   // --- Piezas propias que sustituyen a una ficha de análisis (componentsPropios.js).
@@ -80,4 +77,7 @@ export const META_CASA = {
   marcaEstado: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   botonMantener: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   deslizaConfirma: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  corazonLatido: { arquetipos: ['ecommerce', 'editorial', 'saas', 'portfolio'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  notaAsoma: { arquetipos: ['ecommerce', 'saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  codigoCasillas: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
 }

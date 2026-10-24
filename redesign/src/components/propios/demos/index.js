@@ -11,4 +11,7 @@ export const DEMOS_PROPIOS = {
   marcaEstado: lazy(() => import('./MarcaEstado')),
   botonMantener: lazy(() => import('./BotonMantener')),
   deslizaConfirma: lazy(() => import('./DeslizaConfirma')),
+  corazonLatido: lazy(() => import('./CorazonLatido')),
+  notaAsoma: lazy(() => import('./NotaAsoma')),
+  codigoCasillas: lazy(() => import('./CodigoCasillas')),
 }
