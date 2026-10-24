@@ -70,7 +70,7 @@ export default function ControlPanel({ t, lang, controls, values, onChange, onRe
             <Row key={c.key}>
               <button
                 onClick={() => onChange(c.key, !value)}
-                className="flex items-center justify-between gap-3 w-full cursor-pointer group"
+                className="flex items-center justify-between gap-3 w-full min-h-6 cursor-pointer group"
               >
                 <span className="text-sm text-tinta-fuerte group-hover:text-tinta transition-colors">
                   {c.label[lang]}
