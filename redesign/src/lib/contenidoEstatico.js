@@ -21,7 +21,7 @@
 import { LANGUAGES } from '../data/languages.js'
 import { RESOURCES } from '../data/resources.js'
 import { CONCEPTS } from '../data/concepts.js'
-import { COMPONENT_ITEMS, COMPONENT_GROUPS, nombreDe, formatoKb } from '../data/components.js'
+import { COMPONENT_ITEMS, COMPONENT_GROUPS, nombreDe, formatoKb, originalDe } from '../data/components.js'
 import { SKILL_ITEMS } from '../data/skills.js'
 import { CONSEJOS, CONSEJO_GRUPOS } from '../data/consejos.js'
 import { trozosDe } from './marcado.js'
@@ -151,6 +151,18 @@ const analisisReferencia = (c, t, lang) => `
   ].filter(Boolean))}
   <h2>${esc(t.compPrompt)}</h2>${p(c.prompt[lang])}`
 
+// Lo que vimos del original de React Bits cuando la pieza propia se le parece.
+const sobreElOriginal = (c, t, lang) => {
+  const o = originalDe(c)
+  if (!o) return ''
+  return `
+  <h2>${esc(t.compOriginalTitulo(o.name))}</h2>${p(t.compOriginalNota(o.name))}
+  <h3>${esc(t.compCuando)}</h3>${p(o.cuando[lang])}
+  <h3>${esc(t.compCuidado)}</h3>${p(o.cuidado[lang])}
+  <h3>${esc(t.compA11y)}</h3>${p(o.a11y[lang])}
+  ${ul([a(o.url, o.name), `<code>${esc(o.install)}</code>`])}`
+}
+
 const fichaComponente = (c, t, lang) => `
   <h1>${esc(c.name)}</h1>
   ${p(c.desc?.[lang])}
@@ -159,7 +171,8 @@ const fichaComponente = (c, t, lang) => `
     c.url ? a(c.url, 'Documentación original') : '',
   ].filter(Boolean))}
   ${c.clase === 'referencia' ? analisisReferencia(c, t, lang) : ''}
-  ${c.install ? `<h2>Instalación</h2><pre><code>${esc(c.install)}</code></pre>` : ''}`
+  ${c.install ? `<h2>Instalación</h2><pre><code>${esc(c.install)}</code></pre>` : ''}
+  ${sobreElOriginal(c, t, lang)}`
 
 const listaSkills = (t, lang) => `
   <h1>${esc(t.skillsTitle)}</h1>

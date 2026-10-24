@@ -23,7 +23,7 @@
 //     vacío, pero por un motivo distinto y que no es de licencia: esta lib es pura y
 //     no lee del disco. Mientras tanto apunta al archivo en GitHub, que es honesto y
 //     comprobable. Declarar `third-party` sobre código propio sí sería mentir.
-import { COMPONENT_ITEMS } from '../data/components.js'
+import { COMPONENT_ITEMS, originalDe } from '../data/components.js'
 import { SKILL_ITEMS, authorOf, repoOf } from '../data/skills.js'
 import { CONCEPTS } from '../data/concepts.js'
 import { CONSEJOS } from '../data/consejos.js'
@@ -57,6 +57,9 @@ function slug(s) {
 function normalizarComponente(item) {
   const meta = META_CASA[item.key] || {}
   const deLaCasa = item.origin === 'propio'
+  // Una pieza propia puede parecerse a una de React Bits. Se dice, con su enlace y su
+  // comando, pero ni una línea de su código viaja: esto es información sobre el otro.
+  const parecida = originalDe(item)
   return {
     id: `component:${item.key}`,
     source: 'own',
@@ -78,12 +81,15 @@ function normalizarComponente(item) {
     tag: item.tag,
     desc: item.desc,
     licenciaOrigen: item.licenciaOrigen || null,
+    parecida: parecida
+      ? { nombre: parecida.name, url: parecida.url, install: parecida.install, licencia: parecida.licenciaOrigen }
+      : null,
     // El análisis de una ficha de referencia. Es texto nuestro, no del autor.
     analisis: item.clase === 'referencia'
       ? { cuando: item.cuando, cuidado: item.cuidado, a11y: item.a11y, prompt: item.prompt, kb: item.kb, pausa: !!item.pausa }
       : null,
     meta,
-    buscable: juntar(item.key, item.name, item.tag?.es, item.tag?.en, item.desc?.es, item.desc?.en, item.cuando?.es, item.cuando?.en, item.cuidado?.es, item.cuidado?.en, ...(item.labels || []), ...(meta.arquetipos || [])),
+    buscable: juntar(item.key, item.name, item.tag?.es, item.tag?.en, item.desc?.es, item.desc?.en, item.cuando?.es, item.cuando?.en, item.cuidado?.es, item.cuidado?.en, parecida?.name, ...(item.labels || []), ...(meta.arquetipos || [])),
   }
 }
 
@@ -286,6 +292,7 @@ export function itemRegistro(id, lang = 'es') {
         instalacion: x.install ? 'shadcn' : 'manual',
         licencia: x.deLaCasa ? 'MIT' : (x.licenciaOrigen || 'third-party'),
         ...(x.deLaCasa ? { atribucion: ATRIBUCION, codigo: x.fuente } : {}),
+        ...(x.parecida ? { parecidaA: x.parecida } : {}),
         ...(x.analisis
           ? {
               analisis: {

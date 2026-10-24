@@ -8,7 +8,7 @@
 ### Un sitio con todo lo que necesitas para construir en la web
 
 100 lenguajes de programación, 83 herramientas de frontend, 41 técnicas de diseño,
-15 componentes en vivo, 28 fichas de análisis de componentes, 19 skills de agente y 38 consejos,
+18 componentes en vivo, 25 fichas de análisis de componentes, 19 skills de agente y 38 consejos,
 más un servidor MCP para agentes. Gratis, bilingüe, sin registro y sin rastreo.
 
 <a href="https://vibeset.dev">
@@ -52,17 +52,18 @@ tipografía e inspiración.
 glassmorphism, View Transitions, container queries, Core Web Vitals y más. Cada uno con qué es, para
 qué sirve y un ejemplo copiable con lo mínimo que hay que escribir.
 
-**15 componentes en vivo.** Tela, despegado, ASCII, tramado, brillo cromático, relieve y más, cada
+**18 componentes en vivo.** Tela, despegado, ASCII, tramado, brillo cromático, relieve y más, cada
 uno corriendo a tamaño real con sus mandos a la vista. Mueve los controles y copia el código con tus
-valores ya puestos. Tres son nuestros y MIT, el header de píldora deslizante, el acordeón de
-preguntas y la matrioska parallax; el resto son efectos de terceros, cada uno con el crédito y el
-enlace de su autor.
+valores ya puestos. Seis son nuestros y MIT, el header de píldora deslizante, el acordeón de
+preguntas, la matrioska parallax, el texto con destello, el contador que sube y la frase con foco; el
+resto son efectos de terceros, cada uno con el crédito y el enlace de su autor.
 
-**28 fichas de análisis de componentes.** Componentes de React Bits que hemos leído por dentro: cuándo
+**25 fichas de análisis de componentes.** Componentes de React Bits que hemos leído por dentro: cuándo
 usar cada uno, qué cuesta, qué dice su código de la accesibilidad, el prompt para pedírselo a tu agente
 y su comando de instalación. No llevan demo ni código a propósito. React Bits es MIT con Commons
 Clause, que prohíbe redistribuir los componentes en sí, así que Vibeset enlaza al original en vez de
-copiarlo.
+copiarlo. Donde hemos escrito desde cero una pieza propia que hace algo parecido, el análisis va al pie
+de la página de esa pieza en lugar de ser una tarjeta aparte.
 
 **19 skills de agente.** Instrucciones que le das una vez a tu agente de código y ya se sabe para
 siempre: revisar una pantalla en móvil, auditar accesibilidad, revisar un diff, depurar hasta la

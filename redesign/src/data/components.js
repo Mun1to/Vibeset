@@ -1,4 +1,5 @@
 import { REACTBITS_ITEMS } from './componentsRef.js'
+import { PROPIOS_NUEVOS } from './componentsPropios.js'
 
 // Catálogo de componentes. Aquí conviven tres cosas que NO se licencian igual, y
 // las distingue el campo `origin`:
@@ -589,9 +590,22 @@ const ITEMS_EN_VIVO = [
   },
 ]
 
-// Primero lo que tiene demo, después las fichas de análisis: en la rejilla se ve
-// antes lo que se mueve.
-export const COMPONENT_ITEMS = [...ITEMS_EN_VIVO, ...REACTBITS_ITEMS]
+// Cada efecto sale UNA vez en la rejilla. Si ya existe la pieza propia que hace algo
+// parecido a una de React Bits (`original`), la tarjeta de análisis de esa deja de
+// salir aparte y pasa a ser un apartado de la ficha de la pieza.
+const CONSTRUIDAS = new Set(PROPIOS_NUEVOS.map((p) => p.original).filter(Boolean))
+
+// Primero lo que tiene demo, después las fichas de análisis que aún no tienen pieza:
+// en la rejilla se ve antes lo que se mueve.
+export const COMPONENT_ITEMS = [
+  ...ITEMS_EN_VIVO,
+  ...PROPIOS_NUEVOS,
+  ...REACTBITS_ITEMS.filter((r) => !CONSTRUIDAS.has(r.key)),
+]
+
+// El análisis de la pieza de React Bits a la que se parece una propia.
+export const originalDe = (item) =>
+  (item.original ? REACTBITS_ITEMS.find((r) => r.key === item.original) : null) ?? null
 
 // Solo las props que el usuario haya cambiado, como hacen las webs de componentes.
 // El nombre de una pieza de la casa sí se traduce: «Header de píldora deslizante»

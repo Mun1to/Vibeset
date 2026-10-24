@@ -1,0 +1,83 @@
+/* Estilos de la frase que enfoca palabras, una pieza PROPIA del catálogo de Vibeset
+   (MIT). Un archivo por pieza para que se pueda copiar sola. El color del marcador
+   llega por `--fp-color`; el del texto es el del sitio donde se use. */
+
+.fp {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  /* Alto de línea con aire: los marcadores de dos líneas seguidas no se rozan. */
+  line-height: 1.45;
+}
+
+/* Cada palabra lleva un relleno que da cuerpo al marcador, y un margen negativo
+   igual que lo anula: el espacio entre palabras sigue siendo el de la fuente. */
+.fp-palabra {
+  display: inline-block;
+  padding: 0.04em 0.12em;
+  margin-inline: -0.12em;
+  transition: filter var(--fp-trans) ease;
+}
+
+.fp:not(.fp--quieto) .fp-palabra:not(.fp-activa) {
+  filter: blur(var(--fp-desenfoque));
+}
+
+.fp:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 6px;
+}
+
+/* El marcador mide y se coloca desde el `.jsx`; aquí solo se dibuja. Nace invisible
+   y sin transiciones: se enciende cuando ya está en su primera palabra. */
+.fp-marcador {
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  pointer-events: none;
+  color: var(--fp-color);
+  opacity: 0;
+}
+
+.fp-marcador.fp-listo {
+  opacity: 1;
+  transition:
+    transform var(--fp-trans) cubic-bezier(0.3, 0.7, 0.2, 1),
+    width var(--fp-trans) cubic-bezier(0.3, 0.7, 0.2, 1),
+    height var(--fp-trans) cubic-bezier(0.3, 0.7, 0.2, 1),
+    opacity 0.3s;
+}
+
+/* Con el dial a cero y sin manejo manual no hay recorrido que marcar. */
+.fp--quieto .fp-marcador { display: none }
+
+.fp-marcador i { display: none }
+
+/* Esquinas: cuatro ángulos que recuerdan al encuadre de un visor. */
+.fp--esquinas .fp-marcador i {
+  display: block;
+  position: absolute;
+  width: clamp(6px, 0.3em, 14px);
+  height: clamp(6px, 0.3em, 14px);
+  border: 0 solid currentColor;
+}
+
+.fp--esquinas .fp-marcador i:nth-child(1) { top: -3px; left: -3px; border-top-width: 2px; border-left-width: 2px }
+.fp--esquinas .fp-marcador i:nth-child(2) { top: -3px; right: -3px; border-top-width: 2px; border-right-width: 2px }
+.fp--esquinas .fp-marcador i:nth-child(3) { bottom: -3px; left: -3px; border-bottom-width: 2px; border-left-width: 2px }
+.fp--esquinas .fp-marcador i:nth-child(4) { bottom: -3px; right: -3px; border-bottom-width: 2px; border-right-width: 2px }
+
+/* Caja: borde de una línea y un relleno apenas visible. */
+.fp--caja .fp-marcador { border: 1px solid currentColor }
+
+.fp--caja .fp-marcador::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0.12;
+}
+
+/* Subrayado: solo la línea de abajo. */
+.fp--subrayado .fp-marcador { border-bottom: 2px solid currentColor }

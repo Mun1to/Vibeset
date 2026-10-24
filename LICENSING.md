@@ -158,6 +158,17 @@ The components in `redesign/src/components/propios/` are the opposite case and w
 repository, and there is no external author to credit. Their page links the source file instead of
 an origin site.
 
+Some of those pieces do something similar to a React Bits component, and that needs saying plainly.
+They were **written from scratch**, with their own names and their own props, and none of the
+original's implementation was copied or ported. To be exact about the process, because it is not a
+formal clean-room: the same author wrote the analysis cards and the new pieces. The analysis only
+recorded what an original declares (its props, its dependencies, its accessibility attributes), and
+the downloaded copy of the original was deleted from the working machine before any of our own code
+was written. Doing a similar thing is not porting it, and the page of each such piece carries, at the
+foot, the analysis of the original with a link, so nobody takes ours for theirs. If the author of an
+original believes one of ours is a port, say so in an issue and it will be taken down while it is
+looked at.
+
 The MCP server (`redesign/functions/api/mcp.js`) holds the same line. It serves the catalogue
 metadata (CC BY) and the full body of the skills, but for third-party components it serves only
 their origin install command, never the code in `canvasui/` or `arlan/`. Components written here are

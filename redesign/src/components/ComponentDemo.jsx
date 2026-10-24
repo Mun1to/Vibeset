@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import SuperficieDemo, { SuperficieAlta } from './SuperficieDemo'
 import { TOTALES } from '../lib/totales'
+import { DEMOS_PROPIOS } from './propios/demos'
 
 // Componentes originales de canvasui.dev: shaders pesados (dos con three.js),
 // así que se descargan solo cuando alguien los mira, no en la carga inicial.
@@ -210,6 +211,17 @@ export default function ComponentDemo({ item, values, lang, compact = false, t }
             </div>
           ))}
         />
+      </Suspense>
+    )
+  }
+
+  // Las piezas propias nuevas: cada una trae su demo en propios/demos/ y se
+  // registra en el índice de esa carpeta, sin añadir otro `if` aquí.
+  const DemoPropio = DEMOS_PROPIOS[item.key]
+  if (DemoPropio) {
+    return (
+      <Suspense fallback={<Loading t={t} />}>
+        <DemoPropio values={values} compact={compact} lang={lang} t={t} />
       </Suspense>
     )
   }

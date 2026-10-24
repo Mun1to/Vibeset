@@ -25,6 +25,8 @@ import { join, extname, dirname } from 'node:path'
 import { tmpdir } from 'node:os'
 import { fileURLToPath } from 'node:url'
 import { existsSync } from 'node:fs'
+import { COMPONENT_ITEMS, originalDe } from '../src/data/components.js'
+import { slugClave } from '../src/lib/rutas.js'
 
 const DIST = join(dirname(fileURLToPath(import.meta.url)), '..', 'dist')
 const PUERTO = 4188
@@ -189,17 +191,38 @@ comprobar('componentes: el botón dice cuántas quedan', await ev(`/Ver \\d+ má
 await ir('/components?cat=micro')
 const micro = await ev(`document.querySelectorAll('main a[href*="/components/"]').length`)
 comprobar('componentes: el grupo nuevo trae sus 10 fichas', micro === 10, `${micro} fichas`)
-await ir('/components/shiny-text')
-comprobar('ficha de referencia: h1', await ev(`document.querySelector('h1')?.textContent.trim()`) === 'Shiny Text')
+// La ficha de referencia que se comprueba es la primera que siga siéndolo: según se
+// van construyendo las piezas propias, las fichas de análisis dejan de ser tarjetas
+// aparte, y una clave escrita aquí se quedaría apuntando a una página que ya no existe.
+const ref = COMPONENT_ITEMS.find((x) => x.clase === 'referencia')
+await ir(`/components/${slugClave(ref.key)}`)
+comprobar('ficha de referencia: h1', await ev(`document.querySelector('h1')?.textContent.trim()`) === ref.name)
 comprobar('ficha de referencia: sin demo ni canvas', await ev(`document.querySelectorAll('main canvas, main [data-demo]').length === 0`))
 comprobar('ficha de referencia: trae su análisis',
   await ev(`['Cuándo sí', 'Ojo con', 'Accesibilidad', 'Ficha técnica'].every((x) => document.querySelector('main').textContent.includes(x))`))
 comprobar('ficha de referencia: el comando es el de @react-bits',
-  await ev(`document.querySelector('main pre')?.textContent.includes('@react-bits/ShinyText-TS-TW') ?? false`),
+  await ev(`document.querySelector('main pre')?.textContent.includes(${JSON.stringify(ref.install)}) ?? false`),
   await ev(`document.querySelector('main pre')?.textContent`))
 comprobar('ficha de referencia: el prompt está', await ev(`document.querySelector('main').textContent.includes('Pídeselo a tu agente')`))
-await ir('/en/components/shiny-text')
+await ir(`/en/components/${slugClave(ref.key)}`)
 comprobar('ficha de referencia: existe en inglés', await ev(`document.querySelector('main').textContent.includes('When to use it')`))
+// Las piezas propias: la ficha de cada una tiene que pintar su demo, y se lee del
+// catálogo para que una pieza nueva entre en la prueba sin tocar este archivo. Lo que
+// se comprueba es que el escenario monte algo, no que se vea bien: eso se mira en
+// pantalla (pnpm auditar y los ojos).
+for (const c of COMPONENT_ITEMS.filter((x) => x.origin === 'propio' && x.clase === 'pieza')) {
+  await ir(`/components/${slugClave(c.key)}`)
+  await esperar(500)
+  const dentro = await ev(`(() => { const d = document.querySelector('main .bg-zinc-950'); return d ? d.querySelectorAll('*').length : 0 })()`)
+  comprobar(`pieza propia ${c.key}: su demo se pinta`, dentro > 3, `${dentro} elementos`)
+  // Si imita a una pieza de React Bits, su ficha lleva el análisis del original al pie
+  // y su comando de instalación: es lo que sustituye a la tarjeta que ya no sale aparte.
+  if (c.original) {
+    const o = originalDe(c)
+    comprobar(`pieza propia ${c.key}: lleva el apartado del original`,
+      await ev(`document.querySelector('main').textContent.includes(${JSON.stringify(`Y el original de React Bits: ${o.name}`)}) && [...document.querySelectorAll('main pre')].some((p) => p.textContent.includes(${JSON.stringify(o.install)}))`))
+  }
+}
 // (Va antes del cambio de idioma: al pulsar el pie el navegador de la prueba se
 // queda con el inglés guardado y redirige a /en, y estas comprobaciones leen
 // textos en español.)

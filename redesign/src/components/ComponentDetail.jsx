@@ -7,12 +7,14 @@ import CodeBlock from './CodeBlock'
 import FavButton from './FavButton'
 import CopiarEnlace from './CopiarEnlace'
 import useHtmlInCanvas from '../hooks/useHtmlInCanvas'
-import { usageSnippet, nombreDe } from '../data/components'
+import { Bloque } from './ComponentRef'
+import { usageSnippet, nombreDe, originalDe } from '../data/components'
 import { rutaDe } from '../lib/rutas'
 
 export default function ComponentDetail({ t, lang, item, values, onChange, onReset, fav, onToggleFav }) {
   const htmlInCanvas = useHtmlInCanvas()
   const needsHtmlInCanvas = item.labels?.includes('html-in-canvas')
+  const original = originalDe(item)
 
   return (
     <motion.section
@@ -94,6 +96,34 @@ export default function ComponentDetail({ t, lang, item, values, onChange, onRes
           </div>
         </div>
       </div>
+
+      {/* Si esta pieza hace algo parecido a una de React Bits, aquí va lo que vimos
+          de la suya. No es un crédito (no se ha copiado nada) sino información: quien
+          prefiera el original sabe qué cuesta, con qué ojo mirarlo y cómo se instala. */}
+      {original && (
+        <section className="mt-12 pt-6 border-t border-linea">
+          <h2 className="text-xl font-bold">{t.compOriginalTitulo(original.name)}</h2>
+          <p className="text-sm text-tinta-suave mt-2 max-w-2xl leading-relaxed">{t.compOriginalNota(original.name)}</p>
+          <div className="mt-6 grid gap-8 min-[1400px]:grid-cols-3">
+            <Bloque titulo={t.compCuando}>{original.cuando[lang]}</Bloque>
+            <Bloque titulo={t.compCuidado}>{original.cuidado[lang]}</Bloque>
+            <Bloque titulo={t.compA11y} nota={t.compA11yNota}>{original.a11y[lang]}</Bloque>
+          </div>
+          <div className="mt-6 max-w-xl">
+            <CodeBlock t={t} title={t.compInstall} code={original.install} />
+            <p className="text-xs text-tinta-suave mt-2.5 leading-relaxed">{t.compVariantes}</p>
+            <a
+              href={original.url}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 min-h-6 text-sm text-tinta-fuerte hover:text-blue-600 dark:hover:text-blue-400 mt-2 transition-colors"
+            >
+              {t.compRefVer}
+              <ArrowUpRight size={13} />
+            </a>
+          </div>
+        </section>
+      )}
 
       {/* Crédito al pie: discreto, pero con el enlace exacto de donde salió. Una
           pieza de la casa no tiene autor externo al que acreditar, así que lo que

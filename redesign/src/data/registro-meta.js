@@ -56,9 +56,6 @@ export const META_CASA = {
   crosshair: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'decorativo' },
   textLoop: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'evento'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'decorativo' },
   logoLoop: { arquetipos: ['saas', 'portfolio', 'lanzamiento', 'ecommerce', 'editorial'], costeMovimiento: 'medio', cumpleDial: false, a11y: 'ok' },
-  shinyText: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
-  trueFocus: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
-  countUp: { arquetipos: ['saas', 'fintech', 'ecommerce', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   // Piezas de interfaz que solo se mueven cuando la persona las toca.
   specularButton: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
   profileCard: { arquetipos: ['portfolio', 'marca-creativa', 'saas'], costeMovimiento: 'medio', cumpleDial: true, a11y: 'ok' },
@@ -74,4 +71,13 @@ export const META_CASA = {
   fuseButton: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   codeSlots: { arquetipos: ['saas', 'fintech', 'ecommerce'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
   branchedMenu: { arquetipos: ['saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+
+  // --- Piezas propias que sustituyen a una ficha de análisis (componentsPropios.js).
+  // Aquí SÍ se ha probado, no solo leído: todas traen el dial (`gain`), y el texto de
+  // las tres es texto real en el DOM, sin canvas ni nada oculto a los lectores. Al
+  // construir una, su entrada de arriba (la del original) se borra y la propia entra
+  // aquí con su clave, porque el registro cruza por `key`.
+  textoDestello: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'saas', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  contadorSube: { arquetipos: ['saas', 'fintech', 'ecommerce', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
+  focoPalabras: { arquetipos: ['marca-creativa', 'portfolio', 'lanzamiento', 'editorial'], costeMovimiento: 'bajo', cumpleDial: true, a11y: 'ok' },
 }

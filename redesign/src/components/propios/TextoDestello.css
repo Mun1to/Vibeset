@@ -1,0 +1,61 @@
+/* Estilos del texto con destello, una pieza PROPIA del catálogo de Vibeset (MIT).
+   Un archivo por pieza para que se pueda copiar sola. Los colores no son de tema:
+   llegan por las variables `--td-*` que pone el `.jsx`, así que sirve igual sobre
+   fondo claro que oscuro. */
+
+.td {
+  display: inline-block;
+  color: var(--td-color);
+}
+
+/* Todo el efecto cuelga de poder recortar el fondo con la forma del texto. Sin eso
+   (navegadores muy viejos) el texto se queda en su color base, que es legible, en
+   lugar de transparente y sin nada detrás. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .td {
+    color: transparent;
+    background-image: linear-gradient(
+      var(--td-angulo),
+      var(--td-color) calc(50% - var(--td-semi)),
+      var(--td-destello) 50%,
+      var(--td-color) calc(50% + var(--td-semi))
+    );
+    background-size: 250% 100%;
+    /* Se repite a propósito: ver el comentario del .jsx, punto 1. */
+    background-repeat: repeat-x;
+    /* En reposo la banda espera fuera, a la izquierda: de donde sale el barrido. */
+    background-position: var(--td-ini) 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
+@keyframes td-barrido {
+  from { background-position: var(--td-ini) 0 }
+  to { background-position: var(--td-fin) 0 }
+}
+
+/* El bucle cruza durante el 65 % del ciclo y respira el resto con la banda fuera. */
+@keyframes td-bucle {
+  0% { background-position: var(--td-ini) 0 }
+  65% { background-position: var(--td-fin) 0 }
+  100% { background-position: var(--td-fin) 0 }
+}
+
+.td--bucle { animation: td-bucle var(--td-dur-bucle) linear infinite }
+.td--bucle.td--fuera { animation-play-state: paused }
+
+.td--hover:hover { animation: td-barrido var(--td-dur) ease-in-out 1 }
+
+.td--vista.td--activo { animation: td-barrido var(--td-dur) ease-in-out 1 }
+
+/* Dial a cero: sin barrido y con el texto en su color de siempre. */
+.td--quieto { animation: none }
+
+@media (forced-colors: active) {
+  .td {
+    color: CanvasText;
+    background: none;
+    animation: none;
+  }
+}

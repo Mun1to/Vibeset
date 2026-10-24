@@ -1,0 +1,85 @@
+/* Marco común de las demos de las piezas propias. No es parte de ninguna pieza:
+   es el escenario donde se enseñan. Oscuro SIEMPRE, como el resto de los marcos
+   de Componentes, así que van tonos literales y no los tokens de tema. */
+
+.pd-marco {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: #0e0f11;
+  color: #f4f6f8;
+  overflow: hidden;
+}
+
+/* En la tarjeta de la rejilla (224px de alto) todo va más prieto. */
+.pd-marco.pd-compacto { padding: 0.75rem }
+
+.pd-pila {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.pd-compacto .pd-pila { gap: 0.6rem }
+
+/* Una fila de cifras con su rótulo debajo. */
+.pd-fila {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem 3rem;
+}
+
+.pd-dato {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.pd-cifra {
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  /* El contador hereda la alineación: centrado, el número que sube parte del mismo
+     eje que su rótulo y no del borde izquierdo de lo que ocupará al final. */
+  text-align: center;
+}
+
+.pd-compacto .pd-cifra { font-size: 2.4rem }
+
+.pd-rotulo {
+  font-size: 0.8rem;
+  color: #a8adb6;
+}
+
+/* Botón de las demos: esquina recta, borde de una línea y más de 24px de alto,
+   como el resto de controles de la casa. */
+.pd-boton {
+  min-height: 2rem;
+  padding: 0 0.9rem;
+  border: 1px solid #3a3d44;
+  background: transparent;
+  color: #d7dbe0;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.pd-boton:hover { background: #1c1e22; border-color: #5a5e67 }
+.pd-boton:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px }
+
+.pd-nota {
+  margin: 0;
+  max-width: 34rem;
+  text-align: center;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #a8adb6;
+}

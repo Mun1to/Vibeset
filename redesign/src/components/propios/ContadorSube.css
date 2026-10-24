@@ -1,0 +1,18 @@
+/* Estilos del contador que sube, una pieza PROPIA del catálogo de Vibeset (MIT).
+   Un archivo por pieza para que se pueda copiar sola. No pone colores: hereda los
+   del sitio donde se use. */
+
+/* Las dos capas ocupan la misma celda: la de abajo reserva el ancho del número
+   terminado y la de arriba es la que sube. */
+.cs {
+  display: inline-grid;
+  /* Cifras de ancho fijo: sin esto cada dígito mide distinto y el número tiembla
+     mientras cambia. */
+  font-variant-numeric: tabular-nums;
+}
+
+.cs > span { grid-area: 1 / 1 }
+
+/* No es `visibility: hidden` ni `display: none`: eso lo sacaría del árbol de
+   accesibilidad, y es justo lo que debe seguir leyéndose. */
+.cs-final { opacity: 0 }

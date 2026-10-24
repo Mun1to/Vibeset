@@ -14,7 +14,7 @@ import { rutaDe } from '../lib/rutas'
 // accesibilidad, y el prompt para pedírselo a un agente. A la izquierda se lee y a
 // la derecha se usa (ficha técnica, prompt, instalación), igual que en la ficha de
 // un componente con demo.
-function Bloque({ titulo, children, nota }) {
+export function Bloque({ titulo, children, nota }) {
   return (
     <section className="border-t border-linea pt-4">
       <h2 className="text-[12px] font-bold uppercase tracking-wider text-tinta-suave mb-2">{titulo}</h2>

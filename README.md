@@ -7,8 +7,8 @@
 
 ### One place with everything you need to build for the web
 
-100 programming languages, 83 frontend tools, 41 design techniques, 15 live components,
-28 component analysis cards, 19 agent skills and 38 tips, plus an MCP server for agents. Free, bilingual, no sign-up, no tracking.
+100 programming languages, 83 frontend tools, 41 design techniques, 18 live components,
+25 component analysis cards, 19 agent skills and 38 tips, plus an MCP server for agents. Free, bilingual, no sign-up, no tracking.
 
 <a href="https://vibeset.dev">
   <img alt="Open vibeset.dev" src=".github/assets/boton-open.svg" width="268">
@@ -51,16 +51,18 @@ and inspiration.
 View Transitions, container queries, Core Web Vitals and more. Each one with what it is, what it is
 for, and a copyable example of the smallest code that makes it work.
 
-**15 live components.** Cloth, peel, ASCII, dithering, chromatic bloom, emboss and more, each one
+**18 live components.** Cloth, peel, ASCII, dithering, chromatic bloom, emboss and more, each one
 running at full size with its controls exposed. Move the knobs and copy the code with your values
-already in it. Three of them are ours and MIT, the sliding pill header, the FAQ accordion and the
-matryoshka parallax; the rest are third-party effects, each crediting and linking its author.
+already in it. Six of them are ours and MIT, the sliding pill header, the FAQ accordion, the
+matryoshka parallax, the shimmer text, the rising counter and the focus sentence; the rest are
+third-party effects, each crediting and linking its author.
 
-**28 component analysis cards.** React Bits components we have read through: when to use each one,
+**25 component analysis cards.** React Bits components we have read through: when to use each one,
 what it costs, what its code says about accessibility, the prompt to ask your agent for it and its
 install command. They have no demo and no code on purpose. React Bits is MIT with Commons Clause,
 which forbids redistributing the components themselves, so Vibeset links the original instead of
-copying it.
+copying it. Where we have written our own piece that does something similar, from scratch, the
+analysis sits at the foot of that piece's page instead of being a card of its own.
 
 **19 agent skills.** Instructions you hand your coding agent once and it knows for good: check a
 screen on mobile, audit accessibility, review a diff, debug down to the root cause, write a commit
