@@ -2,6 +2,7 @@
 //
 //   pnpm auditar              las 7 secciones en los dos idiomas y los dos temas
 //   pnpm auditar -- --movil   además a 390px de ancho
+//   pnpm auditar -- --fichas  además las fichas de cada componente (las del sitemap)
 //
 // El taller de `/kitchen` ya medía todo esto, pero solo cuando alguien se
 // acordaba de abrirlo, así que nada impedía que un cambio de hoy rompiera lo que
@@ -21,7 +22,7 @@
 import { createServer } from 'node:http'
 import { spawn } from 'node:child_process'
 import { readFile, stat, mkdtemp, rm } from 'node:fs/promises'
-import { createReadStream, existsSync } from 'node:fs'
+import { createReadStream, existsSync, readFileSync } from 'node:fs'
 import { join, extname, dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { tmpdir } from 'node:os'
@@ -38,6 +39,17 @@ const DEPURACION = 9333
 const PAGINAS = ['/', '/start', '/languages', '/resources', '/concepts', '/components', '/skills', '/tips']
 const SECCIONES = [...PAGINAS, ...PAGINAS.map((r) => (r === '/' ? '/en' : `/en${r}`))]
 const CON_MOVIL = process.argv.includes('--movil')
+const CON_FICHAS = process.argv.includes('--fichas')
+
+// Las fichas de componente no se listan a mano: se leen del sitemap del `dist`,
+// que es lo que el build ya sabe de cada dirección, así que una pieza nueva entra
+// sola en la auditoría. Las demos llevan `data-demo` y el auditor las salta; lo
+// que se mide aquí es la interfaz de la ficha (mandos, código, el apartado del
+// original), que es la que escribimos nosotros.
+function fichasDeComponentes() {
+  const mapa = readFileSync(join(DIST, 'sitemap.xml'), 'utf8')
+  return [...mapa.matchAll(/<loc>https?:\/\/[^/]+(\/(?:en\/)?components\/[^<]+)<\/loc>/g)].map((m) => m[1])
+}
 
 // ---------------------------------------------------------------- el servidor
 //
@@ -201,6 +213,8 @@ if (!existsSync(join(DIST, 'index.html'))) {
   process.exit(2)
 }
 
+const RUTAS = [...SECCIONES, ...(CON_FICHAS ? fichasDeComponentes() : [])]
+
 const perfil = await mkdtemp(join(tmpdir(), 'vibeset-auditor-'))
 const server = await servir()
 const { proc, ws } = await abrirNavegador(perfil)
@@ -232,7 +246,7 @@ try {
         features: [{ name: 'prefers-color-scheme', value: tema }],
       }, sessionId)
 
-      for (const ruta of SECCIONES) {
+      for (const ruta of RUTAS) {
         const f = await auditarRuta(cdp, sessionId, ruta)
         const n = f.contraste.length + f.tactil.length + f.letraMinuscula.length + f.colorEnNavegacion.length
         totalFallos += n
@@ -258,7 +272,7 @@ try {
 
 console.log(
   totalFallos === 0
-    ? `\n  los suelos se cumplen en las ${SECCIONES.length} páginas, en los dos temas${CON_MOVIL ? ' y en las dos pantallas' : ''}`
+    ? `\n  los suelos se cumplen en las ${RUTAS.length} páginas, en los dos temas${CON_MOVIL ? ' y en las dos pantallas' : ''}`
     : `\n  ${totalFallos} incumplimiento(s). Los suelos: contraste 4,5:1 (3:1 en texto grande), pulsables de 24×24, nada por debajo de 11px y cero color en la navegación.`,
 )
 process.exit(totalFallos === 0 ? 0 : 1)
