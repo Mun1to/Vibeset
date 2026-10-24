@@ -16,9 +16,12 @@ import './LineaPensando.css'
 //   2. La duración final se CONGELA en el momento en que el estado pasa a «hecho». Si se
 //      siguiera calculando con el reloj, «Pensó durante 12 s» subiría a 13, 14, 15 mientras
 //      la persona lo lee. Se puede pasar de fuera (`duracion`) cuando el servidor la sabe.
-//   3. La frase de estado es una región `status`: un lector de pantalla oye «Pensando» al
-//      empezar y «Pensó durante 12 segundos» al acabar, y nada más. El cronómetro que
-//      cambia cada segundo va `aria-hidden`, o hablaría sin parar.
+//   3. La frase de estado la anuncia una región `status` aparte y oculta a la vista: un lector
+//      de pantalla oye «Pensando» al empezar y «Pensó durante 12 segundos» al acabar, y nada
+//      más. El cronómetro que cambia cada segundo va `aria-hidden`, o hablaría sin parar. La
+//      región NO va dentro del botón: un `status` dentro de un botón no cuenta para su nombre
+//      y el botón se quedaba sin él (medido en el árbol de accesibilidad). Dentro va la misma
+//      frase como texto normal, que es lo que da el nombre.
 //   4. Plegar y desplegar es un `<button aria-expanded>` con su región, y lo plegado lleva
 //      `inert` para que sus pasos salgan del tabulador. Si la persona lo despliega a mano
 //      mientras piensa, al terminar NO se vuelve a plegar solo: lo que se abre a propósito
@@ -86,6 +89,7 @@ export default function LineaPensando({
   }, [hecho])
 
   const total = Math.round((hecho ? duracion ?? final : ms) / 1000)
+  const frase = hecho ? txt.hecho(txt.letra(total)) : txt.pensando
 
   const abierto = eleccion ?? (hecho ? !plegarAlTerminar : true)
   const quieto = g === 0
@@ -117,11 +121,9 @@ export default function LineaPensando({
           ) : null}
         </span>
 
-        {/* Punto 3: una región de estado, y solo ella habla. */}
-        <span className="lp-estado" role="status">
-          <span className={hecho ? 'lp-frase' : 'lp-frase lp-respira'}>
-            {hecho ? txt.hecho(txt.letra(total)) : txt.pensando}
-          </span>
+        {/* Punto 3: la frase da el nombre del botón; el anuncio lo hace la región de abajo. */}
+        <span className="lp-estado">
+          <span className={hecho ? 'lp-frase' : 'lp-frase lp-respira'}>{frase}</span>
         </span>
 
         {!hecho && <span className="lp-tiempo" aria-hidden="true">{txt.segundos(total)}</span>}
@@ -131,6 +133,7 @@ export default function LineaPensando({
           </svg>
         )}
       </button>
+      <span className="lp-sr" role="status">{frase}</span>
 
       {/* Punto 4: la región plegable, y `inert` cuando está plegada. */}
       <div id={idCaja} className="lp-caja" data-abierto={abierto} inert={!abierto}>

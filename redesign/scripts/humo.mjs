@@ -159,6 +159,12 @@ await ir('/components/contador-sube')
 const interruptor = await ev(`(async () => { const b = document.querySelector('main [role=switch]'); if (!b) return null; const antes = b.getAttribute('aria-checked'); b.click(); await new Promise((ok) => setTimeout(ok, 150)); return { antes, despues: b.getAttribute('aria-checked') } })()`)
 comprobar('mandos de la ficha: el interruptor anuncia su estado', !!interruptor && interruptor.antes !== interruptor.despues && ['true', 'false'].includes(interruptor.antes), JSON.stringify(interruptor))
 
+// La región `status` dentro de un botón no cuenta para su nombre: el botón de «Pensando» se
+// quedaba sin él para un lector de pantalla. La frase va dentro como texto y el anuncio, fuera.
+await ir('/components/linea-pensando')
+const lp = await ev(`(() => { const b = document.querySelector('main .lp-cabecera'); const s = document.querySelector('main .lp-sr[role=status]'); return b && s ? { dentro: !!b.querySelector('[role=status]'), nombre: b.innerText.trim().length > 0, anuncio: s.textContent.length > 0 } : null })()`)
+comprobar('línea de pensando: el botón tiene nombre y el anuncio va fuera', !!lp && !lp.dentro && lp.nombre && lp.anuncio, JSON.stringify(lp))
+
 // 6. El buscador global, que ahora carga su índice al abrirse
 await ir('/')
 await ev(`[...document.querySelectorAll('button')].find(b => /Buscar|Search/i.test(b.textContent))?.click()`)

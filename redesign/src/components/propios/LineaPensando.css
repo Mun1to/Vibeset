@@ -31,6 +31,9 @@
 .lp--hecho .lp-glifo { color: #4ade80 }
 
 .lp-estado { flex: 1; min-width: 0 }
+/* Para el anuncio de estado: se oye y no se ve. Una caja de un píxel recortada, no `display:none`,
+   que una región oculta así no se anuncia. */
+.lp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap }
 .lp-frase { font-size: 0.95rem; font-weight: 600 }
 
 /* El texto respira: una banda de luz que lo cruza despacio. Si el navegador no recorta el
