@@ -267,7 +267,10 @@ try {
   cdp.cerrar()
   proc.kill()
   server.close()
-  await rm(perfil, { recursive: true, force: true }).catch(() => {})
+  // Ver el mismo caso en humo.mjs: en Windows hay que esperar a que el navegador suelte el perfil
+  // y reintentar el borrado, o se queda en Temp (unos 47 MB por ejecución).
+  await new Promise((ok) => { if (proc.exitCode !== null) return ok(); proc.once('exit', ok); setTimeout(ok, 3000) })
+  await rm(perfil, { recursive: true, force: true, maxRetries: 15, retryDelay: 300 }).catch(() => {})
 }
 
 console.log(

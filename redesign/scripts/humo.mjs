@@ -282,5 +282,10 @@ comprobar('el prompt sale en la ficha', await ev(`document.body.innerText.includ
 comprobar('cero excepciones en consola', errores.length === 0, errores.slice(0, 3).join(' | '))
 
 console.log(fallos === 0 ? '\n  todo en pie' : `\n  ${fallos} fallo(s)`)
-ws.close(); proc.kill(); server.close(); await rm(perfil, { recursive: true, force: true }).catch(() => {})
+ws.close(); proc.kill(); server.close()
+// En Windows el navegador sigue con sus archivos abiertos un momento después de morir: sin esperar
+// y reintentar, el borrado falla en silencio y cada ejecución deja su perfil (unos 47 MB) en Temp.
+// Se llegaron a juntar 173, unos 8 GB.
+await new Promise((ok) => { if (proc.exitCode !== null) return ok(); proc.once('exit', ok); setTimeout(ok, 3000) })
+await rm(perfil, { recursive: true, force: true, maxRetries: 15, retryDelay: 300 }).catch(() => {})
 process.exit(fallos ? 1 : 0)
