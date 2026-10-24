@@ -8,4 +8,7 @@ export const DEMOS_PROPIOS = {
   textoDestello: lazy(() => import('./TextoDestello')),
   contadorSube: lazy(() => import('./ContadorSube')),
   focoPalabras: lazy(() => import('./FocoPalabras')),
+  marcaEstado: lazy(() => import('./MarcaEstado')),
+  botonMantener: lazy(() => import('./BotonMantener')),
+  deslizaConfirma: lazy(() => import('./DeslizaConfirma')),
 }

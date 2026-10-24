@@ -75,6 +75,18 @@
 .pd-boton:hover { background: #1c1e22; border-color: #5a5e67 }
 .pd-boton:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px }
 
+/* Lista de pasos de una demo: sin viñetas, con aire entre filas. */
+.pd-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+  font-size: 0.95rem;
+}
+
+.pd-compacto .pd-lista { gap: 0.35rem; font-size: 0.8rem }
+
 .pd-nota {
   margin: 0;
   max-width: 34rem;

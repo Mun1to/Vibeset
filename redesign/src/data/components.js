@@ -618,9 +618,13 @@ export const formatoKb = (kb, lang) =>
   `${kb.toLocaleString(lang === 'en' ? 'en-US' : 'es-ES', { maximumFractionDigits: 1 })} KB`
 
 export function changedProps(item, values) {
+  // Un control marcado `soloDemo` mueve el escenario de la ficha (por ejemplo, hacer
+  // que la acción simulada falle) pero no es una prop de la pieza: si saliera en el
+  // código copiable, quien lo pegue se llevaría una prop que no existe.
+  const soloDemo = new Set((item.controls ?? []).filter((c) => c.soloDemo).map((c) => c.key))
   const out = {}
   for (const [k, v] of Object.entries(values)) {
-    if (item.defaults[k] !== v) out[k] = v
+    if (!soloDemo.has(k) && item.defaults[k] !== v) out[k] = v
   }
   return out
 }

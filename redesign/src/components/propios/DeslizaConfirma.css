@@ -1,0 +1,112 @@
+/* Estilos del deslizador de confirmar, una pieza PROPIA del catálogo de Vibeset (MIT).
+   Un archivo por pieza para que se pueda copiar sola. Superficie oscura siempre:
+   tonos literales. La posición del tirador llega por `--ds-x` (px) y `--ds-p`
+   (0 a 1), que escribe el `.jsx` desde el gesto. */
+
+.ds {
+  position: relative;
+  width: min(100%, 20rem);
+  height: 3.25rem;
+  overflow: hidden;
+  border: 1px solid #3a3d44;
+  background: #17181a;
+  color: #d7dbe0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Lo que ya se ha recorrido, hasta el centro del tirador y un poco más. */
+.ds-relleno {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(var(--ds-x, 0px) + 2.75rem + var(--ds-sangria) * 2);
+  background: #2563eb;
+  transition: width var(--ds-vuelta) cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ds-rotulo {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  /* Deja libre la sangría del tirador a la izquierda. */
+  padding: 0 1rem 0 3.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  pointer-events: none;
+  /* Se apaga según avanza el tirador y ya no está cuando el relleno llega al
+     centro. Una cuenta negativa se queda en 0. */
+  opacity: calc(1 - var(--ds-p, 0) * 1.4);
+}
+
+.ds-asa {
+  position: absolute;
+  top: var(--ds-sangria);
+  bottom: var(--ds-sangria);
+  left: var(--ds-sangria);
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  padding: 0;
+  border: 0;
+  background: #f4f6f8;
+  color: #0e0f11;
+  cursor: grab;
+  /* Se puede seguir desplazando la página en vertical empezando en el tirador. */
+  touch-action: pan-y;
+  transform: translateX(var(--ds-x, 0px));
+  transition: transform var(--ds-vuelta) cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ds-asa:focus-visible { outline: 2px solid #60a5fa; outline-offset: 1px }
+
+/* Mientras se arrastra, nada se retrasa respecto al dedo. */
+.ds--arrastrando .ds-asa,
+.ds--arrastrando .ds-relleno { transition: none; cursor: grabbing }
+
+/* Esperando, hecho y error: el rótulo se queda a la vista y el relleno cubre todo. */
+.ds--esperando .ds-rotulo,
+.ds--hecho .ds-rotulo,
+.ds--error .ds-rotulo { opacity: 1; color: #fff }
+
+.ds--esperando .ds-asa,
+.ds--hecho .ds-asa,
+.ds--error .ds-asa { cursor: default }
+
+.ds--hecho .ds-relleno { background: #15803d }
+.ds--error .ds-relleno { background: #b91c1c }
+
+.ds--error { animation: ds-sacude var(--ds-sacude) ease-in-out }
+
+@keyframes ds-sacude {
+  20%, 60% { transform: translateX(-5px) }
+  40%, 80% { transform: translateX(5px) }
+}
+
+/* Los tres puntos de «confirmando» laten uno tras otro. */
+.ds-punto {
+  fill: currentColor;
+  stroke: none;
+  animation: ds-latido 1s ease-in-out infinite;
+}
+.ds-punto:nth-child(2) { animation-delay: 0.15s }
+.ds-punto:nth-child(3) { animation-delay: 0.3s }
+
+@keyframes ds-latido {
+  0%, 100% { opacity: 0.25 }
+  50% { opacity: 1 }
+}
+
+.ds--quieto .ds-punto,
+.ds--quieto.ds--error { animation: none }
+
+/* La pista para lectores de pantalla: texto que se lee y no se ve. */
+.ds-pista {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
