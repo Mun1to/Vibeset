@@ -174,6 +174,19 @@ body {
   background-size: 9px 9px;
 }
 
+/* El resplandor de la portada. Va aquí y no en una clase de utilidad porque
+   necesita dos valores distintos: sobre el blanco del tema claro hace falta más
+   tinta que sobre el negro para que se vea lo mismo. La versión anterior tenía
+   tres capas con mix-blend-overlay que se anulaban entre ellas y no pintaban
+   nada en ningún tema. */
+.resplandor {
+  background: radial-gradient(900px 420px at 12% -10%, rgba(99, 102, 241, 0.16), transparent 70%);
+}
+
+[data-theme="dark"] .resplandor {
+  background: radial-gradient(900px 420px at 12% -10%, rgba(129, 140, 248, 0.22), transparent 70%);
+}
+
 /* ---------------------------------------------------------------------------
    Respuesta al tacto. Va en una clase compartida y no repetida en cada botón
    para que el sitio entero responda igual: un botón que se hunde 3% y vuelve es

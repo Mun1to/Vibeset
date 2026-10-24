@@ -12,9 +12,6 @@ import { useEsOscuro } from '../lib/tema'
 // cualquier navegador, así que sirve de escaparate en la portada. Y es una pieza
 // real del catálogo, no una ilustración: lo que la portada enseña es el producto.
 const AsciiObject = lazy(() => import('./canvasui/AsciiObject'))
-// El fondo de letras es otra pieza real del catálogo (Canvas 2D, sin dependencias). Va en
-// perezoso igual que la de arriba: la portada no paga su código antes de pintarse.
-const ResplandorAscii = lazy(() => import('./propios/ResplandorAscii'))
 
 const aparece = (delay = 0) => ({
   initial: { opacity: 0, y: 14 },
@@ -74,36 +71,11 @@ export default function LandingView({ t, lang, onQuiz, totals }) {
             sale por su cuenta. */}
         <Canal nudos>
           <section className="relative px-6 sm:px-10 py-16 sm:py-24">
-            {/* El fondo de la portada es otra pieza real del catálogo: un campo de luz
-                pintado con letras. Tres decisiones que no se ven en la pantalla:
-                1. Sin `z-index` negativo. Con `-z-10` el lienzo se pintaba pero quedaba
-                   detrás del fondo opaco del canal y no se veía; por eso el resplandor
-                   CSS de antes tampoco se veía nunca. Va primero en el documento y el
-                   contenido, que es `relative` y viene después, se pinta encima.
-                2. La máscara lo apaga bajo la columna del texto (hasta el 52% del ancho)
-                   y por debajo del 42% al 68% de la altura, donde está el enlace del logo.
-                   Con una letra del campo detrás de un texto gris, la descripción bajaba a
-                   2,3:1 en claro (el mínimo es 4,5). Medido sobre una captura real, con la
-                   máscara el texto queda igual de legible que sin campo.
-                3. `hidden lg:block`: por debajo de 1024px el texto ocupa todo el ancho y no
-                   queda un sitio sin tapar.
-                El color va por tema porque un lienzo no hereda `dark:`. */}
-            <div
-              className="absolute inset-0 hidden lg:block pointer-events-none [mask-image:linear-gradient(to_right,transparent_52%,#000_78%),linear-gradient(to_bottom,#000_42%,transparent_68%)] [mask-composite:intersect]"
-              aria-hidden="true"
-            >
-              <Suspense fallback={null}>
-                <ResplandorAscii
-                  forma="pinzamiento"
-                  celda={13}
-                  velocidad={0.7}
-                  revuelto={false}
-                  gain={0.55}
-                  color={oscuro ? '#3b82f6' : '#2563eb'}
-                  style={{ background: 'transparent', opacity: 0.5 }}
-                />
-              </Suspense>
-            </div>
+            {/* Un solo resplandor, sin mezcla de capas. Antes había tres (dos
+                radiales, rejilla de puntos y grano) con mix-blend-overlay, que se
+                anulaban entre ellas: el fondo salía negro plano en oscuro y
+                blanco plano en claro, o sea trabajo de pintado para cero píxeles. */}
+            <div className="absolute inset-0 -z-10 pointer-events-none resplandor" />
 
             <div className="relative grid lg:grid-cols-[1.05fr_.95fr] gap-14 items-center">
               <div>
