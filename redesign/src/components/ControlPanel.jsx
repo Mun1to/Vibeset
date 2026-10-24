@@ -55,6 +55,7 @@ export default function ControlPanel({ t, lang, controls, values, onChange, onRe
               <select
                 value={value}
                 onChange={(e) => onChange(c.key, e.target.value)}
+                aria-label={c.label[lang]}
                 className="w-full bg-panel border border-linea px-2 py-1.5 text-sm text-tinta-fuerte outline-none focus:border-blue-500 cursor-pointer"
               >
                 {c.options.map((o) => (
@@ -69,6 +70,9 @@ export default function ControlPanel({ t, lang, controls, values, onChange, onRe
           return (
             <Row key={c.key}>
               <button
+                type="button"
+                role="switch"
+                aria-checked={Boolean(value)}
                 onClick={() => onChange(c.key, !value)}
                 className="flex items-center justify-between gap-3 w-full min-h-6 cursor-pointer group"
               >
@@ -99,6 +103,7 @@ export default function ControlPanel({ t, lang, controls, values, onChange, onRe
               <input
                 value={value}
                 maxLength={c.maxLength || 14}
+                aria-label={c.label[lang]}
                 onChange={(e) => onChange(c.key, e.target.value)}
                 className="w-full bg-panel border border-linea px-2 py-1.5 text-sm text-tinta-fuerte outline-none focus:border-blue-500"
               />
@@ -113,6 +118,7 @@ export default function ControlPanel({ t, lang, controls, values, onChange, onRe
               <input
                 type="color"
                 value={value}
+                aria-label={c.label[lang]}
                 onChange={(e) => onChange(c.key, e.target.value)}
                 className="w-full h-8 bg-transparent cursor-pointer"
               />

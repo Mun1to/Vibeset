@@ -148,6 +148,17 @@ await ir('/skills/criteria')
 const carril = await ev(`(async () => { const g = document.querySelector('main section > div.flex.flex-col'); const r = g?.children[1]; if (!r) return null; scrollTo(0, 1200); await new Promise((ok) => requestAnimationFrame(() => requestAnimationFrame(ok))); const b = r.getBoundingClientRect(); return { top: Math.round(b.top), abajo: Math.round(b.bottom), vh: innerHeight } })()`)
 comprobar('skill larga: el carril se queda a la vista al bajar', !!carril && carril.top >= 0 && carril.top <= 100 && carril.abajo <= carril.vh, JSON.stringify(carril))
 
+// Los mandos de la ficha los lee un lector de pantalla: cada campo con su nombre, y el
+// interruptor con su rol y su estado. Las auditorías de contraste y de tamaño no lo ven,
+// porque no miran el árbol de accesibilidad: un `select` sin nombre y un botón que hacía
+// de interruptor sin decir si estaba activado pasaron meses sin que nada se pusiera rojo.
+await ir('/components/cloth')
+const sinNombre = await ev(`[...document.querySelectorAll('main select, main input')].filter((e) => !e.getAttribute('aria-label') && !(e.labels && e.labels.length)).length`)
+comprobar('mandos de la ficha: cada campo tiene nombre', sinNombre === 0, `${sinNombre} sin nombre`)
+await ir('/components/contador-sube')
+const interruptor = await ev(`(async () => { const b = document.querySelector('main [role=switch]'); if (!b) return null; const antes = b.getAttribute('aria-checked'); b.click(); await new Promise((ok) => setTimeout(ok, 150)); return { antes, despues: b.getAttribute('aria-checked') } })()`)
+comprobar('mandos de la ficha: el interruptor anuncia su estado', !!interruptor && interruptor.antes !== interruptor.despues && ['true', 'false'].includes(interruptor.antes), JSON.stringify(interruptor))
+
 // 6. El buscador global, que ahora carga su índice al abrirse
 await ir('/')
 await ev(`[...document.querySelectorAll('button')].find(b => /Buscar|Search/i.test(b.textContent))?.click()`)
