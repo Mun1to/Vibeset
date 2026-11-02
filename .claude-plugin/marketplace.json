@@ -95,7 +95,7 @@
         "source": "url",
         "url": "https://github.com/Mun1to/Gresso.git"
       },
-      "description": "A live progress page for long agent tasks: a one-file HTML with a progress bar, percentage, what is done, what is left and what is blocked, rewritten by the agent as it works and checked with F5.",
+      "description": "A live progress page for long agent tasks: a one-file HTML with a progress bar, percentage, what is done, what is left and what is blocked, rewritten by the agent as it works. The open tab updates by itself, and what the person has to do or decide lives on the same page.",
       "license": "MIT",
       "author": {
         "name": "Mun1to"
