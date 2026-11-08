@@ -18,6 +18,15 @@ más un servidor MCP para agentes. Gratis, bilingüe, sin registro y sin rastreo
 
 </div>
 
+## Cómo funciona
+
+<p align="center"><picture>
+<source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset=".github/readme/how-it-works-dark-narrow.es.svg">
+<source media="(max-width: 600px)" srcset=".github/readme/how-it-works-light-narrow.es.svg">
+<source media="(prefers-color-scheme: dark)" srcset=".github/readme/how-it-works-dark.es.svg">
+<img src=".github/readme/how-it-works-light.es.svg" alt="Busca por nombre, uso o extensión.: Filtra por categoría, compara hasta tres a la vez, o haz un test corto que te recomienda uno según lo que quieras construir, tu nivel y lo que valoras. Mueve los mandos.: Cada uno corriendo a tamaño real con sus mandos a la vista. Copia el código.: Mueve los controles y copia el código con tus valores ya puestos.">
+</picture></p>
+
 ## Qué hay dentro
 
 |  |  |
@@ -101,7 +110,8 @@ programar.
 **[Abre AI-AUDIT.md](AI-AUDIT.md)** y pega ese texto en Claude Code, Codex, Cursor, Copilot o lo que
 uses. Es el mismo texto en todos los repositorios públicos de aquí, así que puedes comparar.
 
-## Arrancarlo en tu ordenador
+<details>
+<summary><b>Arrancarlo en tu ordenador</b></summary>
 
 ```bash
 git clone https://github.com/Mun1to/Vibeset.git
@@ -114,6 +124,8 @@ Abre la dirección que aparece. `pnpm build` deja el sitio de producción en `di
 
 Lo que está en vivo es la app de React de `redesign/`. El `index.html` de la raíz del repositorio es
 la versión vanilla original: se queda como historia y ya no se sirve.
+
+</details>
 
 ## Licencia
 

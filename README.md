@@ -17,6 +17,15 @@
 
 </div>
 
+## How it works
+
+<p align="center"><picture>
+<source media="(prefers-color-scheme: dark) and (max-width: 600px)" srcset=".github/readme/how-it-works-dark-narrow.svg">
+<source media="(max-width: 600px)" srcset=".github/readme/how-it-works-light-narrow.svg">
+<source media="(prefers-color-scheme: dark)" srcset=".github/readme/how-it-works-dark.svg">
+<img src=".github/readme/how-it-works-light.svg" alt="Search by name, use case or extension.: Filter by category, compare up to three side by side, or take a short quiz that recommends one based on what you want to build, your level and what you value. Move the knobs.: Each one running at full size with its controls exposed. Copy the code.: Move the knobs and copy the code with your values already in it.">
+</picture></p>
+
 ## What is inside
 
 |  |  |
@@ -102,7 +111,8 @@ whatever you use. It is the same prompt in every public repository here, so you 
 > y te dirá en tu idioma qué hace este programa de verdad: qué envía por internet, qué toca
 > en tu ordenador y qué ejecuta al instalarse.
 
-## Run it locally
+<details>
+<summary><b>Run it locally</b></summary>
 
 ```bash
 git clone https://github.com/Mun1to/Vibeset.git
@@ -115,6 +125,8 @@ Then open the address it prints. `pnpm build` writes the production site to `dis
 
 The live site is the React app in `redesign/`. The `index.html` at the repository root is the
 original vanilla version, kept as history and no longer served.
+
+</details>
 
 ## Licence
 
