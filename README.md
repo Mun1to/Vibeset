@@ -88,8 +88,6 @@ This is meant to grow with other people: a component, a resource, a concept, a s
 better translation. Open an issue or a pull request. Small ones are welcome, and so is telling me
 something here is wrong.
 
-Built by [Munir Torres](https://github.com/Mun1to) · [vibeset.dev](https://vibeset.dev)
-
 ## Don't trust it, check it
 
 Published code only helps if somebody actually reads it, and almost nobody does. So
