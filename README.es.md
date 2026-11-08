@@ -1,25 +1,34 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="redesign/public/brand/logo-blanco.svg">
-  <img alt="Vibeset" src="redesign/public/brand/logo-negro.svg" width="104">
-</picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="redesign/public/brand/logo-blanco.svg"><img src="redesign/public/brand/logo-negro.svg" alt="Vibeset" height="88"></picture>
 
-### Un sitio con todo lo que necesitas para construir en la web
+# Vibeset
+
+**Un sitio con todo lo que necesitas para construir en la web**
 
 100 lenguajes de programación, 83 herramientas de frontend, 41 técnicas de diseño,
 43 componentes en vivo, 19 skills de agente y 39 consejos,
 más un servidor MCP para agentes. Gratis, bilingüe, sin registro y sin rastreo.
 
-<a href="https://vibeset.dev">
-  <img alt="Abrir vibeset.dev" src=".github/assets/boton-abrir.svg" width="268">
-</a>
+<a href="https://vibeset.dev"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/readme/download-web-dark.es.svg"><img src=".github/readme/download-web-light.es.svg" alt="Abrir vibeset.dev"></picture></a>
 
-[English](README.md) · **Español**
+[Licencia El código es MIT, el material escrito es CC BY 4.0](LICENSE)
+
+[Web](https://vibeset.dev) · [Referencia del MCP](MCP.md) · [English](README.md)
 
 </div>
 
----
+## Qué hay dentro
+
+|  |  |
+|---|---|
+| **100 lenguajes** | Año, creador, paradigma, popularidad, extensiones, ecosistema, ventajas, desventajas y un ejemplo de código que enseña de verdad qué pinta tiene. Busca por nombre, uso o extensión (`.py`, `.rs`), filtra por categoría, compara hasta tres a la vez, o haz un test corto que te recomienda uno según lo que quieras construir, tu nivel y lo que valoras. |
+| **83 recursos de frontend** | Las herramientas que merecen la tarde: generadores de interfaces con IA, bloques ya hechos, frameworks de CSS, librerías de componentes, animación, iconos, color, fondos, tipografía e inspiración. |
+| **41 conceptos de diseño web** | Parallax, smooth scroll, animaciones ligadas al scroll, tilt 3D, glassmorphism, View Transitions, container queries, Core Web Vitals y más. Cada uno con qué es, para qué sirve y un ejemplo copiable con lo mínimo que hay que escribir. |
+| **43 componentes en vivo** | Tela, despegado, ASCII, tramado, brillo cromático, relieve y más, cada uno corriendo a tamaño real con sus mandos a la vista. Mueve los controles y copia el código con tus valores ya puestos. Los escritos para Vibeset son MIT: el header de píldora deslizante, el acordeón de preguntas, la matrioska parallax y un gran conjunto de piezas escritas desde cero (texto, micro-interacciones, interfaz, Canvas 2D y shaders); el resto son efectos de terceros, cada uno con el crédito y el enlace de su autor. |
+| **Piezas que hacen lo que un componente de React Bits, escritas desde cero** | React Bits es MIT con Commons Clause, que prohíbe redistribuir sus componentes, así que nada de su código está aquí. Donde queríamos la misma idea escribimos una pieza propia, con su nombre y sus props, y al pie de la página de esa pieza va nuestro análisis del original: cuándo usarlo, qué cuesta, qué dice su código de la accesibilidad, el prompt para pedírselo a tu agente y el comando de instalación del original, por si prefieres usar ese. |
+| **19 skills de agente** | Instrucciones que le das una vez a tu agente de código y ya se sabe para siempre: revisar una pantalla en móvil, auditar accesibilidad, revisar un diff, depurar hasta la causa real, escribir el mensaje de un commit. Copias el `SKILL.md`, lo pegas en su carpeta, o instalas con dos comandos las seis que se publican como plugin: `/plugin marketplace add Mun1to/Vibeset` y luego `/plugin install <nombre>@vibeset`. |
+| **39 consejos** | Cosas cortas que se aprenden perdiendo tardes, las de la casa y las que aporta la gente. Abierto a colaboradores por pull request. |
 
 ## Por qué existe
 
@@ -36,44 +45,6 @@ mandos en lugar de un vídeo de otro usándolos. Es gratis y va a seguir siéndo
 y no te rastrea. En dos idiomas, porque lo bueno no debería estar solo en inglés.
 
 No es un curso ni quiere serlo. Es la estantería que miras antes de empezar.
-
-## Qué hay dentro
-
-**100 lenguajes.** Año, creador, paradigma, popularidad, extensiones, ecosistema, ventajas,
-desventajas y un ejemplo de código que enseña de verdad qué pinta tiene. Busca por nombre, uso o
-extensión (`.py`, `.rs`), filtra por categoría, compara hasta tres a la vez, o haz un test corto que
-te recomienda uno según lo que quieras construir, tu nivel y lo que valoras.
-
-**83 recursos de frontend.** Las herramientas que merecen la tarde: generadores de interfaces con
-IA, bloques ya hechos, frameworks de CSS, librerías de componentes, animación, iconos, color, fondos,
-tipografía e inspiración.
-
-**41 conceptos de diseño web.** Parallax, smooth scroll, animaciones ligadas al scroll, tilt 3D,
-glassmorphism, View Transitions, container queries, Core Web Vitals y más. Cada uno con qué es, para
-qué sirve y un ejemplo copiable con lo mínimo que hay que escribir.
-
-**43 componentes en vivo.** Tela, despegado, ASCII, tramado, brillo cromático, relieve y más, cada
-uno corriendo a tamaño real con sus mandos a la vista. Mueve los controles y copia el código con tus
-valores ya puestos. Los escritos para Vibeset son MIT: el header de píldora deslizante, el acordeón
-de preguntas, la matrioska parallax y un gran conjunto de piezas escritas desde cero (texto,
-micro-interacciones, interfaz, Canvas 2D y shaders); el resto son efectos de terceros, cada uno con
-el crédito y el enlace de su autor.
-
-**Piezas que hacen lo que un componente de React Bits, escritas desde cero.** React Bits es MIT con
-Commons Clause, que prohíbe redistribuir sus componentes, así que nada de su código está aquí. Donde
-queríamos la misma idea escribimos una pieza propia, con su nombre y sus props, y al pie de la página
-de esa pieza va nuestro análisis del original: cuándo usarlo, qué cuesta, qué dice su código de la
-accesibilidad, el prompt para pedírselo a tu agente y el comando de instalación del original, por si
-prefieres usar ese.
-
-**19 skills de agente.** Instrucciones que le das una vez a tu agente de código y ya se sabe para
-siempre: revisar una pantalla en móvil, auditar accesibilidad, revisar un diff, depurar hasta la
-causa real, escribir el mensaje de un commit. Copias el `SKILL.md`, lo pegas en su carpeta, o
-instalas con dos comandos las seis que se publican como plugin: `/plugin marketplace add
-Mun1to/Vibeset` y luego `/plugin install <nombre>@vibeset`.
-
-**39 consejos.** Cosas cortas que se aprenden perdiendo tardes, las de la casa y las que aporta la
-gente. Abierto a colaboradores por pull request.
 
 ## Úsalo desde tu agente (MCP)
 
@@ -109,6 +80,27 @@ compartir: `/languages/rust`, `/components/cloth`, `/skills/finito`.
 La interfaz y todo el contenido están en los dos idiomas, incluidos los ejemplos de código. El tema
 arranca en el de tu sistema y el selector del header lo puede cambiar.
 
+## Despliegue
+
+Cloudflare Pages, desde `main`. Root directory `redesign`, build `pnpm install && pnpm build`,
+salida `dist`. Dominio propio `vibeset.dev`.
+
+## Contribuir
+
+Esto está pensado para crecer con más gente: un componente, un recurso, un concepto, una skill, un
+arreglo, una traducción mejor. Abre un issue o una pull request. Las pequeñas también valen, y decir
+que algo de aquí está mal, también.
+
+## No te fíes, compruébalo
+
+El código abierto solo sirve si alguien lo lee, y casi nadie lo hace. Así que en vez de pedirte que
+te fíes de este proyecto, aquí tienes el texto para comprobarlo: apunta tu propia IA a este
+repositorio y te da un informe de seguridad, en tu idioma, en unos minutos, aunque no sepas
+programar.
+
+**[Abre AI-AUDIT.md](AI-AUDIT.md)** y pega ese texto en Claude Code, Codex, Cursor, Copilot o lo que
+uses. Es el mismo texto en todos los repositorios públicos de aquí, así que puedes comparar.
+
 ## Arrancarlo en tu ordenador
 
 ```bash
@@ -122,17 +114,6 @@ Abre la dirección que aparece. `pnpm build` deja el sitio de producción en `di
 
 Lo que está en vivo es la app de React de `redesign/`. El `index.html` de la raíz del repositorio es
 la versión vanilla original: se queda como historia y ya no se sirve.
-
-## Despliegue
-
-Cloudflare Pages, desde `main`. Root directory `redesign`, build `pnpm install && pnpm build`,
-salida `dist`. Dominio propio `vibeset.dev`.
-
-## Contribuir
-
-Esto está pensado para crecer con más gente: un componente, un recurso, un concepto, una skill, un
-arreglo, una traducción mejor. Abre un issue o una pull request. Las pequeñas también valen, y decir
-que algo de aquí está mal, también.
 
 ## Licencia
 
@@ -157,20 +138,6 @@ que algo de aquí está mal, también.
 Hacer tu web con lo que encuentres aquí no necesita permiso ni mención. Todo el detalle en
 **[LICENSING.md](LICENSING.md)**, y el nombre en **[TRADEMARK.md](TRADEMARK.md)**.
 
-## No te fíes, compruébalo
+<br>
 
-El código abierto solo sirve si alguien lo lee, y casi nadie lo hace. Así que en vez de pedirte que
-te fíes de este proyecto, aquí tienes el texto para comprobarlo: apunta tu propia IA a este
-repositorio y te da un informe de seguridad, en tu idioma, en unos minutos, aunque no sepas
-programar.
-
-**[Abre AI-AUDIT.md](AI-AUDIT.md)** y pega ese texto en Claude Code, Codex, Cursor, Copilot o lo que
-uses. Es el mismo texto en todos los repositorios públicos de aquí, así que puedes comparar.
-
----
-
-<div align="center">
-
-Hecho por [Munir Torres](https://github.com/Mun1to) · [vibeset.dev](https://vibeset.dev)
-
-</div>
+<p align="center">Hecho por <a href="https://munito.dev"><b>Munir Torres</b></a>. También suyo: <a href="https://adeorq.com">Adeorq</a> · <a href="https://vocript.app">VoCript</a> · <a href="https://winshotx.com">winshotx</a> · <a href="https://github.com/Mun1to/Expoal">Expoal</a> · <a href="https://github.com/Mun1to/hotkeyconfig">hotkeyconfig</a> · <a href="https://github.com/Mun1to/froede">froede</a></p>
