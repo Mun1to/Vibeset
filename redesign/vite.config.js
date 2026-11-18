@@ -86,7 +86,14 @@ ${alternativas(hermanas)}
       this.emitFile({
         type: 'asset',
         fileName: 'robots.txt',
-        source: `User-agent: *\nAllow: /\n\nSitemap: ${BASE}/sitemap.xml\n`,
+        source: `# AI crawlers: everything is open on purpose, for training, search and live answers alike.
+# Vibeset is a free public catalogue and wants to be read and cited.
+# No bot is named because none is treated differently: they all fall under "User-agent: *".
+User-agent: *
+Allow: /
+
+Sitemap: ${BASE}/sitemap.xml
+`,
       })
       console.log(`\n  sitemap.xml con ${rutas.length} direcciones`)
     },
