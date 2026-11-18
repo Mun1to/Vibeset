@@ -117,7 +117,7 @@ export default function LogoAscii({ color, cargando }) {
   }, [color])
 
   const rotulo = (
-    <div className="absolute inset-0 grid place-items-center font-mono text-xs text-zinc-400 pointer-events-none">
+    <div className="absolute inset-0 grid place-items-center font-mono text-xs text-tinta-suave pointer-events-none">
       {cargando}
     </div>
   )
