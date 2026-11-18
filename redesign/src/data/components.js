@@ -643,16 +643,13 @@ export const etiquetasDe = (item, lang) =>
 export const originalDe = (item) =>
   (item.original ? REACTBITS_ITEMS.find((r) => r.key === item.original) : null) ?? null
 
-// Solo las props que el usuario haya cambiado, como hacen las webs de componentes.
-// El nombre de una pieza de la casa sí se traduce: «Header de píldora deslizante»
-// en inglés no dice nada. Los de canvasui y arlan no tienen `nameEn` porque son
-// nombres propios (Bubble, Cloth) y esos no se traducen.
-export const nombreDe = (item, lang) => (lang === 'en' && item.nameEn) || item.name
+export { nombreDe } from '../lib/nombreDe.js'
 
 // El peso del fuente de una ficha de referencia, con la coma de cada idioma.
 export const formatoKb = (kb, lang) =>
   `${kb.toLocaleString(lang === 'en' ? 'en-US' : 'es-ES', { maximumFractionDigits: 1 })} KB`
 
+// Solo las props que el usuario haya cambiado, como hacen las webs de componentes.
 export function changedProps(item, values) {
   // Un control marcado `soloDemo` mueve el escenario de la ficha (por ejemplo, hacer
   // que la acción simulada falle) pero no es una prop de la pieza: si saliera en el

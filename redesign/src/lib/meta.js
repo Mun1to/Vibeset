@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { TOTALES } from './totales.js'
 import { traducirRuta } from './rutas.js'
-import { nombreDe } from '../data/components.js'
+import { nombreDe } from './nombreDe.js'
 
 // Con una sola URL, el título y la descripción de la pestaña valían para todo el
 // sitio. Ahora que cada ficha tiene la suya, cada una dice lo suyo: es lo que se
