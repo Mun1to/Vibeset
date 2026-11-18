@@ -55,11 +55,15 @@ async function rutasDelSitio() {
 // y pico direcciones, y una lista escrita a mano se queda vieja en cuanto se
 // añade un lenguaje. Se emite al dist, así que no hay un archivo generado versionado.
 function sitemap() {
+  let raiz
+
   return {
     name: 'vibeset-sitemap',
+    configResolved(config) { raiz = config.root },
     async generateBundle() {
       const rutas = await rutasDelSitio()
-      const hoy = new Date().toISOString().slice(0, 10)
+      const { fechasDeRutas } = await import('./src/lib/fechasDePaginas.js')
+      const fechas = fechasDeRutas(rutas, raiz)
 
       // Las versiones por idioma se declaran DENTRO del sitemap, además de en el
       // head de cada página. Es lo que pide Google para un sitio en dos idiomas:
@@ -75,8 +79,8 @@ function sitemap() {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${rutas.map(({ ruta, prioridad, hermanas }) => `  <url>
     <loc>${BASE}${ruta}</loc>
-${alternativas(hermanas)}
-    <lastmod>${hoy}</lastmod>
+${alternativas(hermanas)}${fechas.get(ruta) ? `
+    <lastmod>${fechas.get(ruta)}</lastmod>` : ''}
     <priority>${prioridad}</priority>
   </url>`).join('\n')}
 </urlset>
@@ -97,7 +101,7 @@ Sitemap: ${BASE}/sitemap.xml
       })
       // Dice qué commit está sirviendo la web, para que el aviso a IndexNow espere a que llegue.
       this.emitFile({ type: 'asset', fileName: 'version.txt', source: `${process.env.CF_PAGES_COMMIT_SHA || 'local'}\n` })
-      console.log(`\n  sitemap.xml con ${rutas.length} direcciones`)
+      console.log(`\n  sitemap.xml con ${rutas.length} direcciones, ${rutas.filter((r) => fechas.get(r.ruta)).length} con fecha`)
     },
   }
 }
