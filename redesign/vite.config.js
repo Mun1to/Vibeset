@@ -95,6 +95,8 @@ Allow: /
 Sitemap: ${BASE}/sitemap.xml
 `,
       })
+      // Dice qué commit está sirviendo la web, para que el aviso a IndexNow espere a que llegue.
+      this.emitFile({ type: 'asset', fileName: 'version.txt', source: `${process.env.CF_PAGES_COMMIT_SHA || 'local'}\n` })
       console.log(`\n  sitemap.xml con ${rutas.length} direcciones`)
     },
   }

@@ -19,3 +19,6 @@ GEMINI.md
 
 # Capturas y trazas del servidor MCP de navegador: son de la sesion, no del producto.
 .playwright-mcp/
+
+# Estado local del aviso a IndexNow
+.indexnow-estado.json

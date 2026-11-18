@@ -1,0 +1,52 @@
+name: IndexNow
+
+# Cuando una publicación llega a vibeset.dev, avisa a los buscadores de las páginas que han cambiado.
+on:
+  push:
+    branches: [main]
+    paths: ['redesign/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: true
+
+jobs:
+  avisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Esperar a que la web sirva este commit
+        run: |
+          for intento in $(seq 1 60); do
+            servido=$(curl -fsS https://vibeset.dev/version.txt || true)
+            git fetch -q origin main
+            if [ -n "$servido" ] && git merge-base --is-ancestor "$GITHUB_SHA" "$servido" 2>/dev/null; then
+              echo "La web sirve $servido"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "La web no ha llegado a $GITHUB_SHA en 15 minutos"
+          exit 1
+
+      - name: Recuperar el estado de la publicación anterior
+        uses: actions/cache@v6
+        with:
+          path: .indexnow-estado.json
+          key: indexnow-estado-${{ github.run_id }}
+          restore-keys: indexnow-estado-
+
+      - name: Avisar de lo que ha cambiado
+        run: node redesign/scripts/avisar-indexnow.mjs
