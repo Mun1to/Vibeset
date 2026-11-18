@@ -7,7 +7,7 @@
 **Un sitio con todo lo que necesitas para construir en la web**
 
 100 lenguajes de programación, 83 herramientas de frontend, 41 técnicas de diseño,
-43 componentes en vivo, 19 skills de agente y 39 consejos,
+43 componentes en vivo, 20 skills de agente y 39 consejos,
 más un servidor MCP para agentes. Gratis, bilingüe, sin registro y sin rastreo.
 
 <a href="https://vibeset.dev"><picture><source media="(prefers-color-scheme: dark)" srcset=".github/readme/download-web-dark.es.svg"><img src=".github/readme/download-web-light.es.svg" alt="Abrir vibeset.dev"></picture></a>
@@ -36,7 +36,7 @@ más un servidor MCP para agentes. Gratis, bilingüe, sin registro y sin rastreo
 | **41 conceptos de diseño web** | Parallax, smooth scroll, animaciones ligadas al scroll, tilt 3D, glassmorphism, View Transitions, container queries, Core Web Vitals y más. Cada uno con qué es, para qué sirve y un ejemplo copiable con lo mínimo que hay que escribir. |
 | **43 componentes en vivo** | Tela, despegado, ASCII, tramado, brillo cromático, relieve y más, cada uno corriendo a tamaño real con sus mandos a la vista. Mueve los controles y copia el código con tus valores ya puestos. Los escritos para Vibeset son MIT: el header de píldora deslizante, el acordeón de preguntas, la matrioska parallax y un gran conjunto de piezas escritas desde cero (texto, micro-interacciones, interfaz, Canvas 2D y shaders); el resto son efectos de terceros, cada uno con el crédito y el enlace de su autor. |
 | **Piezas que hacen lo que un componente de React Bits, escritas desde cero** | React Bits es MIT con Commons Clause, que prohíbe redistribuir sus componentes, así que nada de su código está aquí. Donde queríamos la misma idea escribimos una pieza propia, con su nombre y sus props, y al pie de la página de esa pieza va nuestro análisis del original: cuándo usarlo, qué cuesta, qué dice su código de la accesibilidad, el prompt para pedírselo a tu agente y el comando de instalación del original, por si prefieres usar ese. |
-| **19 skills de agente** | Instrucciones que le das una vez a tu agente de código y ya se sabe para siempre: revisar una pantalla en móvil, auditar accesibilidad, revisar un diff, depurar hasta la causa real, escribir el mensaje de un commit. Copias el `SKILL.md`, lo pegas en su carpeta, o instalas con dos comandos las seis que se publican como plugin: `/plugin marketplace add Mun1to/Vibeset` y luego `/plugin install <nombre>@vibeset`. |
+| **20 skills de agente** | Instrucciones que le das una vez a tu agente de código y ya se sabe para siempre: revisar una pantalla en móvil, auditar accesibilidad, revisar un diff, depurar hasta la causa real, escribir el mensaje de un commit. Copias el `SKILL.md`, lo pegas en su carpeta, o instalas con dos comandos las ocho que se publican como plugin: `/plugin marketplace add Mun1to/Vibeset` y luego `/plugin install <nombre>@vibeset`. |
 | **39 consejos** | Cosas cortas que se aprenden perdiendo tardes, las de la casa y las que aporta la gente. Abierto a colaboradores por pull request. |
 
 ## Por qué existe

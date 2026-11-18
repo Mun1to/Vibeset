@@ -1631,6 +1631,630 @@ Criteria: here every question gets asked at once, in a single pass.`,
   },
 
   {
+    key: 'gresso',
+    group: 'flujo',
+    name: 'gresso',
+    nameEn: 'gresso',
+    repo: 'https://github.com/Mun1to/Gresso',
+    plugin: 'gresso@vibeset',
+    files: ['SKILL.md', 'references/plantilla.html', 'scripts/gresso.py'],
+    es: {
+      label: 'Gresso',
+      what: 'El progreso de un encargo en una sola página que no hay que pedir. Mientras el agente trabaja va reescribiendo el mismo archivo, y la pestaña abierta se pone al día sola.',
+      when: 'En cuanto el encargo tenga cuatro pasos o más, o vaya a durar más de unos minutos.',
+      description:
+        'Monta el documento de seguimiento de un encargo largo como un HTML de un solo archivo que el agente va reescribiendo mientras trabaja, con barra de progreso, porcentaje, cuántas tareas quedan, cuáles están hechas, cuáles en curso y cuáles bloqueadas, en una ruta fija, y la pestaña abierta se pone al día sola. Úsalo al empezar cualquier trabajo de varios pasos o que vaya a durar un rato, y cuando pidan "qué queda por hacer", "un seguimiento", "ponme el progreso", "una lista con casillas", "un HTML que se vaya actualizando", "quiero ver por dónde vas sin preguntarte" o "/gresso". Sustituye a ir cantando el avance por la terminal.',
+      body: `# Gresso
+
+El progreso de un encargo en una sola página que no hay que pedir. Mientras el agente trabaja va
+reescribiendo el mismo archivo, y la pestaña abierta se pone al día sola en unos segundos, sin
+pulsar nada: cualquiera la mira y ve por dónde va **sin cortarle y sin esperar al cierre**.
+
+Sin esto hay dos salidas malas: preguntarle al agente (y pararlo) o esperar al resumen final.
+Un seguimiento que solo se escribe al terminar no es un seguimiento, es un informe.
+
+## Cuándo se usa, y cuándo no
+
+**Sí**, en cuanto el encargo tenga **cuatro pasos o más**, o vaya a durar más de unos minutos:
+levantar algo nuevo, una migración, una auditoría, un plan con casillas, limpiar un repo
+entero, el parte de lo que queda por desarrollar en un proyecto.
+
+**No**, para una respuesta de una sola vez ni un arreglo de dos líneas. Montar un seguimiento para tres pasos es ceremonia, y una
+herramienta que salta a cada rato se acaba ignorando entera.
+
+## Proceso
+
+Todo pasa por \`scripts/gresso.py\`, dentro de la carpeta de esta skill (la que aparece como
+directorio base al cargarla). Python 3, sin dependencias. En los ejemplos, \`GRESSO\` es la ruta
+a ese script; en Windows, \`python\` en vez de \`python3\`.
+
+### 1. Parte el encargo en tareas antes de tocar nada
+
+Cada tarea es **una cosa que se puede dar por cerrada de una vez**, dicha en una frase y en
+palabras llanas: quien lo lee quiere saber qué falta, no leerse tu plan técnico. Si una tarea
+necesita una lista de viñetas para contarse, son varias tareas.
+
+Agrúpalas en **fases** cuando el trabajo tenga etapas de verdad (\`Montaje\`, \`Pruebas\`,
+\`Publicación\`). Si no las tiene, una sola fase y ya; inventar fases para que la página parezca
+más seria es ruido.
+
+Cada tarea admite:
+
+- \`texto\` - la frase. Obligatorio.
+- \`estado\` - \`pendiente\` (por defecto), \`haciendo\`, \`hecho\`, \`bloqueado\`, \`descartado\`.
+- \`nota\` - una línea de detalle, y en lo bloqueado **qué falta exactamente** para desbloquearlo.
+- \`peso\` - un número, solo cuando una tarea vale por varias y un porcentaje plano mentiría.
+- \`quien\` - \`"tu"\` si le toca a quien lee; sin este campo, la tarea es del agente.
+- \`id\` - se lo pone el script solo (\`t1\`, \`t2\`...). Un id **no cambia nunca**, aunque luego se
+  añadan tareas en medio, así que se puede recordar para marcarla después.
+
+Lo de la persona va aparte de lo del agente, en dos columnas en pantalla grande y en una en el
+móvil (lo que tiene que decidir, encima y a todo el ancho), y con todo lo que necesita para hacerlo
+sin preguntar:
+
+- \`porque\` - por qué le toca, en una o dos frases.
+- \`pasos\` - la lista de pasos numerados.
+- \`acciones\` - botones: \`{"texto": "Abrir el panel", "url": "https://..."}\` abre un enlace y
+  \`{"texto": "Copiar el correo", "copiar": "..."}\` copia un dato.
+- \`dime\` - lo que tiene que decirte al acabar.
+- \`ya\` - \`true\` si tiene que hacerlo **ya, sí o sí**. Solo cuando se cumplen las dos cosas: solo puede
+  hacerlo quien lee (su cuenta, su firma, su dinero, su permiso para publicar, su opinión cuando un
+  trabajo está parado esperándola) **y** algo se para o se pierde si no lo hace ahora (un trabajo
+  bloqueado, un plazo, una caducidad). Su \`texto\` dice qué hace, dónde y qué se para si no lo hace, en
+  la misma frase: \`"Pagar la factura del servidor antes del día 10: si no, lo apagan"\`.
+
+**Lo urgente va arriba del todo y aparte**, en «Ya, sí o sí», por encima de «Lo siguiente», con sus
+pasos y sus botones como cualquier tarea suya. Entonces el resto de lo suyo pasa a llamarse «Cuando
+puedas». **Como mucho tres a la vista**, en el orden de la página: si hay más, una línea dice cuántas
+y las demás bajan, las primeras, a «Cuando puedas» (el script avisa). Si todo es urgente, nada lo es:
+lo que puede esperar no lleva \`ya\`. Sin ninguna tarea \`ya\`, el bloque no sale y la página queda como
+siempre. Vale también en una decisión. Para subirla o bajarla después, sin tocar su estado:
+\`estado <ruta> t3=ya\` o \`estado <ruta> t3=noya\`. Cuando pasa a \`hecho\`, sale sola del bloque. En lo
+que hace el agente, \`ya\` no vale: no es urgente para quien lee si no tiene que hacerlo él.
+
+Cada tarea suya lleva una casilla que guarda en su navegador y cuenta en el porcentaje. **Esa casilla
+no llega a ti**: cuando te lo diga, márcala con \`estado\`, y entonces cuenta también en \`ver\`. \`porque\`,
+\`pasos\`, \`dime\` y \`nota\` admiten \`<strong>\`, \`<em>\`, \`<code>\` y enlaces; cualquier otra etiqueta se ignora.
+
+**Lo que tiene que decidir va en la misma página**, no en otra. Una decisión es una tarea con el
+campo \`decision\`:
+
+\`\`\`json
+{"texto": "¿Publico hoy o espero al lunes?", "quien": "tu",
+ "porque": "El lunes tendrás a alguien mirando si algo falla.",
+ "decision": {
+   "opciones": [
+     {"texto": "Hoy", "icono": "ya", "detalle": "Queda publicado esta tarde y te lo enseño.",
+      "recomendada": true, "porque": "lo que falta ya está probado y el lunes hay otra entrega.",
+      "malo": "Si algo falla, lo veo yo solo hasta el lunes.", "bueno": "Queda hecho hoy.",
+      "cuesta": "Nada.", "noHace": "avisar a los clientes, eso va aparte"},
+     {"texto": "El lunes", "icono": "esperar", "detalle": "Lo dejo listo y lo publico el lunes a primera hora.",
+      "malo": "Tres días más sin la versión nueva.", "bueno": "Hay alguien mirando si algo falla.",
+      "cuesta": "Tres días."}
+   ],
+   "siNoDices": "Si no me dices nada, espero al lunes."
+ }}
+\`\`\`
+
+Así se escribe para que se entienda en frío:
+
+- \`texto\` de la tarea es **la pregunta entera**, en una frase que acaba en «?». \`porque\` dice por qué hay
+  que decidirlo ahora, y \`siNoDices\`, qué pasa si no contesta.
+- En cada opción, \`texto\` es **la palabra** (de una a tres palabras) y \`detalle\` **la frase**: qué le
+  pasa a quien lee si la elige, con verbo.
+- \`malo\`, \`bueno\` y \`cuesta\`, **una línea cada uno y siempre los tres**, para que las opciones se
+  comparen solas. Si una opción se puede leer de dos maneras, \`noHace\` dice lo que no incluye.
+- La recomendada lleva \`"recomendada": true\` y su \`porque\`, y **nunca se deja marcada de antemano**.
+- \`icono\`, si quieres, uno de los que trae la plantilla: \`si\`, \`no\`, \`ya\`, \`esperar\`, \`pregunta\`,
+  \`gente\`, \`dinero\`, \`texto\`, \`igual\`, \`estrella\`, \`lapiz\`, \`flecha\`, \`escudo\`.
+- Mejor tres decisiones abiertas como mucho: lo que puedes decidir tú, lo decides y lo cuentas.
+
+En la página se ve **una decisión cada vez**, a todo el ancho, encima de las dos columnas: arriba la
+pregunta, las opciones como baldosas de palabra y frase (la recomendada lo dice), y al pulsar una sale
+lo malo, lo bueno y lo que cuesta, y por qué es la recomendada. Solo se marca una, salvo con
+\`"varias": true\`. Debajo, la caja «Otra cosa, con tus palabras»; «Siguiente» pasa a la otra y al final
+sale lo decidido, cada una con su «Cambiar», con **un solo «Copiar respuestas»**. Todo se guarda en
+su navegador, y la pestaña sigue en la misma decisión cuando se pone al día sola. Una decisión con
+\`ya\` va arriba, sola en su tarjeta.
+
+Cada decisión abierta lleva **una letra** (A, B, C...) y cada opción **un número**, en el orden de la
+página, y así llega el texto copiado: \`A. ¿Publico hoy o espero al lunes? → 1 · Hoy\`. Si las mismas
+preguntas tienen que ir también por otro sitio (una herramienta que pregunta desde el móvil, por
+ejemplo), sácalas con \`decisiones\`: las da con su letra, en el mismo orden y con las opciones
+numeradas igual, para que «A uno» quiera decir lo mismo en los dos sitios.
+
+\`\`\`bash
+python3 "$GRESSO" decisiones "<ruta>"
+# [{"letra": "A", "id": "t3", "title": "¿Publico hoy...?", "context": "...",
+#   "options": [{"text": "Hoy", "detail": "...", "recommended": true}, ...]}]
+\`\`\`
+
+Cuando te conteste, ciérrala: \`estado t3=hecho:"eligió el lunes"\`. Las letras de las que quedan se
+corren, así que si vuelves a preguntar por otro sitio, sácalas otra vez.
+
+Lo \`descartado\` sale del total: no es trabajo que quede, y dejarlo contando hunde el porcentaje
+sin motivo. Se queda escrito y tachado, al final con lo hecho, porque saber qué se decidió no hacer es información.
+
+### 2. Una sola página por frente
+
+Una persona nunca debería preguntarse cuál de sus pestañas es la buena. **Si ya hay un seguimiento
+abierto de este frente, no crees otro: añade a ese con \`anadir\`.** \`crear\` avisa por la salida de
+errores si ve otro sin terminar en esa carpeta o para ese proyecto, con su ruta y su porcentaje, y
+aun así crea la página: si no es el mismo frente, sigue. Si es el mismo, borra la que acabas de
+crear y usa la otra.
+
+El proyecto es el repositorio de git donde trabajas, o el que digas con \`--proyecto\`. Para acordarse
+entre sesiones, \`crear\` apunta la ruta de la página y su proyecto en \`~/.gresso/seguimientos.json\`
+(otra ubicación con la variable \`GRESSO_REGISTRO\`). Es un archivo local y no sale de la máquina.
+
+### 3. Crea el archivo en una ruta que no cambie
+
+**Ninguna contraseña ni clave a la vista.** Si la persona necesita una, va en un botón que la copia sin
+enseñarla: \`{"texto": "Copiar la contraseña", "copiar": "..."}\`. El script avisa si ve algo con esa
+pinta en un texto visible, y aun así el dato sigue dentro del archivo: esa página no se sube a ningún sitio.
+
+En la carpeta temporal de la sesión si es el parte de un encargo, **nunca dentro del código del
+proyecto**. El nombre no lleva fecha ni número de versión: la misma pestaña tiene que servir de
+principio a fin.
+
+\`\`\`bash
+python3 "$GRESSO" crear "<carpeta temporal>/seguimiento.html" <<'EOF'
+{
+  "titulo": "Migrar la web a Cloudflare",
+  "subtitulo": "Lo que queda para que el dominio sirva con HTTPS y despliegue solo.",
+  "parte": "Arrancando: todavía no he tocado el DNS.",
+  "fases": [
+    {"nombre": "Preparar", "tareas": [
+      {"texto": "Crear el token de API con los permisos justos", "estado": "haciendo"},
+      {"texto": "Conectar el repositorio a Pages"}
+    ]},
+    {"nombre": "Comprobar", "tareas": [
+      {"texto": "Que el candado salga en el dominio y en www"}
+    ]}
+  ]
+}
+EOF
+\`\`\`
+
+Si la tubería da guerra (o el JSON es largo), escríbelo en un archivo y pásalo con
+\`--datos archivo.json\`, que vale igual en \`crear\` y en \`anadir\`. La entrada se lee en UTF-8, y si
+no lo es en cp1252, así que las tildes y las eñes llegan bien desde
+Git Bash. La tubería de PowerShell 5.1 las convierte en \`?\` antes de llegar y ya no se pueden recuperar: allí, \`--datos\` (el script avisa).
+
+El script imprime la ruta absoluta y nada más. **No abras la plantilla ni el HTML generado con
+las herramientas de leer archivo**: son cientos de líneas que no necesitas en el contexto, y
+para eso está \`ver\`.
+
+### 4. Ábrelo una vez, delante, y dilo en una línea
+
+Ábrelo tú mismo en el navegador (\`Start-Process "<ruta>"\` en Windows, \`open\` en macOS,
+\`xdg-open\` en Linux), sin pedir permiso y sin limitarte a dejar la ruta escrita para que otro la
+abra a mano. En el chat, **una sola línea**: qué estás haciendo y que la página se pone al día sola.
+Nunca repitas la lista de tareas en la terminal: ya la tiene delante.
+
+La página **se pone al día sola**: cada orden escribe \`<ruta>.version.js\` al lado del HTML, la
+pestaña lo pide cada 5 segundos y solo recarga si ha cambiado. Sin cambios no recarga ni parpadea,
+y al recargar conserva el scroll, lo plegado, lo marcado y lo escrito. No recarga mientras alguien
+escribe o tiene un texto seleccionado. **Deja ese archivo junto al HTML**: si lo mueves o lo
+borras, la pestaña deja de enterarse.
+
+### 5. Reescríbelo cada vez que avanzas, no al final
+
+Esta es la skill entera. Al cerrar un paso, al empezar el siguiente, al chocar con un bloqueo
+y al cambiar el plan:
+
+\`\`\`bash
+# cambiar estados (varios de una vez); con ":" detrás se pone la nota, y con ":" solo se borra
+python3 "$GRESSO" estado "<ruta>" t1=hecho t2=haciendo "t5=bloqueado:falta la clave de API"
+
+# subir a «Ya, sí o sí» lo que no puede esperar, o bajarlo a «Cuando puedas»
+python3 "$GRESSO" estado "<ruta>" t4=ya t6=noya
+
+# el parte de situación de arriba, en dos o tres líneas
+python3 "$GRESSO" parte "<ruta>" "DNS ya apuntando. Esperando a que propague para probar el candado."
+
+# tareas que aparecen por el camino (lo normal, no un fallo del plan)
+python3 "$GRESSO" anadir "<ruta>" --fase "Comprobar" <<'EOF'
+[{"texto": "Redirigir www al dominio sin www"}]
+EOF
+
+# recordar qué ids hay, sin cargar el HTML en el contexto
+python3 "$GRESSO" ver "<ruta>"
+
+# las decisiones abiertas, con su letra y en el orden de la página
+python3 "$GRESSO" decisiones "<ruta>"
+\`\`\`
+
+Cada uno de esos comandos reescribe también **la fecha y la hora de arriba**, que es lo único
+que le dice al lector si lo que mira es de ahora.
+
+Dos trampas que lo convierten en un informe sin que te des cuenta:
+
+1. **Marcar varias tareas de golpe al terminar.** Si la página pasa de 20% a 100% en un solo
+   salto, no ha servido para nada mientras trabajabas.
+2. **No apuntar lo que surge.** Las tareas nuevas se añaden cuando aparecen; un porcentaje que
+   solo sube porque el plan se hizo pequeño es mentira.
+
+### 6. Al cerrar
+
+Deja todo en su estado real, incluido lo que quedó sin hacer y por qué. Un seguimiento que
+termina con tareas en \`haciendo\` para siempre es basura. Si el encargo sigue mañana, **el
+archivo se queda**: es el único sitio donde está lo que faltaba.
+
+Si lo que seguías es del proyecto y no de la sesión (lo que queda por desarrollar), la fuente
+sigue siendo la del proyecto (su lista de metas, su \`TODO.md\` o lo que use): **el HTML es su
+vista, se regenera cuando cambia la fuente y nunca manda sobre ella.** Y si es un documento
+interno, no se sube a un repositorio público.
+
+## Lo que ya trae la plantilla, y no hay que tocar
+
+- **Un solo archivo, cero CDN.** Tiene que verse igual sin internet.
+- **Tema del sistema sin botón**, claro u oscuro por \`prefers-color-scheme\`, y legible en el móvil.
+- **Arriba del todo, «Ya, sí o sí»**, solo si alguna tarea lleva \`ya\`: como mucho tres, una al lado
+  de otra en pantalla grande y una debajo de otra en el móvil, y una línea si hay más.
+- **Debajo, «Lo siguiente»**: lo que le toca a quien lee, con un botón que lleva a ese paso, y lo
+  que hace el agente ahora. Sale solo de las tareas, no se escribe aparte: basta con que los estados
+  estén al día. Mientras quede algo en «Ya, sí o sí», la línea de quien lee no sale, porque lo
+  repetiría. El \`parte\` va debajo de lo del agente.
+- **La cifra grande del porcentaje, una barra de un solo color y una frase**: «31 de 60 tareas
+  hechas. Quedan 29.», que es la pregunta de verdad.
+- **Lo que tiene que decidir, una cada vez y a todo el ancho**, con las opciones como baldosas de
+  palabra y frase, lo malo, lo bueno y lo que cuesta de la elegida, «Siguiente» y un solo «Copiar
+  respuestas» al final.
+- **Lo parado va primero** en lo que hace el agente, con lo que falta para desbloquearlo.
+- **El estado es una palabra suelta en negrita** («Ahora», «Parado») y una casilla. Sin fichas, sin
+  puntos de color, sin nada que lata y sin mini gráficos: la página no se explica a sí misma.
+- **Lo hecho, plegado y al final**, con su número: la pregunta de quien abre la página es qué falta.
+- **Letra de 17 px para arriba**, que crece en pantallas grandes, y nada por debajo de 16.
+- **La hora de la última novedad en la cabecera**, y el porcentaje también en el título de la
+  pestaña. **Si el archivo lleva 90 minutos sin escribirse, lo dice en rojo** («lleva 2 h sin
+  moverse») en vez de seguir aparentando estar al día: si paras con tareas abiertas, se verá.
+- **Se pone al día sola y no te mueve de sitio**: conserva el scroll al recargar.
+
+## La marca del proyecto
+
+Sin marca, la página usa una paleta neutra. Con \`--marca\` lleva el logo, la mascota, los colores y la
+letra del proyecto, **sin tocar el HTML**:
+
+\`\`\`bash
+python3 "$GRESSO" crear "<ruta>" --marca marca.json --datos datos.json
+\`\`\`
+
+\`\`\`json
+{"nombre": "Mi proyecto", "logo": "logo.svg", "logoOscuro": "logo-claro.svg",
+ "mascota": "mascota.png", "pixelada": false,
+ "colores": {"acento": "#3E5BA9", "fondo": "#FAF9F6", "tinta": "#101A3D"},
+ "oscuro": {"fondo": "#0E1116", "tinta": "#EEF1F8"},
+ "letra": "Inter", "letraTitulos": "Montserrat"}
+\`\`\`
+
+Todo es opcional. Las imágenes son un archivo (relativo al JSON), un \`<svg>\` o un \`data:\`, y quedan
+dentro de la página, que sigue siendo un solo archivo. Colores: \`fondo\`, \`tarjeta\`, \`tinta\`, \`texto\`,
+\`suave\`, \`acento\`, \`acentoTexto\`, \`sobreAcento\`, \`botonSuave\`, \`botonSuaveTexto\`, \`linea\`, \`caja\`,
+\`exito\`, \`alerta\` y \`fondoBarra\`. La letra tiene que estar instalada: la página no descarga nada.
+
+Para pasar una página ya creada a la plantilla actual, o cambiarle la marca, sin perder nada:
+
+\`\`\`bash
+python3 "$GRESSO" renovar "<ruta>" --marca marca.json
+\`\`\`
+
+Conserva las tareas y sus ids, deja una copia en \`<ruta>.bak\`, y la pestaña abierta se pone al día sola
+sin perder lo marcado.
+
+## Archivos
+
+- \`references/plantilla.html\` - la página. Se copia, no se edita a mano.
+- \`scripts/gresso.py\` - crea y actualiza el bloque de datos sin que el HTML pase por el modelo.`,
+    },
+    en: {
+      label: 'Gresso',
+      what: 'Gives a long task its own live progress page. The agent keeps rewriting one HTML file as it works, and the tab you leave open keeps itself up to date.',
+      when: 'When a task has four steps or more, or is going to take a while.',
+      description:
+        'Sets up the tracking document for a long task as a single-file HTML that the agent keeps rewriting as it works, with a progress bar, a percentage, how many tasks are left, which are done, which are in progress and which are blocked, at a fixed path, and the open tab updates by itself. Use it when starting any work with several steps or that will take a while, and when asked "what is left", "track this", "show me your progress", "a list with checkboxes", "an HTML that keeps updating", "I want to see where you are without asking" or "/gresso". It replaces narrating progress in the terminal.',
+      body: `# Gresso
+
+The progress of a task on a single page nobody has to ask for. While the agent works it keeps
+rewriting the same file, and the open tab updates by itself within seconds, without pressing
+anything: anyone can look at it and see how far along it is **without interrupting it and without
+waiting for the wrap-up**.
+
+Without this there are two bad options: ask the agent (and stop it) or wait for the final summary.
+Tracking that only gets written at the end is not tracking, it is a report.
+
+## When to use it, and when not to
+
+**Yes**, as soon as the task has **four steps or more**, or is going to take more than a few minutes:
+setting up something new, a migration, an audit, a plan with checkboxes, cleaning up a whole
+repository, the rundown of what is left to build in a project.
+
+**No**, for a one-off answer or a two-line fix. Setting up tracking for three steps is ceremony, and a
+tool that pops up all the time ends up being ignored altogether.
+
+## Process
+
+Everything goes through \`scripts/gresso.py\`, inside this skill's folder (the one shown as the base
+directory when it loads). Python 3, no dependencies. In the examples, \`GRESSO\` is the path to that
+script; on Windows, \`python\` instead of \`python3\`.
+
+### 1. Split the task into tasks before touching anything
+
+Each task is **one thing that can be closed in one go**, said in one sentence and in plain words:
+whoever reads it wants to know what is missing, not to read your technical plan. If a task needs a
+bulleted list to be told, it is several tasks.
+
+Group them in **phases** when the work has real stages (\`Montaje\`, \`Pruebas\`, \`Publicación\`). If it does
+not, one single phase and that is it; inventing phases to make the page look more serious is noise.
+
+Each task accepts:
+
+- \`texto\` - the sentence. Required.
+- \`estado\` - \`pendiente\` (the default), \`haciendo\`, \`hecho\`, \`bloqueado\`, \`descartado\`.
+- \`nota\` - one line of detail, and on what is blocked, **exactly what is missing** to unblock it.
+- \`peso\` - a number, only when one task is worth several and a flat percentage would lie.
+- \`quien\` - \`"tu"\` if it falls to the person reading; without this field, the task is the agent's.
+- \`id\` - the script assigns it by itself (\`t1\`, \`t2\`...). An id **never changes**, even if tasks are
+  added in the middle later, so it can be remembered to mark the task afterwards.
+
+What belongs to the person goes apart from what belongs to the agent, in two columns on a big screen and
+one on a phone (what they have to decide, on top and full width), with everything they need to do it
+without asking:
+
+- \`porque\` - why it falls to them, in one or two sentences.
+- \`pasos\` - the list of numbered steps.
+- \`acciones\` - buttons: \`{"texto": "Abrir el panel", "url": "https://..."}\` opens a link and
+  \`{"texto": "Copiar el correo", "copiar": "..."}\` copies a value.
+- \`dime\` - what they have to tell you when they finish.
+- \`ya\` - \`true\` if they have to do it **now, no matter what**. Only when both things hold: only the person
+  reading can do it (their account, their signature, their money, their permission to publish, their
+  opinion when work is stopped waiting for it) **and** something stops or is lost if they do not do it now
+  (blocked work, a deadline, an expiry). Its \`texto\` says what they do, where, and what stops if they do
+  not, in the same sentence: \`"Pagar la factura del servidor antes del día 10: si no, lo apagan"\`.
+
+**What is urgent goes at the very top and apart**, in "Ya, sí o sí" (now, no matter what), above "Lo
+siguiente" (what comes next), with its steps and buttons like any task of theirs. The rest of what is
+theirs is then called "Cuando puedas" (whenever you can). **At most three in view**, in page order: if
+there are more, a line says how many and the others drop, first in line, to "Cuando puedas" (the script
+warns). If everything is urgent, nothing is: what can wait does not carry \`ya\`. With no \`ya\` task, the
+block does not show and the page stays as always. It also works on a decision. To move it up or down
+later, without touching its state: \`estado <ruta> t3=ya\` or \`estado <ruta> t3=noya\`. When it becomes
+\`hecho\`, it leaves the block by itself. On what the agent does, \`ya\` does not apply: it is not urgent for
+the person reading if they do not have to do it.
+
+Each task of theirs carries a checkbox saved in their browser that counts towards the percentage. **That
+checkbox does not reach you**: when they tell you, mark it with \`estado\`, and then it also counts in
+\`ver\`. \`porque\`, \`pasos\`, \`dime\` and \`nota\` accept \`<strong>\`, \`<em>\`, \`<code>\` and links; any other tag is ignored.
+
+**What they have to decide goes on the same page**, not on another one. A decision is a task with the
+\`decision\` field:
+
+\`\`\`json
+{"texto": "¿Publico hoy o espero al lunes?", "quien": "tu",
+ "porque": "El lunes tendrás a alguien mirando si algo falla.",
+ "decision": {
+   "opciones": [
+     {"texto": "Hoy", "icono": "ya", "detalle": "Queda publicado esta tarde y te lo enseño.",
+      "recomendada": true, "porque": "lo que falta ya está probado y el lunes hay otra entrega.",
+      "malo": "Si algo falla, lo veo yo solo hasta el lunes.", "bueno": "Queda hecho hoy.",
+      "cuesta": "Nada.", "noHace": "avisar a los clientes, eso va aparte"},
+     {"texto": "El lunes", "icono": "esperar", "detalle": "Lo dejo listo y lo publico el lunes a primera hora.",
+      "malo": "Tres días más sin la versión nueva.", "bueno": "Hay alguien mirando si algo falla.",
+      "cuesta": "Tres días."}
+   ],
+   "siNoDices": "Si no me dices nada, espero al lunes."
+ }}
+\`\`\`
+
+This is how to write it so it reads cold:
+
+- The task's \`texto\` is **the whole question**, in one sentence ending in "?". \`porque\` says why it has to
+  be decided now, and \`siNoDices\`, what happens if there is no answer.
+- In each option, \`texto\` is **the word** (one to three words) and \`detalle\` **the sentence**: what happens
+  to the person reading if they pick it, with a verb.
+- \`malo\`, \`bueno\` and \`cuesta\` (downside, upside and cost), **one line each and always all three**, so the
+  options compare themselves. If an option can be read two ways, \`noHace\` says what it does not include.
+- The recommended one carries \`"recomendada": true\` and its \`porque\`, and **is never preselected**.
+- \`icono\`, if you want, one of those the template brings: \`si\`, \`no\`, \`ya\`, \`esperar\`, \`pregunta\`,
+  \`gente\`, \`dinero\`, \`texto\`, \`igual\`, \`estrella\`, \`lapiz\`, \`flecha\`, \`escudo\`.
+- Three open decisions at most is better: what you can decide yourself, you decide and report.
+
+On the page **one decision shows at a time**, full width, above the two columns: the question on top, the
+options as word-and-sentence tiles (the recommended one says so), and pressing one shows the downside, the
+upside and the cost, and why it is the recommended one. Only one can be picked, unless \`"varias": true\`.
+Below, the box "Otra cosa, con tus palabras" (something else, in your own words); "Siguiente" moves on to
+the next one and at the end comes what was decided, each with its "Cambiar", with **one single "Copiar
+respuestas"**. Everything is saved in their browser, and the tab stays on the same decision when it updates
+by itself. A decision with \`ya\` goes on top, alone in its card.
+
+Each open decision carries **a letter** (A, B, C...) and each option **a number**, in page order, and that
+is how the copied text arrives: \`A. ¿Publico hoy o espero al lunes? → 1 · Hoy\`. If the same questions also
+have to go through somewhere else (a tool that asks from the phone, for example), get them with
+\`decisiones\`: it gives them with their letter, in the same order and with the options numbered the same, so
+that "A one" means the same in both places.
+
+\`\`\`bash
+python3 "$GRESSO" decisiones "<ruta>"
+# [{"letra": "A", "id": "t3", "title": "¿Publico hoy...?", "context": "...",
+#   "options": [{"text": "Hoy", "detail": "...", "recommended": true}, ...]}]
+\`\`\`
+
+When they answer, close it: \`estado t3=hecho:"eligió el lunes"\`. The letters of the remaining ones shift, so
+if you ask again through somewhere else, get them again.
+
+What is \`descartado\` leaves the total: it is not work that remains, and leaving it counted sinks the
+percentage for no reason. It stays written and crossed out, at the end with what is done, because knowing what
+was decided against is information.
+
+### 2. One single page per front
+
+A person should never have to wonder which of their tabs is the right one. **If tracking for this front is
+already open, do not create another: add to that one with \`anadir\`.** \`crear\` warns on the error output if it
+sees another unfinished one in that folder or for that project, with its path and its percentage, and creates
+the page anyway: if it is not the same front, carry on. If it is the same, delete the one you just created and
+use the other.
+
+The project is the git repository you are working in, or the one you name with \`--proyecto\`. To remember
+across sessions, \`crear\` notes the page's path and its project in \`~/.gresso/seguimientos.json\` (another
+location with the \`GRESSO_REGISTRO\` variable). It is a local file and never leaves the machine.
+
+### 3. Create the file at a path that does not change
+
+**No password or key in plain view.** If the person needs one, it goes in a button that copies it without
+showing it: \`{"texto": "Copiar la contraseña", "copiar": "..."}\`. The script warns if it sees something that
+looks like one in visible text, and even so the value is still inside the file: that page is not uploaded anywhere.
+
+In the session's temporary folder if it is the rundown of a task, **never inside the project's code**. The
+name carries no date or version number: the same tab has to serve from start to finish.
+
+\`\`\`bash
+python3 "$GRESSO" crear "<carpeta temporal>/seguimiento.html" <<'EOF'
+{
+  "titulo": "Migrar la web a Cloudflare",
+  "subtitulo": "Lo que queda para que el dominio sirva con HTTPS y despliegue solo.",
+  "parte": "Arrancando: todavía no he tocado el DNS.",
+  "fases": [
+    {"nombre": "Preparar", "tareas": [
+      {"texto": "Crear el token de API con los permisos justos", "estado": "haciendo"},
+      {"texto": "Conectar el repositorio a Pages"}
+    ]},
+    {"nombre": "Comprobar", "tareas": [
+      {"texto": "Que el candado salga en el dominio y en www"}
+    ]}
+  ]
+}
+EOF
+\`\`\`
+
+If the pipe gives trouble (or the JSON is long), write it to a file and pass it with \`--datos archivo.json\`,
+which works the same in \`crear\` and in \`anadir\`. The input is read as UTF-8, and if it is not, as cp1252, so
+accents and eñes arrive fine from Git Bash. The PowerShell 5.1 pipe turns them into \`?\` before they arrive and
+they cannot be recovered: there, use \`--datos\` (the script warns).
+
+The script prints the absolute path and nothing else. **Do not open the template or the generated HTML with the
+file-reading tools**: they are hundreds of lines you do not need in context, and that is what \`ver\` is for.
+
+### 4. Open it once, in front of them, and say so in one line
+
+Open it yourself in the browser (\`Start-Process "<ruta>"\` on Windows, \`open\` on macOS, \`xdg-open\` on Linux),
+without asking for permission and without just leaving the path written down for someone else to open by hand.
+In the chat, **one single line**: what you are doing and that the page updates by itself. Never repeat the task
+list in the terminal: they already have it in front of them.
+
+The page **updates by itself**: each command writes \`<ruta>.version.js\` next to the HTML, the tab asks for it
+every 5 seconds and reloads only if it changed. With no changes it neither reloads nor flickers, and on reloading
+it keeps the scroll, what is folded, what is checked and what is typed. It does not reload while someone is typing
+or has text selected. **Leave that file next to the HTML**: if you move it or delete it, the tab stops noticing.
+
+### 5. Rewrite it every time you move forward, not at the end
+
+This is the whole skill. When you close a step, when you start the next one, when you hit a block and when the
+plan changes:
+
+\`\`\`bash
+# cambiar estados (varios de una vez); con ":" detrás se pone la nota, y con ":" solo se borra
+python3 "$GRESSO" estado "<ruta>" t1=hecho t2=haciendo "t5=bloqueado:falta la clave de API"
+
+# subir a «Ya, sí o sí» lo que no puede esperar, o bajarlo a «Cuando puedas»
+python3 "$GRESSO" estado "<ruta>" t4=ya t6=noya
+
+# el parte de situación de arriba, en dos o tres líneas
+python3 "$GRESSO" parte "<ruta>" "DNS ya apuntando. Esperando a que propague para probar el candado."
+
+# tareas que aparecen por el camino (lo normal, no un fallo del plan)
+python3 "$GRESSO" anadir "<ruta>" --fase "Comprobar" <<'EOF'
+[{"texto": "Redirigir www al dominio sin www"}]
+EOF
+
+# recordar qué ids hay, sin cargar el HTML en el contexto
+python3 "$GRESSO" ver "<ruta>"
+
+# las decisiones abiertas, con su letra y en el orden de la página
+python3 "$GRESSO" decisiones "<ruta>"
+\`\`\`
+
+Each of those commands also rewrites **the date and time at the top**, which is the only thing that tells the
+reader whether what they are looking at is current.
+
+Two traps that turn it into a report without you noticing:
+
+1. **Marking several tasks at once at the end.** If the page jumps from 20% to 100% in a single leap, it was of no
+   use while you were working.
+2. **Not writing down what comes up.** New tasks are added when they appear; a percentage that only rises because
+   the plan got smaller is a lie.
+
+### 6. When closing
+
+Leave everything in its real state, including what was left undone and why. Tracking that ends with tasks in
+\`haciendo\` forever is rubbish. If the task carries on tomorrow, **the file stays**: it is the only place that holds
+what was missing.
+
+If what you were tracking belongs to the project and not the session (what is left to build), the source is still
+the project's (its list of goals, its \`TODO.md\` or whatever it uses): **the HTML is its view, it is regenerated when
+the source changes and it never overrides it.** And if it is an internal document, it does not go up to a public repository.
+
+## What the template already brings, and must not be touched
+
+- **One single file, zero CDN.** It has to look the same with no internet.
+- **System theme with no button**, light or dark through \`prefers-color-scheme\`, and readable on a phone.
+- **At the very top, "Ya, sí o sí"**, only if some task carries \`ya\`: three at most, side by side on a big screen and
+  one under another on a phone, and one line if there are more.
+- **Below, "Lo siguiente"**: what falls to the person reading, with a button that takes them to that step, and what the
+  agent is doing now. It comes out of the tasks by itself and is not written separately: it is enough to keep the states
+  current. While something remains in "Ya, sí o sí", the reader's line does not show, because it would repeat it. The
+  \`parte\` goes below what the agent is doing.
+- **The big percentage figure, one single-colour bar and a sentence**: "31 de 60 tareas hechas. Quedan 29.", which is the
+  real question.
+- **What they have to decide, one at a time and full width**, with the options as word-and-sentence tiles, the downside,
+  upside and cost of the chosen one, "Siguiente" and one single "Copiar respuestas" at the end.
+- **What is stopped goes first** in what the agent is doing, with what is missing to unblock it.
+- **The state is a loose bold word** ("Ahora", "Parado") and a checkbox. No pills, no coloured dots, nothing that pulses
+  and no mini charts: the page does not explain itself.
+- **What is done, folded and at the end**, with its count: the question of whoever opens the page is what is left.
+- **Type from 17 px up**, growing on big screens, and nothing below 16.
+- **The time of the latest update in the header**, and the percentage in the tab title too. **If the file has gone 90
+  minutes without being written, it says so in red** ("lleva 2 h sin moverse") instead of keeping up the appearance of being
+  current: if you stop with tasks open, it will show.
+- **It updates by itself and does not move you around**: it keeps the scroll on reload.
+
+## The project's brand
+
+With no brand, the page uses a neutral palette. With \`--marca\` it carries the project's logo, mascot, colours and font,
+**without touching the HTML**:
+
+\`\`\`bash
+python3 "$GRESSO" crear "<ruta>" --marca marca.json --datos datos.json
+\`\`\`
+
+\`\`\`json
+{"nombre": "Mi proyecto", "logo": "logo.svg", "logoOscuro": "logo-claro.svg",
+ "mascota": "mascota.png", "pixelada": false,
+ "colores": {"acento": "#3E5BA9", "fondo": "#FAF9F6", "tinta": "#101A3D"},
+ "oscuro": {"fondo": "#0E1116", "tinta": "#EEF1F8"},
+ "letra": "Inter", "letraTitulos": "Montserrat"}
+\`\`\`
+
+Everything is optional. Images are a file (relative to the JSON), an \`<svg>\` or a \`data:\`, and they end up inside the page,
+which is still one single file. Colours: \`fondo\`, \`tarjeta\`, \`tinta\`, \`texto\`, \`suave\`, \`acento\`, \`acentoTexto\`, \`sobreAcento\`,
+\`botonSuave\`, \`botonSuaveTexto\`, \`linea\`, \`caja\`, \`exito\`, \`alerta\` and \`fondoBarra\`. The font has to be installed: the page
+downloads nothing.
+
+To move an existing page to the current template, or change its brand, without losing anything:
+
+\`\`\`bash
+python3 "$GRESSO" renovar "<ruta>" --marca marca.json
+\`\`\`
+
+It keeps the tasks and their ids, leaves a copy in \`<ruta>.bak\`, and the open tab updates by itself without losing what is checked.
+
+## Files
+
+- \`references/plantilla.html\` - the page. It is copied, not edited by hand.
+- \`scripts/gresso.py\` - creates and updates the data block without the HTML going through the model.`,
+    },
+  },
+
+  {
     key: 'plan-antes-de-codigo',
     group: 'flujo',
     name: 'plan-antes-de-codigo',
