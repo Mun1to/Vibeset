@@ -1,55 +1,43 @@
-import { IDIOMAS, traducirRuta } from './rutas.js'
+import { IDIOMAS } from './rutas.js'
 
-// Qué idioma prefiere quien llega. No decide lo que se pinta, que eso lo dice la
-// dirección desde que el inglés vive en `/en`: decide si a alguien que entra por
-// una dirección española hay que llevarlo a la inglesa.
+// Qué idioma se le sugiere a quien llega. Nunca decide lo que se pinta: eso lo dice
+// la dirección, y cada dirección enseña siempre su idioma.
 //
-// El orden manda lo que haya elegido a mano; si nunca eligió, lo que pida su
-// navegador; y si tampoco encaja, español.
+// Aquí hubo un salto automático a `/en` para los navegadores en inglés, escrito con
+// la idea de que ningún buscador ejecuta JavaScript. Google sí lo ejecuta, rastrea
+// con el navegador en inglés y no manda idioma, así que al entrar en `/` acababa en
+// `/en` y la portada española, que además es el `x-default`, podía no indexarse.
 const CLAVE = 'vibeset-lang'
 
-export function idiomaPreferido() {
+function idiomaGuardado() {
   try {
     const guardado = localStorage.getItem(CLAVE)
-    if (IDIOMAS.includes(guardado)) return guardado
-  } catch { /* navegación privada sin almacenamiento */ }
+    return IDIOMAS.includes(guardado) ? guardado : null
+  } catch {
+    // Navegación privada sin almacenamiento.
+    return null
+  }
+}
 
+function idiomaDelNavegador() {
   const preferidos = navigator.languages?.length ? navigator.languages : [navigator.language]
   for (const etiqueta of preferidos ?? []) {
     // 'en-GB' y 'en' valen los dos: interesa la parte de antes del guion.
     const base = String(etiqueta).toLowerCase().split('-')[0]
     if (IDIOMAS.includes(base)) return base
   }
-  return 'es'
+  return null
+}
+
+// El idioma que merece un aviso en esta página, o `null` si no hay nada que decir.
+// Solo se sugiere el inglés en las direcciones españolas: las de `/en` son
+// explícitas, y quien comparte una está eligiendo. Y quien ya eligió, a mano o
+// cerrando el aviso, no vuelve a oír hablar del tema.
+export function idiomaASugerir(lang) {
+  if (lang !== 'es' || idiomaGuardado()) return null
+  return idiomaDelNavegador() === 'en' ? 'en' : null
 }
 
 export function guardarIdioma(lang) {
   try { localStorage.setItem(CLAVE, lang) } catch { /* sin almacenamiento */ }
-}
-
-// Lleva a la dirección inglesa a quien entra por una española con el navegador
-// en inglés y nunca ha elegido idioma. Se llama ANTES de montar React, y ese
-// detalle es la mitad del asunto: hecho dentro de un efecto, la página se pinta
-// una vez en español y cambia medio segundo después, que se ve y se lee como un
-// fallo. Aquí el router arranca ya con la dirección buena.
-//
-// Tres cosas que no son casualidad:
-//
-// - Usa `replaceState`, así que no deja escalón en el historial y el botón atrás
-//   sigue llevando de donde vino. Redirigir por idioma dejando una entrada nueva
-//   es lo que rompe el «atrás», y es la razón por la que Google desaconseja esas
-//   redirecciones.
-// - Solo va en el sentido español → inglés. Las direcciones de `/en` son
-//   explícitas: quien comparte una está eligiendo, y eso se respeta siempre.
-// - No la ve ningún buscador, porque los rastreadores no ejecutan JavaScript.
-//   Ellos ven el HTML español en `/` y el inglés en `/en`, cada uno con su
-//   canonical y sus `hreflang`, que es exactamente lo que hay que enseñarles.
-export function ajustarDireccionAlIdioma() {
-  const { pathname, search, hash } = window.location
-  if (pathname === '/en' || pathname.startsWith('/en/')) return
-  if (idiomaPreferido() !== 'en') return
-
-  const destino = traducirRuta(pathname, 'en')
-  if (destino === pathname) return
-  window.history.replaceState(null, '', destino + search + hash)
 }

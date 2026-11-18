@@ -262,11 +262,41 @@ for (const c of COMPONENT_ITEMS.filter((x) => x.origin === 'propio' && x.clase =
       await ev(`document.querySelector('main').textContent.includes(${JSON.stringify(`Y el original de React Bits: ${o.name}`)}) && [...document.querySelectorAll('main pre')].some((p) => p.textContent.includes(${JSON.stringify(o.install)}))`))
   }
 }
-// (Va antes del cambio de idioma: al pulsar el pie el navegador de la prueba se
-// queda con el inglés guardado y redirige a /en, y estas comprobaciones leen
-// textos en español.)
 
-// 9. El cambio de idioma desde el pie
+// 9. El idioma del navegador se sugiere y nunca se impone: cada dirección enseña su idioma. Google
+// rastrea con el navegador en inglés y ejecuta JavaScript, así que un salto automático le escondía
+// la portada española.
+const navegadorEn = async (acceptLanguage) => {
+  await en('Emulation.setUserAgentOverride', { userAgent: await ev('navigator.userAgent'), acceptLanguage }, sessionId)
+  await ev(`localStorage.removeItem('vibeset-lang')`)
+}
+const AVISO = 'aside[data-aviso-idioma]'
+await ir('/')
+await navegadorEn('en-US')
+await ir('/languages?cat=web')
+comprobar('idioma: un navegador en inglés se queda en la dirección española', await ev('location.pathname') === '/languages', await ev('location.pathname'))
+comprobar('idioma: el canonical sigue siendo el español', await ev(`document.querySelector('link[rel="canonical"]').href`) === 'https://vibeset.dev/languages')
+comprobar('idioma: hreflang de ida y vuelta', await ev(`document.querySelector('link[hreflang="en"]').href === 'https://vibeset.dev/en/languages' && document.querySelector('link[hreflang="es"]').href === 'https://vibeset.dev/languages' && document.querySelector('link[hreflang="x-default"]').href === 'https://vibeset.dev/languages'`))
+comprobar('idioma: la página sigue en español', await ev('document.documentElement.lang') === 'es')
+comprobar('idioma: se sugiere el inglés', await ev(`!!document.querySelector('${AVISO}')`))
+comprobar('idioma: el aviso lleva a la misma página en inglés', await ev(`document.querySelector('${AVISO} a')?.getAttribute('href')`) === '/en/languages?cat=web', await ev(`document.querySelector('${AVISO} a')?.getAttribute('href') ?? 'sin enlace'`))
+await ev(`document.querySelector('${AVISO} button')?.click()`)
+await esperar(300)
+comprobar('idioma: el aviso se cierra', await ev(`!document.querySelector('${AVISO}')`))
+await ir('/languages')
+comprobar('idioma: cerrado no vuelve a salir', await ev(`!document.querySelector('${AVISO}')`))
+await ev(`localStorage.removeItem('vibeset-lang')`)
+await ir('/languages?cat=web')
+await ev(`document.querySelector('${AVISO} a')?.click()`)
+await esperar(1200)
+comprobar('idioma: aceptar lleva a la versión inglesa', await ev('location.pathname + location.search') === '/en/languages?cat=web', await ev('location.pathname + location.search'))
+await ir('/en')
+comprobar('idioma: en una dirección inglesa no hay aviso', await ev(`!document.querySelector('${AVISO}')`))
+await navegadorEn('es-ES')
+await ir('/')
+comprobar('idioma: un navegador en español no ve el aviso', await ev(`location.pathname === '/' && !document.querySelector('${AVISO}')`))
+
+// 10. El cambio de idioma desde el pie
 await ir('/languages')
 await ev(`[...document.querySelectorAll('footer button')].find(e=>/ES\\s*\\/\\s*EN|EN\\s*\\/\\s*ES/.test(e.textContent))?.click()`)
 await esperar(1200)

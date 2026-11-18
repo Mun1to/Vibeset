@@ -37,9 +37,9 @@ export default function Pie({ t, totals, lang, onToggleLang }) {
             </a>
           ))}
 
-          {/* El idioma vive aquí y no en la barra: se acierta solo con el del
-              navegador, así que es un control que la mayoría no toca nunca y no
-              se gana la primera fila. Pero sigue estando, y a la vista: quien
+          {/* El idioma vive aquí y no en la barra: es un control que la mayoría
+              no toca nunca y no se gana la primera fila. Pero sigue estando, y a
+              la vista: quien
               lee en un idioma distinto al de su navegador (un español fuera de
               España, alguien que prefiere los términos técnicos en inglés) se
               quedaría atrapado si esto no existiera en ningún sitio.

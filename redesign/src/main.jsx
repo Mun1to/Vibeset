@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom'
 import { MotionConfig } from 'framer-motion'
 import './index.css'
 import App from './App.jsx'
-import { ajustarDireccionAlIdioma } from './lib/idioma.js'
 
 // Los efectos de canvasui ya miraban prefers-reduced-motion cada uno por su
 // cuenta; las animaciones de la propia interfaz (entradas, transiciones entre
@@ -15,12 +14,6 @@ import { ajustarDireccionAlIdioma } from './lib/idioma.js'
 // antes de montar, para que no se vea un instante repetido debajo de la
 // aplicación. En desarrollo el nodo está vacío y esto no hace nada.
 document.getElementById('pre')?.remove()
-
-// Antes de montar nada: si quien entra pide inglés y ha llegado a una dirección
-// española sin haber elegido idioma nunca, se le cambia la dirección por la
-// inglesa. Va aquí y no dentro de un efecto de React para que la aplicación
-// arranque ya en el idioma bueno, sin pintar medio segundo en el otro.
-ajustarDireccionAlIdioma()
 
 const raiz = createRoot(document.getElementById('root'))
 

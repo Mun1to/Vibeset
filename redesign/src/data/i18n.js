@@ -268,6 +268,13 @@ export const I18N = {
     verFicha: 'View details',
     ariaSearch: 'Search',
     ariaLang: 'Language',
+    // Solo existe en inglés: es lo que lee, en una página española, quien tiene el navegador en inglés.
+    avisoIdioma: {
+      zona: 'Language suggestion',
+      texto: 'This page is in Spanish.',
+      accion: 'Read in English',
+      cerrar: 'Keep reading in Spanish',
+    },
     ariaClearSearch: 'Clear search',
     demoGo: 'Go',
     demoSwitch: 'Switch',

@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import TopBar from './components/TopBar'
+import AvisoIdioma from './components/AvisoIdioma'
 import LandingView from './components/LandingView'
 import NoEncontrado from './components/NoEncontrado'
 import Pie from './components/Pie'
@@ -72,9 +73,8 @@ export default function App() {
   // al idioma equivocado.
   const cambiarIdioma = () => {
     const nuevo = lang === 'es' ? 'en' : 'es'
-    // Se recuerda porque es una elección explícita: a partir de aquí, entrar por
-    // una dirección española ya no le manda a la inglesa aunque su navegador lo
-    // pida.
+    // Se recuerda porque es una elección explícita: a partir de aquí ya no se le
+    // sugiere el otro idioma aunque su navegador lo pida.
     guardarIdioma(nuevo)
     irA(traducirRuta(location.pathname, nuevo) + location.search)
   }
@@ -112,6 +112,7 @@ export default function App() {
         onAbrirResultado={abrirResultado}
         onQuizClick={irALaGuia}
       />
+      <AvisoIdioma lang={lang} />
       <div className="flex flex-1">
         {enCatalogo ? (
           // Sin nada mientras carga: el trozo pesa lo que pesa pero llega en un
@@ -146,11 +147,10 @@ export default function App() {
 
       {/* Fuera del flex: el pie cruza de lado a lado por debajo de la barra
           lateral, que es pegajosa y termina donde termina la ventana. */}
-      {/* El idioma baja aquí desde la barra: se detecta solo del navegador, así
-          que en la barra era un control que casi nadie toca ocupando sitio de
-          primera fila. Pero tiene que seguir estando en algún lado, porque un
-          español con el navegador en inglés vería la web en inglés y sin esto no
-          tendría cómo cambiarla. */}
+      {/* El idioma baja aquí desde la barra: en la barra era un control que casi
+          nadie toca ocupando sitio de primera fila. Pero tiene que seguir estando
+          en algún lado, porque es la forma de cambiar de idioma cuando ya no hay
+          aviso que lo ofrezca. */}
       <Pie t={t} totals={TOTALES} lang={lang} onToggleLang={cambiarIdioma} />
 
     </div>
