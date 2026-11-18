@@ -100,6 +100,30 @@
       "author": {
         "name": "Mun1to"
       }
+    },
+    {
+      "name": "frontlaxweb",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Mun1to/FrontLaxWeb.git"
+      },
+      "description": "Parallax, scroll-driven motion, micro-interactions and premium gestures for landing pages, in React or plain HTML, CSS and JavaScript. It starts from a brief, scales motion amplitude instead of switching it off, and stays smooth without a graphics card.",
+      "license": "MIT",
+      "author": {
+        "name": "Mun1to"
+      }
+    },
+    {
+      "name": "securo",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Mun1to/Securo.git"
+      },
+      "description": "Defensive security review of code, configuration, services and agents: it follows data across trust boundaries, backs every finding with evidence from the code and recommends the smallest fix, without changing the project.",
+      "license": "MIT",
+      "author": {
+        "name": "Mun1to"
+      }
     }
   ]
 }
