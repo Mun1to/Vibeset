@@ -1351,7 +1351,7 @@ open(p, "w", encoding="utf-8").write(html)
 EOF
 \`\`\`
 
-En PowerShell, lo mismo con \`-replace\` sobre \`Get-Content -Raw\` y \`Set-Content -Encoding utf8\`. Si
+En PowerShell, lo mismo con \`-replace\` sobre \`Get-Content -Raw -Encoding UTF8\` y \`Set-Content -Encoding utf8\`. Si
 el paso 2 exige otra paleta, esos mismos comandos añaden más \`-replace\`/\`.replace()\` sobre los
 valores del bloque \`PALETA\`; el bloque \`ESTRUCTURA\` nunca se toca. No se usan las herramientas de
 leer y editar archivo sobre \`plantilla.html\` ni sobre la copia: no hace falta, y cargar un HTML de
@@ -1554,7 +1554,7 @@ open(p, "w", encoding="utf-8").write(html)
 EOF
 \`\`\`
 
-In PowerShell, the same thing with \`-replace\` over \`Get-Content -Raw\` and
+In PowerShell, the same thing with \`-replace\` over \`Get-Content -Raw -Encoding UTF8\` and
 \`Set-Content -Encoding utf8\`. If step 2 calls for a different palette, those same commands add
 more \`-replace\`/\`.replace()\` calls over the \`PALETA\` block's values; the \`ESTRUCTURA\` block is
 never touched. The read-and-edit-file tools are not used on \`plantilla.html\` or on the copy:
@@ -2047,17 +2047,17 @@ elección explícita, se escucha el cambio del sistema para seguirlo en vivo.
 
 ## Idioma: autoseleccionar, nunca forzar
 
-Redirigir automáticamente según el idioma del navegador rompe el botón atrás,
-rompe los marcadores y confunde a los rastreadores. Lo dice Google Search Central
-sin rodeos. Así que:
+Redirigir automáticamente según el idioma del navegador rompe el botón atrás y
+los marcadores, y Google Search Central avisa de que puede impedir que usuarios y
+buscadores vean todas las versiones del sitio. Así que:
 
 1. Si hay una elección guardada, se respeta SIEMPRE.
-2. Si no la hay, primera visita: se mira la lista de idiomas del navegador y se
+2. Si no la hay, se mira la lista de idiomas del navegador y se
    busca el más cercano entre los que la web soporta.
 3. Si ninguno encaja, el idioma nativo de la web.
 
-El autodetect actúa solo en la primera visita. En cuanto el usuario elige, esa
-elección manda para siempre y el sitio no vuelve a adivinar. El selector manual
+El autodetect actúa solo mientras nadie haya elegido. En cuanto el usuario elige,
+esa elección manda para siempre y el sitio no vuelve a adivinar. El selector manual
 queda siempre visible y alcanzable.
 
 ## Detalles baratos que casi nadie pone

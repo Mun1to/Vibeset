@@ -23,7 +23,7 @@
         "source": "url",
         "url": "https://github.com/Mun1to/Diretto.git"
       },
-      "description": "Forces the agent to answer in numbered steps you can execute: a one-sentence verdict, the exact commands, and a separate list of what is missing.",
+      "description": "Forces the agent to answer in numbered steps you can execute: a one-sentence verdict, the exact commands, what only you can do now kept apart from what can wait, and a separate list of what is missing.",
       "license": "MIT",
       "author": {
         "name": "Mun1to"
