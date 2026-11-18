@@ -1,17 +1,12 @@
-import { lazy, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Boxes, Braces, Lightbulb, Sparkles, Terminal, Wrench } from 'lucide-react'
 import CodeWindow from './CodeWindow'
 import Logo from './Logo'
+import LogoAscii from './LogoAscii'
 import { Banda, Canal, Encuadre } from './Plano'
 import { rutaDe } from '../lib/rutas'
 import { useEsOscuro } from '../lib/tema'
-
-// El objeto 3D en ASCII no depende de funciones experimentales: se ve en
-// cualquier navegador, así que sirve de escaparate en la portada. Y es una pieza
-// real del catálogo, no una ilustración: lo que la portada enseña es el producto.
-const AsciiObject = lazy(() => import('./canvasui/AsciiObject'))
 
 const aparece = (delay = 0) => ({
   initial: { opacity: 0, y: 14 },
@@ -118,20 +113,7 @@ export default function LandingView({ t, lang, onQuiz, totals }) {
                     habría visto nada, así que ahora se pinta en la tinta del
                     tema y el canvas va transparente. */}
                 <div className="relative h-[340px] sm:h-[400px]">
-                  <Suspense fallback={<div className="absolute inset-0 grid place-items-center font-mono text-xs text-zinc-400">{t.compLoading}</div>}>
-                    <AsciiObject
-                      src="/brand/logo-blanco.svg"
-                      cellSize={7}
-                      scale={3.6}
-                      autoRotate
-                      autoRotateSpeed={1.2}
-                      colored={false}
-                      color={oscuro ? '#fafafa' : '#18181b'}
-                      background=""
-                      highlight="#2563eb"
-                      style={{ position: 'absolute', inset: 0 }}
-                    />
-                  </Suspense>
+                  <LogoAscii color={oscuro ? '#fafafa' : '#18181b'} cargando={t.compLoading} />
                 </div>
                 <Link
                   to={rutaDe('components', 'ascii-object', lang)}
