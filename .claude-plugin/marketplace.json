@@ -23,7 +23,7 @@
         "source": "url",
         "url": "https://github.com/Mun1to/Diretto.git"
       },
-      "description": "Forces the agent to answer in numbered steps you can execute, with the exact command inside each step and no filler.",
+      "description": "Forces the agent to answer in numbered steps you can execute: a one-sentence verdict, the exact commands, and a separate list of what is missing.",
       "license": "MIT",
       "author": {
         "name": "Mun1to"
@@ -59,7 +59,7 @@
         "source": "url",
         "url": "https://github.com/Mun1to/SiteIndex.git"
       },
-      "description": "Leaves a website ready to be found: robots.txt, sitemap, canonical, Open Graph, JSON-LD and the AI-crawler decision, ending in a measurement.",
+      "description": "Gets a website found and ranked: starts by auditing what you already have, then robots.txt, sitemap, canonical, Open Graph, JSON-LD, the AI-crawler decision, search intent, internal links, speed and local, ending in a measurement.",
       "license": "MIT",
       "author": {
         "name": "Mun1to"
@@ -71,7 +71,7 @@
         "source": "url",
         "url": "https://github.com/Mun1to/Galsas.git"
       },
-      "description": "Audits a repository for legal exposure (AI Act marking, dependency licences, GDPR and cookies, EU consumer sales) and writes a LEGAL.md with the fix for each finding.",
+      "description": "Audits a repository for legal exposure (AI Act marking, dependency licences, GDPR and cookies, consumer sales) and writes a LEGAL.md with the fix for each finding.",
       "license": "MIT",
       "author": {
         "name": "Mun1to"
@@ -83,7 +83,7 @@
         "source": "url",
         "url": "https://github.com/Mun1to/Criteria.git"
       },
-      "description": "Turns several loose questions into a one-file HTML questionnaire with a progress bar, real multi-select checkboxes, a mandatory \"Other\" option and a button that copies every answer back as one block of text.",
+      "description": "Turns several loose questions into a one-file HTML questionnaire, one question per screen with word-and-sentence tiles, a progress bar, real multi-select checkboxes, a mandatory \"Other\" option, and a button that copies every answer as one block of text to paste back into the chat.",
       "license": "MIT",
       "author": {
         "name": "Mun1to"

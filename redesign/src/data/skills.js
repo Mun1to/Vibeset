@@ -1222,10 +1222,10 @@ long project.
     files: ['SKILL.md'],
     es: {
       label: 'Criteria',
-      what: 'Convierte varias preguntas sueltas en un formulario HTML de un archivo, con barra de progreso y un botón que copia todas las respuestas de una vez.',
+      what: 'Convierte varias preguntas sueltas en un formulario HTML de un archivo que enseña una pregunta cada vez, con barra de progreso y un botón que copia todas las respuestas de una vez.',
       when: 'Cuando haya que decidir varias cosas de tipo distinto a la vez y prefieras rellenar un formulario a dictarlas una por una.',
       description:
-        'Convierte varias preguntas sueltas (nombres, prioridades, alcance, gustos de diseño) en un cuestionario HTML de un solo archivo, con barra de progreso, opción "Otra" siempre disponible y el lenguaje visual del proyecto donde se pide (o uno neutro si no hay otro), con un botón que junta todas las respuestas en un bloque de texto listo para pegar de vuelta en el chat. Úsalo cuando el usuario diga "hazme un cuestionario", "criteria", "pregúntame con un formulario", "que lo rellene y te lo pego", o cuando haya que decidir varias cosas de tipo distinto (texto libre, elegir una opción, elegir varias, puntuar del 0 al 10) y dictarlas una por una sea más lento que rellenar un formulario y copiar.',
+        'Convierte varias preguntas sueltas (nombres, prioridades, alcance, gustos de diseño) en un cuestionario HTML de un solo archivo que enseña una pregunta cada vez, con las opciones como baldosas de palabra y frase, barra de progreso, opción "Otra" siempre disponible y el lenguaje visual del proyecto donde se pide (o uno neutro si no hay otro), con un botón que junta todas las respuestas en un bloque de texto listo para pegar de vuelta en el chat. Úsalo cuando el usuario diga "hazme un cuestionario", "criteria", "pregúntame con un formulario", "que lo rellene y te lo pego", o cuando haya que decidir varias cosas de tipo distinto (texto libre, elegir una opción, elegir varias, puntuar del 0 al 10) y dictarlas una por una sea más lento que rellenar un formulario y copiar.',
       body: `# Criteria
 
 Para cuando hay que preguntar **varias cosas de tipo distinto** de golpe (no solo "elige la
@@ -1272,16 +1272,31 @@ no vaya a cambiar nada, y reescribe toda pregunta que haya que releer dos veces 
 está pidiendo. Un cuestionario de cuarenta preguntas donde media docena son ruido no es más
 completo que uno de treinta y cuatro, es solo más largo y más pesado de rellenar.
 
-Cada opción de \`opcion\` o \`multiple\` puede ser solo texto, o llevar más: \`{ texto, ayuda?,
-nota? }\`, donde \`ayuda\` es una frase pequeña debajo (por qué importa esa opción) y \`nota\` es una
-insignia corta al lado (por ejemplo \`"recomendada"\`). No hay que elegir un formato para toda la
-lista: una pregunta puede mezclar opciones simples con otras que llevan ayuda o nota.
+Cada pregunta admite \`ayuda\` (por qué se pregunta ahora, en una línea) y \`siNoDices\` (qué pasa si
+se queda sin contestar). Las dos se ven debajo de la pregunta, que va arriba y entera.
+
+Cada opción de \`opcion\` o \`multiple\` puede ser solo texto, o llevar más:
+\`{ texto, ayuda?, recomendada?, porque?, malo?, bueno?, cuesta?, noHace?, icono?, nota? }\`.
+
+- \`texto\` es la palabra, grande: de una a tres palabras rinde mejor que una frase entera.
+- \`ayuda\` es la frase de debajo: qué pasa si se elige esa opción, con verbo.
+- \`recomendada: true\` en una sola, y \`porque\` dice por qué. **Nunca sale marcada de antemano**:
+  la recomendación se dice con palabras y quien contesta elige.
+- \`malo\`, \`bueno\` y \`cuesta\`, una línea cada uno y siempre los tres, para que las opciones se
+  comparen solas. Salen al pulsar la opción, debajo de las demás.
+- \`noHace\`, lo que esa opción no incluye, cuando se puede leer de dos maneras.
+- \`icono\`, uno de los que trae la plantilla: \`si\`, \`no\`, \`ya\`, \`esperar\`, \`pregunta\`, \`gente\`,
+  \`dinero\`, \`texto\`, \`igual\`, \`estrella\`, \`lapiz\`, \`flecha\`, \`escudo\`.
+- \`nota\`, una o dos palabras debajo en el color de acento (por ejemplo \`"la más barata"\`).
+
+No hay que elegir un formato para toda la lista: una pregunta puede mezclar opciones simples con
+otras que lo llevan todo. Una opción que solo trae un texto largo se ve con letra normal, no en
+negrita grande.
 
 Si el cuestionario es largo y las preguntas caen en grupos claros (como "la escalera de precios",
-"el móvil", "el dinero"), cualquier pregunta admite un \`seccion: "Título del grupo"\` opcional. En
-cuanto cambia de una pregunta a la siguiente, se inserta sola una cabecera con letra automática
-(A, B, C...) antes de esa tarjeta. Es solo agrupación visual: la numeración P1, P2... y el formato
-de respuesta no cambian.
+"el móvil", "el dinero"), cualquier pregunta admite un \`seccion: "Título del grupo"\` opcional. Sale
+encima de la pregunta con letra automática (A, B, C...) en cuanto cambia de una pregunta a la
+siguiente. Es solo agrupación: la numeración P1, P2... y el formato de respuesta no cambian.
 
 **Cómo distinguir \`opcion\` de \`multiple\`, sin adivinar:** pregúntate si dos de las respuestas
 podrían ser ciertas a la vez. "¿Cuánto cuesta al mes?" es \`opcion\`, porque un precio excluye a los
@@ -1291,8 +1306,8 @@ varias razones o varias funciones pueden ser verdad al mismo tiempo. Por defecto
 más, no de menos.
 
 **Esto no es negociable, ni siquiera si el cuestionario necesita más diseño del que trae la
-plantilla.** El título, la ayuda y la insignia de arriba ya cubren el caso más común de "necesito
-explicar cada opción y marcar la recomendada". Si aun así hace falta algo que de verdad no cabe
+plantilla.** La palabra, la frase, la recomendada con su porqué y lo malo, lo bueno y lo que cuesta
+ya cubren el caso más común de "necesito explicar cada opción y marcar la recomendada". Si aun así hace falta algo que de verdad no cabe
 (una tabla comparativa entera, un aviso grande), se puede construir a mano un diseño más rico,
 pero el comportamiento no se negocia: toda pregunta de opción lleva su "Otra:" con texto libre, y
 toda pregunta donde dos respuestas puedan ser ciertas a la vez usa checkboxes, no radios. Un
@@ -1305,8 +1320,10 @@ Esto no es opcional: el cuestionario **no lleva siempre el mismo look**, lleva e
 conversación en la que se pide. Antes de generar el archivo, mira si el proyecto activo tiene su
 propio sistema de diseño (un \`App.css\`, un \`globals.css\`, tokens de Tailwind, variables de tema
 ya definidas) y localiza sus colores, sus radios y su tipografía. Si lo tiene, sustituye en la
-plantilla los valores del bloque marcado \`PALETA\` (los \`--bg\`, \`--text\`, \`--accent\`, \`--ok\`,
-\`--warn\`, \`--bad\`, \`--radio\`, \`font-family\`...) por los suyos. El bloque \`ESTRUCTURA\` que viene
+plantilla los valores del bloque marcado \`PALETA\` (los \`--bg\`, \`--text\`, \`--accent\`, \`--accent-text\`,
+\`--ok\`, \`--warn\`, \`--bad\`, \`--radio\`, \`font-family\`, \`--letra-titulos\`...) por los suyos. \`--accent\` es
+el fondo de lo elegido y del botón principal, con \`--sobre\` encima; \`--accent-text\` es el acento cuando
+va sobre el fondo de la página. El bloque \`ESTRUCTURA\` que viene
 debajo no se toca nunca: usa siempre \`var(--algo)\`, así que hereda el cambio de piel solo. Si el
 proyecto no tiene un sistema de diseño propio identificable (una tarea sin web, o un repo sin
 frontend), se deja la paleta neutra de la plantilla, ya verificada por contraste WCAG 2.1.
@@ -1350,10 +1367,15 @@ tiene que leerla y responderla ya la tiene delante, en el formulario.
 
 ### 5. Cuando llegue el bloque pegado
 
-Viene en el formato \`P1. <pregunta>\\n→ <respuesta>\`. Las que digan \`(sin responder)\` son las que
-se dejaron en blanco: no se inventan, se preguntan de nuevo en el chat si hacen falta para
-cerrar la decisión, o se aparcan si no son bloqueantes. Con lo demás, se arma el prompt o se
-toma la decisión que motivó el cuestionario.
+Viene en el formato \`P1. <pregunta>\\n→ <respuesta>\`. En las preguntas de opción, cada elegida va
+con su número (\`→ 2 · 99 €\`) y lo escrito en el hueco libre, detrás de \`Otra: \`. Las que digan
+\`(sin responder)\` son las que se dejaron en blanco: no se inventan, se preguntan de nuevo en el chat
+si hacen falta para cerrar la decisión, o se aparcan si no son bloqueantes. Con lo demás, se arma el
+prompt o se toma la decisión que motivó el cuestionario.
+
+Si las mismas preguntas se mandan también por otro canal (una notificación al móvil, otra
+herramienta de preguntas), van en el mismo orden y con las opciones en el mismo orden: así «P2, la 3»
+quiere decir lo mismo en los dos sitios.
 
 ## Lo que ya trae la plantilla, y por qué no hay que tocarlo
 
@@ -1363,27 +1385,36 @@ toma la decisión que motivó el cuestionario.
 - **La paleta por defecto** (\`--bg\`, \`--panel\`, \`--accent\`...) es la que se usa en el paso 2
   cuando el proyecto no tiene la suya propia, con el contraste ya medido por WCAG 2.1. Si un hex
   se toca alguna vez, se vuelve a medir, no se ajusta mirando.
+- **Una pregunta cada vez.** Muchas preguntas densas a la vista a la vez cuestan de entender y de
+  decidir; de una en una, quien contesta piensa una sola cosa. Arriba la pregunta, entera; debajo,
+  por qué se pregunta y qué pasa si no contesta. «Atrás» y «Siguiente» para moverse, y en la última,
+  «Ver lo que has contestado»: un repaso de todas, cada una con su «Cambiar». \`Enter\` en una respuesta
+  corta pasa a la siguiente.
+- **Las opciones son baldosas de palabra y frase**: la palabra grande con su número, la frase debajo
+  más suave, y al pulsarla se llena del color de acento. La recomendada lo dice con palabras, y al
+  pulsarla dice por qué. Debajo sale lo malo, lo bueno y lo que cuesta de la elegida, una línea cada
+  uno. En pantalla grande van en columnas y en el móvil una debajo de otra.
+- **Un solo «Copiar respuestas»**, abajo y siempre a mano, que pasa a ser el botón principal cuando ya
+  está todo contestado o en el repaso final.
 - **Barra de progreso arriba**, siempre visible mientras se hace scroll (\`position: sticky\`), con
   el contador de respondidas al lado. No es solo un número perdido al pie de página.
 - **"Otra:" siempre presente** en toda pregunta de opción o múltiple, con su hueco de texto
-  libre. Es obligatorio en la plantilla, no algo que haya que acordarse de pedir. Escribir ahí la
-  marca sola, sin tener que clicar antes su casilla, y la selección se recuerda al recargar la
-  página igual que el resto de respuestas.
-- **Selección múltiple de verdad, y avisada.** \`multiple\` usa casillas, no radios: se puede
-  marcar más de una a la vez, el bloque final las junta separadas por comas, y la pregunta lleva
-  sola la insignia "elige una o varias" para que se note sin tener que probar a marcar dos.
-- **Opciones con ayuda e insignia**, cuando la lista sola no basta: cada opción admite una frase
-  de explicación debajo y una insignia corta al lado (por ejemplo "recomendada"), sin tener que
-  escribir HTML a mano ni salirse de la plantilla.
+  libre. Es obligatorio en la plantilla, no algo que haya que acordarse de pedir. Lo que se escribe
+  ahí cuenta solo, sin pulsar nada antes, y no quita lo que ya estaba elegido: vale para matizar.
+- **Selección múltiple de verdad, y avisada.** \`multiple\` usa casillas (cuadradas, no redondas): se
+  puede marcar más de una a la vez, el bloque final las junta separadas por comas, y la pregunta dice
+  "Elige una o varias" para que se note sin tener que probar a marcar dos.
 - **Secciones con letra automática**, para cuestionarios largos: agrupar preguntas bajo un
-  \`seccion\` no cambia su numeración ni el formato de respuesta, solo añade un separador visual.
+  \`seccion\` no cambia su numeración ni el formato de respuesta, solo dice encima a qué grupo va.
+- **Sin insignias ni etiquetas en caja.** Lo que hay que destacar se destaca con peso, tamaño o color
+  del texto, nunca con una píldora alrededor. Letra de 17 px y nada por debajo de 14.
 - **Nada es obligatorio de responder.** Un formulario donde todo es obligatorio no lo rellena
   nadie rápido; el botón copia igual con preguntas en blanco, marcadas como tal.
 - **Copiar con red.** Intenta \`navigator.clipboard\`, y si el navegador lo bloquea (pasa a veces
   en \`file://\`), deja el texto seleccionado en una caja visible para que un Ctrl+C manual
   funcione igual.
 - **Autoguardado en \`localStorage\`.** Si se cierra la pestaña sin querer a mitad, lo que ya se
-  escribió sigue ahí al reabrir el mismo archivo.
+  escribió sigue ahí al reabrir el mismo archivo, y vuelve a la pregunta en la que estaba.
 
 ## Cuándo NO usar esto
 
@@ -1393,10 +1424,10 @@ no Criteria: aquí todas las preguntas se hacen a la vez y de una sola tacada.`,
     },
     en: {
       label: 'Criteria',
-      what: 'Turns several loose questions into a one-file HTML form with a progress bar and a button that copies every answer at once.',
+      what: 'Turns several loose questions into a one-file HTML form that shows one question at a time, with a progress bar and a button that copies every answer at once.',
       when: 'When you need to decide several different things at once and would rather fill in a form than answer them one by one.',
       description:
-        'Turns several loose questions (names, priorities, scope, design taste) into a one-file HTML questionnaire with a progress bar, an always-available "Other" option and the visual language of the project it is asked in (or a neutral one if there is none), with a button that gathers every answer into one block of text ready to paste back into the chat. Use it when the user says "make me a questionnaire", "criteria", "ask me with a form", "let me fill it in and paste it to you", or when several different kinds of things need deciding (free text, pick one, pick several, rate 0-10) and dictating or typing them one by one is slower than filling in a form and copying.',
+        'Turns several loose questions (names, priorities, scope, design taste) into a one-file HTML questionnaire that shows one question at a time, with options as word-and-sentence tiles, a progress bar, an always-available "Other" option and the visual language of the project it is asked in (or a neutral one if there is none), with a button that gathers every answer into one block of text ready to paste back into the chat. Use it when the user says "make me a questionnaire", "criteria", "ask me with a form", "let me fill it in and paste it to you", or when several different kinds of things need deciding (free text, pick one, pick several, rate 0-10) and dictating or typing them one by one is slower than filling in a form and copying.',
       body: `# Criteria
 
 For when several different kinds of questions need asking at once (not just "pick option 2"),
@@ -1443,16 +1474,30 @@ that would not change anything, and rewrite every question that needs a second r
 out what it is even asking. A forty-question form where half a dozen are noise is not more
 thorough than a thirty-four-question one, it is just longer and more tiring to fill in.
 
-Each option of \`opcion\` or \`multiple\` can be plain text, or carry more: \`{ texto, ayuda?,
-nota? }\`, where \`ayuda\` is a short line underneath (why that option matters) and \`nota\` is a
-short badge next to it (for example \`"recommended"\`). The whole list does not need one format:
-a question can mix plain options with others that carry help text or a badge.
+Every question accepts \`ayuda\` (why it is being asked now, in one line) and \`siNoDices\` (what
+happens if it stays unanswered). Both show under the question, which sits on top and in full.
+
+Each option of \`opcion\` or \`multiple\` can be plain text, or carry more:
+\`{ texto, ayuda?, recomendada?, porque?, malo?, bueno?, cuesta?, noHace?, icono?, nota? }\`.
+
+- \`texto\` is the word, in large type: one to three words work better than a whole sentence.
+- \`ayuda\` is the sentence underneath: what happens if that option is picked, with a verb.
+- \`recomendada: true\` on one option only, and \`porque\` says why. **It is never preselected**:
+  the recommendation is said in words and the person answering chooses.
+- \`malo\`, \`bueno\` and \`cuesta\` (the downside, the upside and the cost), one line each and always
+  all three, so the options compare themselves. They appear under the options when one is picked.
+- \`noHace\`, what that option does not include, when it can be read two ways.
+- \`icono\`, one of the template's own: \`si\`, \`no\`, \`ya\`, \`esperar\`, \`pregunta\`, \`gente\`,
+  \`dinero\`, \`texto\`, \`igual\`, \`estrella\`, \`lapiz\`, \`flecha\`, \`escudo\`.
+- \`nota\`, one or two words underneath in the accent color (for example \`"the cheapest"\`).
+
+The whole list does not need one format: a question can mix plain options with others that carry
+everything. An option with only a long text is shown in regular type, not in large bold.
 
 If the questionnaire is long and its questions fall into clear groups (like "the pricing ladder",
-"mobile", "money"), any question accepts an optional \`seccion: "Group title"\`. As soon as it
-changes from one question to the next, a header with an automatic letter (A, B, C...) is inserted
-on its own before that card. It is purely visual grouping: the P1, P2... numbering and the answer
-format do not change.
+"mobile", "money"), any question accepts an optional \`seccion: "Group title"\`. It appears above
+the question with an automatic letter (A, B, C...) as soon as it changes from one question to the
+next. It is only grouping: the P1, P2... numbering and the answer format do not change.
 
 **How to tell \`opcion\` from \`multiple\` apart, without guessing:** ask whether two of the
 answers could be true at once. "How much does it cost a month?" is \`opcion\`, because one price
@@ -1462,8 +1507,9 @@ default, when in doubt, \`multiple\` costs less than forcing a single answer ont
 is not one: it errs on letting people pick too much, not too little.
 
 **This is not negotiable, not even when the questionnaire needs more design than the template
-ships with.** The title, the help text and the badge above already cover the most common case of
-"I need to explain each option and mark the recommended one". If something still genuinely does
+ships with.** The word, the sentence, the recommended option with its reason, and the downside,
+upside and cost already cover the most common case of "I need to explain each option and mark the
+recommended one". If something still genuinely does
 not fit (a full comparison table, a large warning banner), a richer design can be hand-built, but
 the behaviour does not get negotiated away: every single-choice question carries its free-text
 "Other:", and every question where two answers could both be true uses checkboxes, not radios.
@@ -1476,9 +1522,11 @@ This is not optional: the questionnaire **does not always look the same**, it lo
 conversation it was asked in. Before generating the file, check whether the active project has
 its own design system (an \`App.css\`, a \`globals.css\`, Tailwind tokens, theme variables already
 defined) and find its colors, its border radii and its typeface. If it has one, replace the
-values in the block marked \`PALETA\` (the \`--bg\`, \`--text\`, \`--accent\`, \`--ok\`, \`--warn\`,
-\`--bad\`, \`--radio\`, \`font-family\`...) with its own. The \`ESTRUCTURA\` block below is never
-touched: it always uses \`var(--something)\`, so it inherits the skin change on its own. If the
+values in the block marked \`PALETA\` (the \`--bg\`, \`--text\`, \`--accent\`, \`--accent-text\`,
+\`--ok\`, \`--warn\`, \`--bad\`, \`--radio\`, \`font-family\`, \`--letra-titulos\`...) with its own.
+\`--accent\` is the background of what is selected and of the main button, with \`--sobre\` on top;
+\`--accent-text\` is the accent when it sits on the page background. The \`ESTRUCTURA\` block below is
+never touched: it always uses \`var(--something)\`, so it inherits the skin change on its own. If the
 project has no identifiable design system of its own (a task with no website, or a repo with no
 frontend), the template's neutral default palette is kept, already checked for WCAG 2.1
 contrast.
@@ -1523,10 +1571,15 @@ terminal: whoever has to read and answer it already has it in front of them, in 
 
 ### 5. When the pasted block comes back
 
-It arrives in the shape \`P1. <question>\\n→ <answer>\`. The ones saying \`(no answer)\` are the
-ones left blank: they are not made up, they get asked again in the chat if the decision needs
-them to close, or set aside if they are not blocking. With the rest, build the prompt or make
-the decision the questionnaire was for.
+It arrives in the shape \`P1. <question>\\n→ <answer>\`. On choice questions, each picked option
+comes with its number (\`→ 2 · 99 €\`) and whatever was typed in the free slot follows \`Otra: \`. The
+ones saying \`(sin responder)\` are the ones left blank: they are not made up, they get asked again
+in the chat if the decision needs them to close, or set aside if they are not blocking. With the
+rest, build the prompt or make the decision the questionnaire was for.
+
+If the same questions also go out through another channel (a phone notification, another question
+tool), they go in the same order and with the options in the same order, so "P2, number 3" means the
+same thing in both places.
 
 ## What the template already has, and why it stays untouched
 
@@ -1536,27 +1589,38 @@ the decision the questionnaire was for.
 - **The default palette** (\`--bg\`, \`--panel\`, \`--accent\`...) is the one used in step 2 when the
   project has none of its own, with contrast already measured against WCAG 2.1. If a hex value
   is ever touched, it gets measured again, never adjusted by eye.
+- **One question at a time.** Many dense questions in view at once are hard to take in and hard to
+  decide; one by one, the person thinks about a single thing. The question on top, in full; below it,
+  why it is being asked and what happens if it stays unanswered. "Back" and "Next" to move, and on the
+  last one, "See what you answered": a review of them all, each with its "Change". \`Enter\` in a short
+  answer moves to the next question.
+- **Options are word-and-sentence tiles**: the large word with its number, the softer sentence below,
+  and pressing one fills it with the accent color. The recommended one says so in words and explains
+  why when pressed. The downside, upside and cost of the chosen one appear below, one line each. In
+  columns on a large screen, stacked on a phone.
+- **One single "Copy answers"**, at the bottom and always within reach, which becomes the main button
+  once everything is answered or on the final review.
 - **A progress bar up top**, always visible while scrolling (\`position: sticky\`), with the
   answered count next to it. Not just a number lost at the bottom of the page.
 - **"Other:" always present** on every single- or multiple-choice question, with its free-text
-  slot. It is built into the template, not something to remember to ask for. Typing there marks
-  it on its own, no need to click its checkbox first, and the pick survives a page reload just
-  like the rest of the answers.
-- **Real multi-select, and it says so.** \`multiple\` uses checkboxes, not radios: more than one
-  can be picked at once, the final block joins them with commas, and the question carries its
-  own "pick one or several" badge so it is never mistaken for single choice.
-- **Options with help text and a badge**, for when the plain list is not enough: any option can
-  carry a short explanation underneath and a short badge next to it (like "recommended"), with
-  no hand-written HTML and no need to leave the template.
+  slot. It is built into the template, not something to remember to ask for. What is typed there
+  counts on its own, with nothing to press first, and does not remove what was already picked: it
+  works for adding nuance.
+- **Real multi-select, and it says so.** \`multiple\` uses checkboxes (square, not round): more than
+  one can be picked at once, the final block joins them with commas, and the question says "pick one
+  or several" so it is never mistaken for single choice.
 - **Sections with an automatic letter**, for long questionnaires: grouping questions under a
-  \`seccion\` does not change their numbering or the answer format, it just adds a visual divider.
+  \`seccion\` does not change their numbering or the answer format, it only says above which group
+  they belong to.
+- **No badges or boxed labels.** What needs to stand out does so through weight, size or text color,
+  never with a pill around it. 17 px type, and nothing below 14.
 - **Nothing is required.** A form where everything is mandatory does not get filled in quickly
   by anyone; the button still copies with blank questions, marked as such.
 - **Copying with a safety net.** It tries \`navigator.clipboard\`, and if the browser blocks it
   (which happens sometimes on a local \`file://\` page), it leaves the text selected in a visible
   box so a manual Ctrl+C still works.
 - **Autosaved to \`localStorage\`.** If the tab gets closed by accident halfway through, whatever
-  was already typed is still there when the same file is reopened.
+  was already typed is still there when the same file is reopened, back on the question it was on.
 
 ## When NOT to use this
 
@@ -1808,9 +1872,16 @@ Cuatro bloques como mucho, en este orden. El bloque que no tenga contenido real 
 omite, nunca se rellena para que aparezca.
 
 1. **Veredicto**: una sola frase con qué pasa o qué se ha decidido, sin título.
-2. **Qué tienes que hacer**: lista numerada de acciones.
+2. **Qué tienes que hacer**, partido en dos listas numeradas:
+   - **Ya, sí o sí**: como mucho tres acciones que solo puede hacer el usuario y que, si no
+     las hace ahora, paran algo o lo pierden. Cada punto dice qué se para. Si no hay ninguna,
+     una línea: «Nada urgente tuyo».
+   - **Cuando puedas**: el resto de lo suyo.
 3. **Qué falta**: lo que bloquea, lo que no se sabe o lo que depende del usuario.
 4. **Riesgos**: solo si algo se puede romper, perder o costar dinero.
+
+Lo que el agente puede hacer por su cuenta no entra en «Qué tienes que hacer», y un aviso no
+se disfraza de tarea: va en «Riesgos».
 
 Nada antes del veredicto y nada después del último bloque.
 
@@ -1875,9 +1946,16 @@ Four blocks at most, in this order. A block with no real content is dropped, nev
 padded so that it shows up.
 
 1. **Verdict**: one sentence saying what is happening or what was decided, no heading.
-2. **What you have to do**: a numbered list of actions.
+2. **What you have to do**, split into two numbered lists:
+   - **Now, no matter what**: at most three actions only the user can do and that stop or lose
+     something if they wait. Each item says what stops. If there are none, one line: "Nothing
+     urgent on your side".
+   - **When you can**: the rest of what is theirs.
 3. **What is missing**: what blocks, what is unknown, what depends on the user.
 4. **Risks**: only if something can break, be lost, or cost money.
+
+What the agent can do on its own does not belong in "What you have to do", and a warning is not
+dressed up as a task: it goes under "Risks".
 
 Nothing before the verdict, nothing after the last block.
 
@@ -2070,7 +2148,7 @@ something stored, it must ignore the browser language.`,
     repo: 'https://github.com/Mun1to/SiteIndex',
     plugin: 'siteindex@vibeset',
     extra: [['allowed-tools', 'Read Edit Write Grep Glob WebFetch Bash']],
-    files: ['SKILL.md', 'plantillas/inventario.sh', 'plantillas/SEO-ESTADO.md', 'plantillas/robots.txt', 'plantillas/head-meta.html', 'plantillas/multiidioma.html', 'plantillas/jsonld.html', 'plantillas/pagina-producto.md', 'plantillas/sitemap.xml', 'referencias/contenido.md', 'referencias/producto-digital.md', 'referencias/rendimiento.md', 'referencias/ia.md', 'referencias/local.md', 'referencias/recursos.md'],
+    files: ['SKILL.md', 'plantillas/inventario.sh', 'plantillas/paginas.mjs', 'plantillas/SEO-ESTADO.md', 'plantillas/robots.txt', 'plantillas/head-meta.html', 'plantillas/multiidioma.html', 'plantillas/jsonld.html', 'plantillas/pagina-producto.md', 'plantillas/sitemap.xml', 'plantillas/llms.txt', 'referencias/contenido.md', 'referencias/producto-digital.md', 'referencias/rendimiento.md', 'referencias/ia.md', 'referencias/multiidioma.md', 'referencias/local.md', 'referencias/recursos.md'],
     es: {
       label: 'SiteIndex',
       what: 'Mira primero lo que ya tienes hecho, pregunta solo lo que no puede ver, y de ahí saca el plan para posicionar tu web o tu producto digital.',
@@ -2091,7 +2169,9 @@ todas en la misma dirección, qué bloquea el robots.txt y qué bots de IA nombr
 cuántas URLs tiene el sitemap y si llevan fecha, la cabecera entera, los tipos de
 JSON-LD que ya están, qué analítica hay instalada, cuántas palabras trae el HTML
 sin ejecutar JavaScript, y los registros del DNS que delatan si la web ya está
-dada de alta en Search Console y en Bing.
+dada de alta en Search Console y en Bing. Después repasa el sitemap página a
+página: títulos repetidos, páginas sin h1, canonical a otra, noindex dentro del
+sitemap, páginas sin texto y parejas de hreflang rotas.
 
 Solo después pregunta, de una vez y como mucho ocho cosas, lo que el barrido no
 puede ver: si alguien entra en Search Console y qué dice, quién es el cliente y
@@ -2123,9 +2203,10 @@ consecuencias son distintas. Los de entrenamiento (GPTBot, ClaudeBot, CCBot,
 Google-Extended, Bytespider, Applebot-Extended, meta-externalagent, Amazonbot) se
 pueden bloquear sin perder visibilidad. Los de búsqueda y respuesta
 (OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User, PerplexityBot,
-Perplexity-User) te borran de las respuestas de IA si los bloqueas. La trampa
-clásica: Google-Extended NO afecta a tu posición en Google, solo al entrenamiento
-de Gemini. Y la contraria, que casi nadie sabe: bloquearlo tampoco te saca de las
+Perplexity-User, meta-webindexer, meta-externalfetcher, Amzn-SearchBot, Amzn-User)
+te borran de las respuestas de IA si los bloqueas. La trampa clásica:
+Google-Extended NO afecta a tu posición en Google, solo al entrenamiento de Gemini
+y al grounding en sus apps y en Vertex AI. Y la contraria, que casi nadie sabe: bloquearlo tampoco te saca de las
 AI Overviews, porque esas beben del índice normal de la Búsqueda.
 
 **Cimientos que no se negocian.** HTTPS, una sola versión canónica del dominio
@@ -2259,7 +2340,9 @@ up at the same address, what robots.txt blocks and which AI bots it names, how
 many URLs the sitemap carries and whether they are dated, the whole head, the
 JSON-LD types already there, which analytics is installed, how many words the
 HTML has before JavaScript runs, and the DNS records that reveal whether the site
-is **already verified in Search Console and Bing**.
+is **already verified in Search Console and Bing**. Then it walks the sitemap page
+by page: repeated titles, missing h1, a canonical pointing elsewhere, noindex inside
+the sitemap, pages with no text and broken hreflang pairs.
 
 Only then does it ask, in one go and at most eight things, what the sweep cannot
 see: whether anyone opens Search Console and what it says, who the customer is
@@ -2291,8 +2374,10 @@ different consequences. Training crawlers (GPTBot, ClaudeBot, CCBot,
 Google-Extended, Bytespider, Applebot-Extended, meta-externalagent, Amazonbot)
 can be blocked without losing visibility. Search and answer crawlers
 (OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User, PerplexityBot,
-Perplexity-User) remove you from AI answers if you block them. The classic trap:
-Google-Extended does NOT affect your Google ranking, only Gemini training. And the
+Perplexity-User, meta-webindexer, meta-externalfetcher, Amzn-SearchBot, Amzn-User)
+remove you from AI answers if you block them. The classic trap: Google-Extended
+does NOT affect your Google ranking, only Gemini training and grounding in its apps
+and Vertex AI. And the
 reverse, which almost nobody knows: blocking it does not keep you out of AI
 Overviews either, because those draw from the regular Search index.
 
